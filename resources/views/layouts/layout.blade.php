@@ -19,6 +19,8 @@
                     <li class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5"><a
                             href="{{ route('records') }}">Records</a></li>
                     <li class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5"><a
+                            href="{{ route('calendar', date('Y')) }}">Calendar</a></li>
+                    <li class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5"><a
                             href="{{ route('schedule') }}">Schedule</a></li>
                     <li class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5"><a
                             href="{{ route('users') }}">Users</a></li>

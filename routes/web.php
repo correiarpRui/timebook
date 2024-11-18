@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -51,5 +52,9 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
     Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
     Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
+});
+
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar');
 });
 
