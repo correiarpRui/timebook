@@ -2,52 +2,38 @@
 
 @section('content')
     <div class="py-10 px-5 w-full">
-        <div class="uppercase text-2xl font-semibold ">Calendar {{ $year }}</div>
+        <div class="flex justify-between">
+            <div class="uppercase text-2xl font-semibold my-2">Calendar {{ $year }}</div>
+            <div class="flex gap-3">
+                <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-2"
+                    href="{{ route('calendar', $year - 1) }}">Previous
+                </a>
+                <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-2" href="{{ route('calendar', $year + 1) }}">Next
+                </a>
+            </div>
+        </div>
+
         <hr class="border-black border-[1px] mt-1 mb-5">
         <div class="bg-white">
             <table class="border-collapse w-full [&>tbody>*:nth-child(odd)]:bg-white">
                 <tr>
-                    <th class="border border-gray-400 text-left p-2">Month</th>
-                    <th class="border border-gray-400 text-left p-2">Sun</th>
-                    <th class="border border-gray-400 text-left p-2">Mon</th>
-                    <th class="border border-gray-400 text-left p-2">Tue</th>
-                    <th class="border border-gray-400 text-left p-2">Wed</th>
-                    <th class="border border-gray-400 text-left p-2">Thu</th>
-                    <th class="border border-gray-400 text-left p-2">Fri</th>
-                    <th class="border border-gray-400 text-left p-2">Sat</th>
-                    <th class="border border-gray-400 text-left p-2">Sun</th>
-                    <th class="border border-gray-400 text-left p-2">Mon</th>
-                    <th class="border border-gray-400 text-left p-2">Tue</th>
-                    <th class="border border-gray-400 text-left p-2">Wed</th>
-                    <th class="border border-gray-400 text-left p-2">Thu</th>
-                    <th class="border border-gray-400 text-left p-2">Fri</th>
-                    <th class="border border-gray-400 text-left p-2">Sat</th>
-                    <th class="border border-gray-400 text-left p-2">Sun</th>
-                    <th class="border border-gray-400 text-left p-2">Mon</th>
-                    <th class="border border-gray-400 text-left p-2">Tue</th>
-                    <th class="border border-gray-400 text-left p-2">Wed</th>
-                    <th class="border border-gray-400 text-left p-2">Thu</th>
-                    <th class="border border-gray-400 text-left p-2">Fri</th>
-                    <th class="border border-gray-400 text-left p-2">Sat</th>
-                    <th class="border border-gray-400 text-left p-2">Sun</th>
-                    <th class="border border-gray-400 text-left p-2">Mon</th>
-                    <th class="border border-gray-400 text-left p-2">Tue</th>
-                    <th class="border border-gray-400 text-left p-2">Wed</th>
-                    <th class="border border-gray-400 text-left p-2">Thu</th>
-                    <th class="border border-gray-400 text-left p-2">Fri</th>
-                    <th class="border border-gray-400 text-left p-2">Sat</th>
-                    <th class="border border-gray-400 text-left p-2">Sun</th>
-                    <th class="border border-gray-400 text-left p-2">Mon</th>
-                    <th class="border border-gray-400 text-left p-2">Tue</th>
-                    <th class="border border-gray-400 text-left p-2">Wed</th>
-                    <th class="border border-gray-400 text-left p-2">Thu</th>
-                    <th class="border border-gray-400 text-left p-2">Fri</th>
-                    <th class="border border-gray-400 text-left p-2">Sat</th>
+                    @foreach ($calendar_total_rows['weeks'] as $cell)
+                        <th class="border border-gray-400 text-center p-2">
+                            {{ $cell }}
+                        </th>
+                    @endforeach
                 </tr>
 
-                <x-calendar :year="$year" />
-
-
+                @foreach ($calendar_total_rows['months'] as $month_row)
+                    <tr>
+                        @foreach ($month_row as $key => $cell)
+                            <td
+                                class='border border-gray-400 text-center p-2 @if ($cell['attributes']) bg-orange-400 @endif @if (in_array($key, [1, 7, 8, 14, 15, 21, 22, 28, 29, 35, 36, 42])) bg-gray-300 @endif'>
+                                {{ $cell['value'] }}
+                            </td>
+                        @endforeach
+                    </tr>
+                @endforeach
             </table>
 
 
