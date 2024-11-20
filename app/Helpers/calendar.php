@@ -66,17 +66,17 @@ function generate_calendar_week_row($total_cels){
 function generate_calendar_month_rows($calendar_data, $total_cells, $year){
   $calendar_month_row = [];
   $holiday_list = [
-    1=>[],
-    2=>[],
-    3=>[],
-    4=>[],
-    5=>[],
-    6=>[],
+    1=>[1],
+    2=>[13],
+    3=>[29],
+    4=>[25],
+    5=>[1,30],
+    6=>[10, 13, 24, 29],
     7=>[],
-    8=>[],
+    8=>[15],
     9=>[],
-    10=>[],
-    11=>[],
+    10=>[5],
+    11=>[1],
     12=>[1,8,25],
   ];
   $current_date = Carbon::now();
@@ -87,9 +87,9 @@ function generate_calendar_month_rows($calendar_data, $total_cells, $year){
   for ($month = 1; $month<13; $month++){
     $cells_left = $total_cells;
     $calendar_month_row[$month] = [];
-    array_push($calendar_month_row[$month], ['value'=>$calendar_data[$month]['month_name'],'attributes'=> ""]);
+    array_push($calendar_month_row[$month], ['value'=>$calendar_data[$month]['month_name'],'date'=>"",'attributes'=> ""]);
     for ($cell = 0; $cell < $calendar_data[$month]['first_weekday']; $cell++){
-      array_push($calendar_month_row[$month], ['value'=>"", 'attributes'=> ""]);
+      array_push($calendar_month_row[$month], ['value'=>"",'date'=>"", 'attributes'=> ""]);
       $cells_left--;
     }
     for($cell = 1; $cell <= $calendar_data[$month]['days_in_month']; $cell++){
@@ -106,11 +106,11 @@ function generate_calendar_month_rows($calendar_data, $total_cells, $year){
           $attributes = 'today';
       }
     
-      array_push($calendar_month_row[$month], ['value'=>$cell, 'attributes'=> $attributes]);  
+      array_push($calendar_month_row[$month], ['value'=>$cell, 'date'=>"$cell-$month-$year",'attributes'=> $attributes]);  
       $cells_left--;
     }
     for ($cell = $cells_left; $cell > 0; $cell--){
-      array_push($calendar_month_row[$month], ['value'=>"", 'attributes'=> ""]);
+      array_push($calendar_month_row[$month], ['value'=>"", 'date'=>"",'attributes'=> ""]);
       $cells_left--;
     }
   }

@@ -56,5 +56,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar');
+    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
 });
+
 
