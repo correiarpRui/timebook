@@ -17,6 +17,7 @@ class SuperadminSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Tom',
             'email' => 'tom@world.com',
+            'birth_date'=> '1995-1-1',
             'password' => Hash::make('password'),
             'role_id'=>3
         ], 

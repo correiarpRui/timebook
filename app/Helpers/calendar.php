@@ -28,9 +28,10 @@ function get_month_calendar_row($month, $year, $holiday_list, $vacation_list){
   $vacations = [];
   $holidays = [];
 
-  if (array_key_exists($month, $vacation_list)){
+  if ($vacation_list[0] == $year && array_key_exists($month, $vacation_list)){
       $vacations = $vacation_list[$month];
   }
+  
   if (array_key_exists($month, $holiday_list )){
       $holidays = $holiday_list[$month];
   }

@@ -1,7 +1,10 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div>
+    <div class="p-6 border border-[#27272a] rounded-md m-6">
+        <div class="text-2xl font-bold tracking-tight text-[#fafafa]">
+            Users
+        </div>
         <div class="px-10 pt-10 pb-5">
             <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5" href="/user/create">New User</a>
         </div>
@@ -11,6 +14,7 @@
                 <tr>
                     <th class="border border-gray-400 text-left p-2">Name</th>
                     <th class="border border-gray-400 text-left p-2">Email</th>
+                    <th class="border border-gray-400 text-left p-2">Date of birth</th>
                     <th class="border border-gray-400 text-left p-2">Role</th>
                     <th class="border border-gray-400 text-left p-2">Schedule</th>
                     <th class="border border-gray-400 text-left p-2">Actions</th>
@@ -19,6 +23,7 @@
                     <tr>
                         <td class="border border-gray-400 text-left p-2">{{ $user->name }}</td>
                         <td class="border border-gray-400 text-left p-2">{{ $user->email }}</td>
+                        <td class="border border-gray-400 text-left p-2">{{ $user->birth_date }}</td>
                         <td class="border border-gray-400 text-left p-2">{{ $user->role->role }}</td>
                         <td class="border border-gray-400 text-left p-2">
                             {{ $user->schedule ? $user->schedule->name : 'No Schedule' }}</td>

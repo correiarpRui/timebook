@@ -7,6 +7,7 @@ use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Psy\CodeCleaner\EmptyArrayDimFetchPass;
 
 class UserController extends Controller
 {
@@ -30,6 +31,7 @@ class UserController extends Controller
         $validated_data = $request->validate([
             'name'=> ['required'],
             'email' => ['required','email', 'unique:users'],
+            'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'password' => ['required'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
             'schedule_id' => ['sometimes', 'nullable']
@@ -55,9 +57,14 @@ class UserController extends Controller
         $validated_data = $request->validate([
             'name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
+            'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
             'schedule_id' => ['sometimes', 'nullable']
         ]);
+
+        if(!$validated_data['schedule_id']){
+            $validated_data['schedule_id'] = null;
+        }
 
         $user = User::find($id);
         $user->update($validated_data);

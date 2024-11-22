@@ -3,7 +3,7 @@
 @section('content')
     <div>
         <div class="px-10 pt-10 pb-5">
-            <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5" href="/schedule/create">New Schedule</a>
+            <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5" href="{{route('schedule.create')}}">New Schedule</a>
         </div>
 
         <div class="px-10 py-2">

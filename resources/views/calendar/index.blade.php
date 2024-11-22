@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="py-10 px-5 w-full">
+
+
+
         <div class="flex justify-between">
             <div class="uppercase text-2xl font-semibold my-2">Calendar {{ $year }}</div>
             <div class="flex gap-3">

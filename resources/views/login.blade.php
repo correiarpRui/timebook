@@ -9,28 +9,42 @@
     <title>Document</title>
 </head>
 
-<body class="h-screen bg-slate-500 flex justify-center items-center">
-    <div class="bg-white p-10 rounded-md">
-        <div class="text-3xl text-center mb-5">
-            Login
-        </div>
+{{-- class=" flex h-screen w-[250px] box-border py-[5px] px-4 bg-[#09090b] border-r border-r-[#27272a] text-[#fafafa] sticky top-0 self-start"> --}}
+
+<body class="font-roboto min-h-screen flex justify-center items-center login text-[#fafafa]">
+
+    <div class="bg-[#09090b] border border-[#27272a] p-10 rounded-md w-[350px]">
+
         <form action="{{ route('auth.authenticate') }}" class="flex flex-col" method="POST">
             @csrf
-            <div class="flex flex-col mb-3 gap-1">
-                <input type="text" class="border border-slate-300 rounded-md p-2" placeholder="Email" name="email"
-                    id="email">
-            </div>
+            <input type="text" class="border border-[#27272a] rounded-md p-2 text-sm bg-[#09090b] focus:outline-none"
+                placeholder="name@exemple.com" name="email" id="email">
             @error('email')
-                <div class="text-red-600">{{ $message }}</div>
+                <div class="flex h-[24px] text-[#dc3838] items-center justify-start text-sm gap-1 py-2 pl-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
+                        class=" flex-shrink-0 w-[16px] h-[16px]">
+                        <path fill="#dc3838" fill-rule="evenodd"
+                            d="M13.4 7A6.4 6.4 0 1 1 .6 7a6.4 6.4 0 0 1 12.8 0Zm-5.6 3.2a.8.8 0 1 1-1.6 0 .8.8 0 0 1 1.6 0ZM7 3a.8.8 0 0 0-.8.8V7a.8.8 0 0 0 1.6 0V3.8A.8.8 0 0 0 7 3Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>{{ $message }}</span>
+                </div>
             @enderror
-            <div class="flex flex-col mb-3 gap-1">
-                <input type="password" class="border border-slate-300 rounded-md p-2" placeholder="Password"
-                    name="password" id="password">
-            </div>
+            <input type="password"
+                class="border border-[#27272a] rounded-md p-2 mt-3 text-sm bg-[#09090b] focus:outline-none"
+                placeholder="password" name="password" id="password">
             @error('password')
-                <div class="text-red-600">{{ $message }}</div>
+                <div class="flex h-[24px] text-[#dc3838] items-center justify-start text-sm gap-1 py-2 pl-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
+                        class=" flex-shrink-0 w-[16px] h-[16px]">
+                        <path fill="#dc3838" fill-rule="evenodd"
+                            d="M13.4 7A6.4 6.4 0 1 1 .6 7a6.4 6.4 0 0 1 12.8 0Zm-5.6 3.2a.8.8 0 1 1-1.6 0 .8.8 0 0 1 1.6 0ZM7 3a.8.8 0 0 0-.8.8V7a.8.8 0 0 0 1.6 0V3.8A.8.8 0 0 0 7 3Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>{{ $message }}</span>
+                </div>
             @enderror
-            <button class="bg-slate-300 p-2 rounded-md">Login</button>
+            <button class="bg-[#fafafa] text-[#09090b] p-2 rounded-md text-sm font-medium mt-3">Login</button>
         </form>
     </div>
 </body>

@@ -19,6 +19,12 @@
                 <div class="text-red-600">{{ $message }}</div>
             @enderror
 
+            <label for="birth_date">Date of birth</label>
+            <input type="date" name="birth_date" value="{{ old('birth_date') }}">
+            @error('birth_date')
+                <div class="text-red-600">{{ $message }}</div>
+            @enderror
+
             <label for="role_id">User Role</label>
             <select name="role_id" id="role_id">
                 <option disabled selected value>Select role</option>

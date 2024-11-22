@@ -26,7 +26,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::get('/user/create', [UserController::class, 'create']);
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user', [UserController::class, 'store']);
     Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
@@ -35,7 +35,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
-    Route::get('/schedule/create', [ScheduleController::class, 'create']);
+    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
     Route::post('/schedule', [ScheduleController::class, 'store']);
     Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
     Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
