@@ -123,14 +123,13 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="flex flex-col gap-1">
                     <label for="schedule_id" class="text-sm font-medium">User Schedule</label>
                     <div class="flex flex-col">
                         <button
                             class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center"
                             type="button" onclick=toggleSubMenuDropDown(this)>
-                            <span id="button_schedule_label">Select schedule</span>
+                            <span id="button_schedule_label">Select Schedule</span>
                             <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round"
@@ -199,7 +198,8 @@
                         </div>
                     @enderror
                 </div>
-                <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6">Submit</button>
+                <button
+                    class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm">Submit</button>
 
             </form>
         </div>

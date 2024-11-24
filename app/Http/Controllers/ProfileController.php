@@ -18,6 +18,7 @@ class ProfileController extends Controller
         $validated_data = $request->validate([
             'name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
+            'birth_date'=>['required', 'date_format:Y-m-d', 'before:today']
         ]);
         $user = User::find($id);
         $user->update($validated_data);
