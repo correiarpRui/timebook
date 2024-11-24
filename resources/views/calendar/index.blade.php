@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="py-10 px-5 w-full">
-
-
-
         <div class="flex justify-between">
             <div class="uppercase text-2xl font-semibold my-2">Calendar {{ $year }}</div>
             <div class="flex gap-3">
@@ -42,7 +39,7 @@
                                         <input type="checkbox" class="hidden peer" id="{{ $cell['id'] }}"
                                             value="{{ $cell['id'] }}" name="{{ $cell['id'] }}">
                                         <label for="{{ $cell['id'] }}"
-                                            class=" w-[40px] h-full py-[8px] align-middle inline-block  peer-checked:bg-red-600">{{ $cell['value'] }}
+                                            class=" w-[20px] h-full py-[8px] align-middle inline-block  peer-checked:bg-red-600">{{ $cell['value'] }}
                                         </label>
                                     @else
                                         {{ $cell['value'] }}

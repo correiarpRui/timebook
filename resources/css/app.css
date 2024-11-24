@@ -23,3 +23,18 @@
         linear-gradient(to bottom, #131314 1px, transparent 1px);
     backdrop-filter: blur(1px);
 }
+
+.submenu_options {
+    grid-template-rows: 0fr;
+    transition: 300ms ease-in-out;
+}
+
+.submenu_options.show {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-color: #27272a;
+    grid-template-rows: 1fr;
+}
