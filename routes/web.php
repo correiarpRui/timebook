@@ -27,7 +27,7 @@ Route::group(['middleware'=>'auth'], function(){
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/user', [UserController::class, 'store']);
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
@@ -36,7 +36,7 @@ Route::group(['middleware'=>'auth'], function(){
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
     Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
-    Route::post('/schedule', [ScheduleController::class, 'store']);
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
     Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
     Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
@@ -44,7 +44,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/record', [RecordController::class, 'index'])->name('records');
-    Route::get('/record/create', [RecordController::class, 'create']);
+    Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
     Route::post('/record', [RecordController::class, 'store']);
     Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
     Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');

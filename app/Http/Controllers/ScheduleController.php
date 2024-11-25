@@ -36,7 +36,6 @@ class ScheduleController extends Controller
             'saturday' => $request->validated('saturday') ? true : false,
             'sunday' => $request->validated('sunday') ? true : false,
         ];
-        
         Schedule::create($validated_data);
 
         return redirect(route('schedule'));

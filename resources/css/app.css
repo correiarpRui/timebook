@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@supports (scrollbar-color: #27272a #080808) {
+    * {
+        scrollbar-color: #27272a #080808;
+        scrollbar-width: thin;
+    }
+}
+
 .submenu {
     grid-template-rows: 0fr;
     transition: 300ms ease-in-out;
@@ -37,4 +44,11 @@
     padding-bottom: 0.25rem;
     border-color: #27272a;
     grid-template-rows: 1fr;
+}
+
+.checkboxActive {
+    transform: translateX(1rem);
+}
+.buttonActive {
+    background-color: #fafafa;
 }

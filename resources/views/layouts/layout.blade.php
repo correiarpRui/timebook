@@ -95,7 +95,7 @@
                             <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                             <path d="M2 10h20"></path>
                         </svg>
-                        <span class="grow">Schedule</span>
+                        <span class="grow">Schedules</span>
                     </a>
                 </li>
                 <li>
@@ -170,5 +170,14 @@
     function toggleSubMenuDropUp(button) {
         button.previousElementSibling.classList.toggle("show");
         button.classList.toggle('rotate')
+    }
+
+    function toggleCheckboxButton(value) {
+        button = value
+        button_span = document.getElementById("span_" + value.id)
+        checkbox = document.getElementById("checkbox_" + value.id)
+        checkbox.checked = !checkbox.checked ? true : false
+        button_span.classList.toggle("checkboxActive")
+        button.classList.toggle("buttonActive")
     }
 </script>

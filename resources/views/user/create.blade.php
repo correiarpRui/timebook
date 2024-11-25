@@ -14,15 +14,15 @@
                 </svg>
             </li>
             <li>
-                <a href="{{ route('user.create') }}">Create user</a>
+                <a href="{{ route('user.create') }}">Add user</a>
             </li>
         </ol>
         <div class="p-6">
             <div class="text-2xl font-bold tracking-tight text-[#fafafa]">
                 Create User
             </div>
-            <hr class="my-[24px] border-[#27272a]">
-            <form action="/user" method="POST" class="flex flex-col gap-4">
+            <hr class="my-[12px] border-[#27272a]">
+            <form action="{{ route('user.store') }}" method="POST" class="flex flex-col gap-4">
                 @csrf
                 <div class="flex flex-col gap-1">
                     <label for="name" class="text-sm font-medium">Name</label>

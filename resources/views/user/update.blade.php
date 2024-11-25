@@ -21,7 +21,7 @@
             <div class="text-2xl font-bold tracking-tight text-[#fafafa]">
                 Update User
             </div>
-            <hr class="my-[24px] border-[#27272a]">
+            <hr class="my-[12px] border-[#27272a]">
             <form action="{{ route('user.patch', $user->id) }}" method="POST" class="flex flex-col gap-4">
                 @csrf
                 @method('PATCH')
