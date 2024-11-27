@@ -205,6 +205,8 @@
                                         <div class=" overflow-hidden">
                                             <a href="{{ route('record.show', $record->id) }}"
                                                 class="rounded-md my-1 mx-2 py-2 px-2 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]">View</a>
+                                            <a href="{{ route('record.update', $record->id) }}"
+                                                class="rounded-md my-1 mx-2 py-2 px-2 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]">Edit</a>
                                         </div>
                                     </ul>
                                 </td>

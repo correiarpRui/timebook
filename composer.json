@@ -29,7 +29,8 @@
         },
         "files": [
             "app/Helpers/calendar.php",
-            "app/Helpers/test.php"
+            "app/Helpers/test.php",
+            "app/Helpers/calendar_month.php"
         ]
     },
     "autoload-dev": {

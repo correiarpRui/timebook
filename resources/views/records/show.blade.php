@@ -18,10 +18,22 @@
             </li>
         </ol>
         <div class="p-6">
-            <div>
-                <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Record #{{ $record[0]->id }}</div>
-                <div class="text-sm font-semibold text-[#a1a1aa]">{{ $record[0]->date }},
-                    {{ $record[0]->week_day }}</div>
+            <div class="flex justify-between">
+                <div>
+                    <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Record #{{ $record[0]->id }}</div>
+                    <div class="text-sm font-semibold text-[#a1a1aa]">{{ $record[0]->date }},
+                        {{ $record[0]->week_day }}</div>
+                </div>
+                <div class="flex gap-2">
+                    <a class="bg-[#fafafa] text-[#09090b] items-center rounded-md px-4 py-2 cursor-pointer text-sm font-medium h-9 w-20 text-center"
+                        href="{{ route('record.update', $record[0]->id) }}">Edit</a>
+                    <form action="{{ route('record.destroy', $record[0]->id) }}" method="POST">
+                        @method('delete')
+                        @csrf
+                        <button
+                            class="bg-[#fafafa] text-[#DC2626] items-center rounded-md px-4 py-2 cursor-pointer text-sm font-medium h-9 w-20 text-center">Delete</button>
+                    </form>
+                </div>
             </div>
             <hr class="my-[12px] border-[#27272a]">
             <div class="text-lg font-medium pr-2">User Information</div>
@@ -112,21 +124,11 @@
                 @csrf
                 <textarea name="notes" id="" cols="100" rows="10"
                     class="w-full bg-transparent p-3 border border-[#27272a] rounded-md focus:outline-none focus:border-[#e5e7eb]"> {{ $record[0]->notes ? $record[0]->notes : '' }}</textarea>
-                <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm "
-                    onclick=toggleShowFileName()>Upload
-                    file</button>
+                <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm">Save
+                    notes</button>
             </form>
         </div>
     </div>
-    {{-- <div class="flex gap-3">
-                    <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5"
-                        href="{{ route('record.update', $record[0]->id) }}">Update</a>
-                    <form action="{{ route('record.destroy', $record[0]->id) }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <button class="uppercase bg-orange-400 rounded-md px-8 py-1 my-5">Delete</button>
-                    </form>
-                </div> --}}
 @endsection
 
 <script>

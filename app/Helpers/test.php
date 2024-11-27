@@ -23,7 +23,6 @@ function generate_vacation_list($events){
       array_push($vacation_list[$date->month],(int)$date->format('d'));
     }   
     
-  }
-  
+  } 
   return $vacation_list;
 }

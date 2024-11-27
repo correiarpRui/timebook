@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('type');
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('start_day');
+            $table->string('end_day');
+            $table->string('month');
+            $table->string('year');
             $table->timestamps();
         });
     }

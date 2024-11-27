@@ -10,7 +10,11 @@ class Event extends Model
     protected $fillable = [
         'type',
         'start_date',
-        'end_date'
+        'end_date',
+        'start_day',
+        'end_day',
+        'month',
+        'year'
     ];
 
     public function users(): BelongsToMany{

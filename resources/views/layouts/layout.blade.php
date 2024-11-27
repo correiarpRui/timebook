@@ -73,13 +73,16 @@
                         <div class=" overflow-hidden">
                             <li>
                                 <a @class([
-                                    'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]',
-                                    'bg-[#27272a]' => request()->routeIs('calendar*'),
-                                ]) href="{{ route('calendar', date('Y')) }}">Year</a>
+                                    'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
+                                    'bg-[#27272a]' => request()->routeIs('calendar.year*'),
+                                ]) href="{{ route('calendar.year', date('Y')) }}">Year</a>
                             </li>
                             <li>
-                                <a class="rounded-md py-2 pr-2 pl-6 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]"
-                                    href="">Month</a>
+                                <a @class([
+                                    'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
+                                    'bg-[#27272a]' => request()->routeIs('calendar.month*'),
+                                ])
+                                    href="{{ route('calendar.month', [date('Y'), date('m')]) }}">Month</a>
                             </li>
                         </div>
                     </ul>

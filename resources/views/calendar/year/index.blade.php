@@ -6,9 +6,10 @@
             <div class="uppercase text-2xl font-semibold my-2">Calendar {{ $year }}</div>
             <div class="flex gap-3">
                 <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-2"
-                    href="{{ route('calendar', $year - 1) }}">Previous
+                    href="{{ route('calendar.year', $year - 1) }}">Previous
                 </a>
-                <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-2" href="{{ route('calendar', $year + 1) }}">Next
+                <a class="uppercase bg-orange-400 rounded-md px-8 py-1 my-2"
+                    href="{{ route('calendar.year', $year + 1) }}">Next
                 </a>
             </div>
         </div>

@@ -27,8 +27,10 @@ class CalendarController extends Controller
         $finish_calendar_months = finish_month_rows($max_cells, $all_month_rows);
         $fists_row = get_first_calendar_row($max_cells);
 
-        return view('calendar.index', ['year'=>$year, 'calendar_months' => $finish_calendar_months, 'first_row' => $fists_row]);       
+        return view('calendar.year.index', ['year'=>$year, 'calendar_months' => $finish_calendar_months, 'first_row' => $fists_row]);       
     }
+
+    
 
     public function store(Request $request, $year){
 
@@ -48,10 +50,16 @@ class CalendarController extends Controller
 
             if ($date_day_before != $prev_date && $prev_date !=null && $start_date != null){
                 $end_date = $prev_date;
+                
                 $event = new Event([
                     'type'=>'vacation', 
                     'start_date'=> $start_date ? $start_date->format('d-m-Y') : $start_date, 
-                    'end_date'=>$end_date ? $end_date->format('d-m-Y') : $end_date]);
+                    'end_date'=>$end_date ? $end_date->format('d-m-Y') : $end_date,
+                    'start_day'=> $start_date ? $start_date->format('d') : $start_date,
+                    'end_day'=> $end_date ? $end_date->format('d') : $end_date,
+                    'month'=> $start_date ? $start_date->format('m') : $start_date,
+                    'year'=> $year,
+                    ]);
                 $event->save();
                 $user->events()->syncWithoutDetaching($event);
                 $user->save();
@@ -66,12 +74,20 @@ class CalendarController extends Controller
                 $start_date = $date;
                 $last_checked_date = $date;
             }            
-        }   
-        $event = new Event(['type'=>'vacation', 'start_date'=> $start_date->format('d-m-Y'), 'end_date'=>$last_checked_date->format('d-m-Y') ]);
+        }
+        $event = new Event([
+            'type'=>'vacation', 
+            'start_date'=> $start_date->format('d-m-Y'), 
+            'end_date'=>$last_checked_date->format('d-m-Y'), 
+            'start_day'=>$start_date->format('d'),
+            'end_day'=>$last_checked_date->format('d'),
+            'month'=> $start_date->format('m'),
+            'year'=> $year,
+        ]);
         $event->save();
         $user->events()->syncWithoutDetaching($event);
         $user->save();
         
-        return redirect(route('calendar', $year));
+        return redirect(route('calendar.year', $year));
     }
 }
