@@ -130,9 +130,9 @@
                     </div>
                     @foreach ($user['data'] as $table_cell)
                         <div
-                            @if ($table_cell['event'] == 'vacation') class="text-center cell" @else class="text-[#323232] text-center cell" @endif>
+                            @if ($table_cell['event'] == 'vacation') class="text-center cell col-span-{{ $table_cell['range'] }}" @else class="text-[#323232] text-center cell" @endif>
                             <div class="@if ($table_cell['event'] == 'vacation') bg-[#fafafa] text-[#09090b] @endif">
-                                {{ $table_cell['day'] }}
+                                &nbsp
                             </div>
                         </div>
                     @endforeach

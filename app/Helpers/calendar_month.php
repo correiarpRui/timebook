@@ -31,59 +31,64 @@ function event_by_user($events, $month, $year){
     $start_date = Carbon::createFromFormat('d-m-Y', $event->start_date);
     $end_date = Carbon::createFromFormat('d-m-Y', $event->end_date);
     $user_id = $event->users[0]->id;
-    $day_period = CarbonPeriod::create($start_date, $end_date);
     
-    // $start_day =(int) $start_date->format('d');
-    // $end_day =(int) $end_date->format('d');
-    // $range = ($end_day-$start_day)+1;
-    // $event_data = ['start'=>$start_day, 'end'=>$end_day, 'range'=>$range ];
-    
-
-    $curr_day_list = [];
-    $prev_day_list = [];
+    $start_day =(int) $start_date->format('d');
+    $end_day =(int) $end_date->format('d');
+    $range = ($end_day-$start_day)+1;
     
     if($start_date->format('m') != $month || $start_date->format('Y') != $year){
       continue;
     }
-    if (array_key_exists($user_id, $events_data)){
-      $prev_day_list = $events_data[$user_id];
-    }
-    if($start_date == $end_date){
-      array_push($curr_day_list, (int)$start_date->format('d'));
-    } else {
-       foreach($day_period as $day){
-        array_push($curr_day_list, (int)$day->format('d'));
-      }
-    }
-  
-    if ($prev_day_list){
-      $events_data[$user_id] = array_merge($prev_day_list, $curr_day_list);
-      continue;
-    }
-    $events_data[$user_id] = $curr_day_list;
+
+    $event_data = ['start'=>$start_day, 'end'=>$end_day, 'range'=>$range ];
+    
+    $events_data[$user_id][] = $event_data;
     
   }
   
   return $events_data;
 }
 
+function sort_data($user_event_data){
+  $get_start_day = function ($data){
+    return $data['start'];
+  };
+  $start_days = array_map($get_start_day, $user_event_data);
+  sort($start_days);
+  $sorted_events = [];
+  foreach($start_days as $start_day){
+    foreach($user_event_data as $event){
+      if($event['start'] === $start_day){
+        $sorted_events[] = $event;
+        break;
+      }
+    }
+  }
+  return $sorted_events;
+}
+
 function get_users_data($user_id, $events,$year, $month){
   $month_data = month_data($year, $month);
   $events_data = event_by_user($events, $month, $year);
-  $user_event_data = [];
+  $sorted_events = null;
   if (array_key_exists($user_id, $events_data)){
-    $user_event_data = $events_data[$user_id];
+    $sorted_events = sort_data($events_data[$user_id]);
   }
-
   $data=[];
-    
-    for($day = 1; $day<=$month_data['days_in_month']; $day++){
-      if (in_array($day, $user_event_data)){
-          $data[] = ['day'=>$day, 'event'=>"vacation"];    
-          continue;
+  $day = 1;
+
+  while($day <= $month_data['days_in_month'] ){
+    if($sorted_events != null){
+      foreach($sorted_events as $event){
+        if($event['start'] == $day){
+          $data[]= ['event'=>'vacation', 'range'=>$event['range']];
+          $day += ($event['range']);
+        }
       }
-      $data[] = ['day'=>$day, 'event'=>""];
     }
+    $data[] =['event'=>'', 'day'=>$day];
+    $day++;
+  }
   return $data;
 }
 
