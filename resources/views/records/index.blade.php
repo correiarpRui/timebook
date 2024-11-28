@@ -159,7 +159,8 @@
                                 <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->date }}</td>
                                 <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->week_day }}
                                 </td>
-                                <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->user->name }}</td>
+                                <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->user->first_name }}
+                                    {{ $record->user->last_name }}</td>
                                 <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->morning_start }}
                                 </td>
                                 <td class="h-10 px-5 text-left align-middle font-medium">{{ $record->morning_end }}

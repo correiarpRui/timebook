@@ -41,7 +41,7 @@
                 <div class="text-sm font-medium">Name</div>
                 <div
                     class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 py-1 focus:outline-none focus:border-[#e5e7eb]">
-                    {{ $record[0]->user->name }}
+                    {{ $record[0]->user->first_name }} {{ $record[0]->user->last_name }}
                 </div>
             </div>
             <div class="flex flex-col gap-1 mb-4">

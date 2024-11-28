@@ -108,7 +108,8 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr class="border border-b border-[#27272a] hover:bg-[#27272a]/50">
-                            <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->name }}</td>
+                            <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->first_name }}
+                                {{ $user->last_name }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->email }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->birth_date }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->role->role }}</td>

@@ -29,7 +29,8 @@ class UserController extends Controller
     public function store(Request $request){
 
         $validated_data = $request->validate([
-            'name'=> ['required'],
+            'first_name'=> ['required'],
+            'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users'],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'password' => ['required'],
@@ -55,7 +56,8 @@ class UserController extends Controller
 
     public function patch(Request $request, $id){
         $validated_data = $request->validate([
-            'name'=> ['required'],
+            'first_name'=> ['required'],
+            'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'role_id' => ['required', Rule::in(["1","2","3"])],

@@ -15,11 +15,11 @@ function month_data ($year, $month){
 function  get_month_date_day($year, $month){
   $data = month_data($year, $month);
   $weekdays = ['S', 'M','T','W','T','F','S'];
-  $date = ['Date'];
-  $day = ['Day'];
+  $date = ['title'=>'Date', 'values'=>[]];
+  $day = ['title'=>'Day', 'values'=>[]];
   for($d = 1; $d<= $data['days_in_month']; $d++){
-    $date[] = $d;
-    $day[] = $weekdays[$data['date']->day($d)->weekday()];
+    $date['values'][] = $d;
+    $day['values'][] = $weekdays[$data['date']->day($d)->weekday()];
   }
   $result = ['date' => $date, 'day'=>$day];
   return $result;
@@ -32,10 +32,17 @@ function event_by_user($events, $month, $year){
     $end_date = Carbon::createFromFormat('d-m-Y', $event->end_date);
     $user_id = $event->users[0]->id;
     $day_period = CarbonPeriod::create($start_date, $end_date);
+    
+    // $start_day =(int) $start_date->format('d');
+    // $end_day =(int) $end_date->format('d');
+    // $range = ($end_day-$start_day)+1;
+    // $event_data = ['start'=>$start_day, 'end'=>$end_day, 'range'=>$range ];
+    
+
     $curr_day_list = [];
     $prev_day_list = [];
     
-    if($start_date->format('m') != $month && $start_date->format('Y') != $year){
+    if($start_date->format('m') != $month || $start_date->format('Y') != $year){
       continue;
     }
     if (array_key_exists($user_id, $events_data)){
@@ -56,12 +63,14 @@ function event_by_user($events, $month, $year){
     $events_data[$user_id] = $curr_day_list;
     
   }
+  
   return $events_data;
 }
 
 function get_users_data($user_id, $events,$year, $month){
   $month_data = month_data($year, $month);
   $events_data = event_by_user($events, $month, $year);
+  $user_event_data = [];
   if (array_key_exists($user_id, $events_data)){
     $user_event_data = $events_data[$user_id];
   }
@@ -73,7 +82,7 @@ function get_users_data($user_id, $events,$year, $month){
           $data[] = ['day'=>$day, 'event'=>"vacation"];    
           continue;
       }
-      $data[] = ['day'=>$day, 'event'=>"no event"];
+      $data[] = ['day'=>$day, 'event'=>""];
     }
   return $data;
 }
@@ -82,7 +91,7 @@ function get_table_data($year, $month, $users, $events){
   $month_data = get_month_date_day($year, $month);
   $table_data = ['month'=>$month_data];
   foreach ($users as $user){
-    $user_info = ['id'=>$user->id, 'name'=>$user->name];
+    $user_info = ['id'=>$user->id, 'name'=>"$user->first_name $user->last_name"];
     $data = get_users_data($user->id, $events,$year, $month);
     $table_data['users'][$user->id] = ['user_info'=>$user_info, 'data'=>$data];
   }

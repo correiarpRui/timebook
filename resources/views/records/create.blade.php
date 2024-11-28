@@ -11,7 +11,7 @@
             <select name="user_id" id="user">
                 <option disabled selected>Select user</option>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}"> {{ $user->name }} </option>
+                    <option value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
                 @endforeach
             </select>
             <button class="bg-orange-400 rounded-md">Submit</button>
