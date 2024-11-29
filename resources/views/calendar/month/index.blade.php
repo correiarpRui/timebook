@@ -103,37 +103,58 @@
             </div>
         </div>
         <hr class="my-[24px] border-[#27272a]">
+        {{-- #414144 --}}
 
         <div class="overflow-hidden">
-            <div class="grid grid-cols-{{ $days_in_month + 1 }}">
-                <div class="font-medium text-sm">
-                    {{ $table_data['month']['date']['title'] }}
+            <div @if ($days_in_month + 1 == 29) class="grid grid-cols-29" @endif
+                @if ($days_in_month + 1 == 30) class="grid grid-cols-30" @endif
+                @if ($days_in_month + 1 == 31) class="grid grid-cols-31" @endif
+                @if ($days_in_month + 1 == 32) class="grid grid-cols-32" @endif>
+                <div class="font-medium text-sm border border-[#27272a]">
+                    Date
                 </div>
-                @foreach ($table_data['month']['date']['values'] as $table_cell)
-                    <div class="text-center cell">
-                        {{ $table_cell }}
+                @foreach ($table_data['month']['date'] as $table_cell)
+                    <div
+                        class="text-center cell border border-[#27272a]
+                        @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
+                        @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
+                        @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
+                        {{ $table_cell['value'] }}
                     </div>
                 @endforeach
-                <div class="font-medium text-sm">
-                    {{ $table_data['month']['day']['title'] }}
+                <div class="font-medium text-sm border border-[#27272a]">
+                    Day
                 </div>
-                @foreach ($table_data['month']['day']['values'] as $table_cell)
-                    <div class="text-center cell">
-                        {{ $table_cell }}
+                @foreach ($table_data['month']['day'] as $table_cell)
+                    <div
+                        class="text-center cell border border-[#27272a] 
+                        @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
+                        @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
+                        @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
+                        {{ $table_cell['value'] }}
                     </div>
                 @endforeach
             </div>
             @foreach ($table_data['users'] as $user)
-                <div class="grid grid-cols-{{ $days_in_month + 1 }}">
-                    <div class="font-medium text-sm">
+                <div @if ($days_in_month + 1 == 29) class="grid grid-cols-29" @endif
+                    @if ($days_in_month + 1 == 30) class="grid grid-cols-30" @endif
+                    @if ($days_in_month + 1 == 31) class="grid grid-cols-31" @endif
+                    @if ($days_in_month + 1 == 32) class="grid grid-cols-32" @endif>
+                    <div class="font-medium text-sm py-1 border border-[#27272a]">
                         {{ $user['user_info']['name'] }}
                     </div>
                     @foreach ($user['data'] as $table_cell)
                         <div
-                            @if ($table_cell['event'] == 'vacation') class="text-center cell col-span-{{ $table_cell['range'] }}" @else class="text-[#323232] text-center cell" @endif>
-                            <div class="@if ($table_cell['event'] == 'vacation') bg-[#fafafa] text-[#09090b] @endif">
-                                &nbsp
-                            </div>
+                            class=" text-center py-1 border border-[#27272a] cell 
+                            @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
+                            @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
+                            @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
+                            @if (array_key_exists('start', $table_cell))
+                                <div class="relative z-[10] bg-[#2662D9]/[0.6] border border-[#2662D9] overflow-hidden text-xs rounded-md h-full"
+                                    style="width: calc({{ $table_cell['range'] }}*100% + ({{ $table_cell['range'] }}px - 1px) * 2) ">
+                                    Vacation
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -176,7 +197,7 @@
 
     .cell:hover::after {
         content: "";
-        background-color: #27272a;
+        background-color: rgba(39, 39, 42, 0.3);
         width: 100%;
         height: 10000px;
         position: absolute;

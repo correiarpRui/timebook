@@ -7,22 +7,31 @@ use Illuminate\Database\Console\DumpCommand;
 function month_data ($year, $month){
   $int_year = (int) $year;
   $int_month = (int) $month;
-  $date = Carbon::createFromFormat('Y', $int_year);
-  $days_in_month = $date->month($int_month)->daysInMonth();
-  return ["year"=>$int_year, "month"=>$int_month, 'date'=>$date ,"days_in_month"=>$days_in_month];
+  $days_in_month = Carbon::createFromFormat('Y', $int_year)->month($int_month)->daysInMonth();
+  $start_month = Carbon::createFromFormat('Y', $int_year)->month($int_month)->startOfMonth();
+  $end_month = Carbon::createFromFormat('Y', $int_year)->month($int_month)->endOfMonth();
+  $dates = CarbonPeriod::create($start_month, $end_month);
+  
+  $dates_of_month = ["year"=>$int_year, "month"=>$int_month, 'dates'=>[] ,"days_in_month"=>$days_in_month];
+  foreach($dates as $date){
+    $dates_of_month['dates'][] = $date;
+  }
+  
+  return $dates_of_month;
 }
 
-function  get_month_date_day($year, $month){
-  $data = month_data($year, $month);
+function new_get_header_data($month_data, $holiday_list){
   $weekdays = ['S', 'M','T','W','T','F','S'];
-  $date = ['title'=>'Date', 'values'=>[]];
-  $day = ['title'=>'Day', 'values'=>[]];
-  for($d = 1; $d<= $data['days_in_month']; $d++){
-    $date['values'][] = $d;
-    $day['values'][] = $weekdays[$data['date']->day($d)->weekday()];
+  foreach($month_data['dates'] as $date){
+    $dates_row[] = ['value'=> ltrim($date->format('d'),0), 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
+    $week_row[] = ['value'=> $weekdays[$date->weekday()], 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false] ;
   }
-  $result = ['date' => $date, 'day'=>$day];
-  return $result;
+
+  foreach($holiday_list as $day){
+    $dates_row[$day-1]['holiday'] = true; 
+    $week_row[$day-1]['holiday'] = true;
+  }
+  return ['date'=>$dates_row, 'day'=>$week_row];
 }
 
 function event_by_user($events, $month, $year){
@@ -35,28 +44,35 @@ function event_by_user($events, $month, $year){
     $start_day =(int) $start_date->format('d');
     $end_day =(int) $end_date->format('d');
     $range = ($end_day-$start_day)+1;
-    
+    $event_data = [];
+
     if($start_date->format('m') != $month || $start_date->format('Y') != $year){
       continue;
     }
 
-    $event_data = ['start'=>$start_day, 'end'=>$end_day, 'range'=>$range ];
+    for ($day = $start_day; $day <= $end_day; $day++){
+      $event_data[$day] = $day;  
+    }
+
+    $event_data['start'] = $start_day;
+    $event_data['end'] = $end_day;
+    $event_data['range'] = $range;
     
-    $events_data[$user_id][] = $event_data;
-    
+    $events_data[$user_id][] = $event_data; //where is variable stored
   }
-  
   return $events_data;
 }
 
-function sort_data($user_event_data){
+function sort_event_start_day($user_event_data){
   $get_start_day = function ($data){
     return $data['start'];
   };
-  $start_days = array_map($get_start_day, $user_event_data);
-  sort($start_days);
+
+  $list_of_start_days = array_map($get_start_day, $user_event_data);
+  sort($list_of_start_days);
+
   $sorted_events = [];
-  foreach($start_days as $start_day){
+  foreach($list_of_start_days as $start_day){
     foreach($user_event_data as $event){
       if($event['start'] === $start_day){
         $sorted_events[] = $event;
@@ -67,58 +83,53 @@ function sort_data($user_event_data){
   return $sorted_events;
 }
 
-function get_users_data($user_id, $events,$year, $month){
-  $month_data = month_data($year, $month);
+function get_users_data($user_id, $events,$year, $month, $month_data, $holiday_list){
   $events_data = event_by_user($events, $month, $year);
   $sorted_events = null;
   if (array_key_exists($user_id, $events_data)){
-    $sorted_events = sort_data($events_data[$user_id]);
+    $sorted_events = sort_event_start_day($events_data[$user_id]);
   }
   $data=[];
   $day = 1;
-
-  while($day <= $month_data['days_in_month'] ){
+  
+  foreach($month_data['dates'] as $date){
+    $day = ltrim($date->format('d'),0);
     if($sorted_events != null){
       foreach($sorted_events as $event){
-        if($event['start'] == $day){
-          $data[]= ['event'=>'vacation', 'range'=>$event['range']];
-          $day += ($event['range']);
+        if ($event['start'] == $day){
+          $data[]= ['day'=>$day, 'event'=>'vacation', 'start'=>1,'range'=>$event['range'], 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
         }
+        if (array_key_exists($day, $event) && $event['start'] != $day){
+          $data[]= ['day'=>$day, 'event'=>'vacation', 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
+        } 
       }
+      if(!array_key_exists($day-1, $data)){
+        $data[]= ['day'=>$day, 'event'=>'', 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
+      }
+    }else{
+      $data[] =['day'=>$day,'event'=>'', 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
     }
-    $data[] =['event'=>'', 'day'=>$day];
-    $day++;
   }
+
+  foreach($holiday_list as $day){
+    $data[$day-1]['holiday'] = true; 
+  }
+ 
   return $data;
 }
 
-function get_table_data($year, $month, $users, $events){
-  $month_data = get_month_date_day($year, $month);
-  $table_data = ['month'=>$month_data];
+function get_table_data($year, $month, $users, $events, $holiday_list){
+  $holiday_in_month = $holiday_list[$month];
+  $month_data = month_data ($year, $month);
+  
+  $headers_data =new_get_header_data($month_data, $holiday_in_month);
+  $table_data = ['month'=>$headers_data];
+
   foreach ($users as $user){
     $user_info = ['id'=>$user->id, 'name'=>"$user->first_name $user->last_name"];
-    $data = get_users_data($user->id, $events,$year, $month);
+    $data = get_users_data($user->id, $events,$year, $month, $month_data, $holiday_in_month);
     $table_data['users'][$user->id] = ['user_info'=>$user_info, 'data'=>$data];
   }
   return $table_data;
 }
-
-// $result = [
-//   'month'=>[
-//     'date'=>[],
-//     'day'=>[]
-//   ],
-//   'user'=>[
-//     'user_info'=>[
-//       'id'=>
-//       "name"=>
-//     ],
-//     'data'=>[
-//       [
-//         'day'=>
-//         'event'=>
-//       ]
-//     ]
-//   ]
-// ]
 
