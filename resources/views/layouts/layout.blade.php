@@ -88,10 +88,9 @@
                     </ul>
                 </li>
                 <li>
-                    <a @class([
-                        'rounded-md p-2 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]',
-                        'bg-[#27272a]' => request()->routeIs('schedule*'),
-                    ]) href="{{ route('schedule') }}">
+                    <button
+                        class='rounded-md p-2 text-[#fafafa] flex w-full text-left items-center gap-1 hover:bg-[#27272a] cursor-pointer'
+                        onclick=toggleSubMenuDropDown(this)>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             class="h-4 w-4 mr-2 text-muted-foreground">
@@ -99,7 +98,29 @@
                             <path d="M2 10h20"></path>
                         </svg>
                         <span class="grow">Schedules</span>
-                    </a>
+                        <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-chevron-down text-muted-foreground">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+                    <ul @class(['grid submenu', 'show' => request()->routeIs('schedule*')])>
+                        <div class=" overflow-hidden">
+                            <li>
+                                <a @class([
+                                    'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
+                                    'bg-[#27272a]' => request()->routeIs('schedule.planner*'),
+                                ]) href="{{ route('schedule.planner') }}">Planner</a>
+                            </li>
+                            <li>
+                                <a @class([
+                                    'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
+                                    'bg-[#27272a]' => request()->routeIs('schedule.list*'),
+                                ]) href="{{ route('schedule.list') }}">Schedule</a>
+                            </li>
+                        </div>
+                    </ul>
                 </li>
                 <li>
                     <a @class([
