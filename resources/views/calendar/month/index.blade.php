@@ -103,8 +103,6 @@
             </div>
         </div>
         <hr class="my-[24px] border-[#27272a]">
-        {{-- #414144 --}}
-
         <div class="overflow-hidden">
             <div @if ($days_in_month + 1 == 29) class="grid grid-cols-29" @endif
                 @if ($days_in_month + 1 == 30) class="grid grid-cols-30" @endif

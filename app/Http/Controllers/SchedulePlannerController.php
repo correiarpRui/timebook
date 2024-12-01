@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class SchedulePlannerController extends Controller
 {
     public function index(){
-        return view('schedule.planner.index');
+
+        $year = '2024';
+
+        $weeks = get_month_dates($year);
+
+        return view('schedule.planner.index', ['weeks'=>$weeks]);
     }
 }
