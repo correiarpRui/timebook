@@ -38,7 +38,7 @@ class ScheduleController extends Controller
         ];
         Schedule::create($validated_data);
 
-        return redirect(route('schedule'));
+        return redirect(route('schedule.list'));
     }
 
     public function update($id){

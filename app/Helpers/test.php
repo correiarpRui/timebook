@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 
 function generate_vacation_list($events){
@@ -27,39 +28,20 @@ function generate_vacation_list($events){
   return $vacation_list;
 }
 
-function get_month_dates ( $year){
-
-  $int_year = (int)$year;
-  
-  $first_day_year = Carbon::createFromFormat('Y', $int_year)->firstOfYear();
-  $last_day_year = Carbon::createFromFormat('Y', $int_year)->lastOfYear();
-
-  $year_dates = CarbonPeriod::create($first_day_year, $last_day_year);
-  $weekdays = ['S', 'M','T','W','T','F','S'];
-  $week_number = 1;
-  $dates = [];
-  $number_days_from_last_year = abs(0- $first_day_year->weekday());
-
-//maybe not needed / change form number
-  if ($number_days_from_last_year != 0){
-    for ($day = $number_days_from_last_year; $day > 0; $day--){
-      $day_before = 32-$day;
-      $year_before = $year-1;
-      $date_from_year_before = Carbon::createFromFormat('d-m-Y', "$day_before-12-$year_before");
-      $dates[1][] =  ['day'=>$date_from_year_before->format('d'), 'value'=>$date_from_year_before->format('d-m-Y'), 'weekday'=>$date_from_year_before->weekday()];
-    }
+function get_year_data ($year){
+  $months = [];
+  for ($month = 1; $month <= 12; $month++){
+    $month_name = Carbon::createFromFormat('m', "$month")->format('F');
+    $start_of_month = CarbonImmutable::createFromFormat('Y-m-d', "$year-$month-1");
+    $end_of_month = $start_of_month->endOfMonth();
+    $start_of_week = $start_of_month->startOfWeek(Carbon::SUNDAY);
+    $end_of_week = $end_of_month->endOfWeek(Carbon::SATURDAY);
+    $dates = collect($start_of_week->toPeriod($end_of_week)->toArray());
+    $weeks = $dates->map(fn($date)=>['day'=>$date->day, 'value'=>$date->format('d-m-Y'), 'week'=>"$month_name-$date->weekOfYear"])->chunk(7);
+    $months[$month_name] = $weeks;
   }
-  
-  foreach ($year_dates as $date){ 
-    $dates[$week_number][] = [
-      'day'=>ltrim($date->format('d'),0), 
-      'value'=>$date->format('d-m-Y'), 
-      'weekday'=>$date->weekday()];
-    if(count($dates[$week_number]) == 7){
-      $week_number++;
-    }
-  }
-  return $dates;  
+
+  return $months;
 }
 
 
