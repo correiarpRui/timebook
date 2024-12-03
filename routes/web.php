@@ -46,6 +46,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/schedule/planner', [SchedulePlannerController::class, 'index'])->name('schedule.planner');
+    Route::post('/schedule/planner', [SchedulePlannerController::class, 'store'])->name('schedule.planner.store');
 });
 
 Route::group(['middleware'=>'auth'], function(){

@@ -22,6 +22,8 @@ class MonthCalendarController extends Controller
         $month_name = $date->month($int_month)->format('F');
         $days_in_month = $date->month($int_month)->daysInMonth();
 
+        dump($table_data);
+
         return view('calendar.month.index', ['table_data'=>$table_data, 'month_name'=>$month_name, 'year'=>$year, 'month'=>$month, 'days_in_month'=>$days_in_month]);
     }
 }

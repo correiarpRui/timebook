@@ -12,7 +12,6 @@ function generate_vacation_list($events){
     $end_date = Carbon::createFromFormat('d-m-Y', $event['end_date']);
     $year = $start_date->format('Y');
     $vacation_list[0] = $year;
-    
 
     if($start_date == $end_date){    
       array_push($vacation_list[$start_date->month],(int)$start_date->format('d'));
@@ -40,7 +39,6 @@ function get_year_data ($year){
     $weeks = $dates->map(fn($date)=>['day'=>$date->day, 'value'=>$date->format('d-m-Y'), 'week'=>"$month_name-$date->weekOfYear"])->chunk(7);
     $months[$month_name] = $weeks;
   }
-
   return $months;
 }
 

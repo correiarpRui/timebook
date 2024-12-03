@@ -16,7 +16,6 @@ function month_data ($year, $month){
   foreach($dates as $date){
     $dates_of_month['dates'][] = $date;
   }
-  
   return $dates_of_month;
 }
 
@@ -122,7 +121,7 @@ function get_table_data($year, $month, $users, $events, $holiday_list){
   $holiday_in_month = $holiday_list[$month];
   $month_data = month_data ($year, $month);
   
-  $headers_data =new_get_header_data($month_data, $holiday_in_month);
+  $headers_data = new_get_header_data($month_data, $holiday_in_month);
   $table_data = ['month'=>$headers_data];
 
   foreach ($users as $user){

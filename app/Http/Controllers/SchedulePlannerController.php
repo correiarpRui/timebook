@@ -17,4 +17,8 @@ class SchedulePlannerController extends Controller
 
         return view('schedule.planner.index', ['weeks'=>$weeks, 'schedule_list'=>$schedule_list]);
     }
+
+    public function store(Request $request){
+        dump($request->input());
+    }
 }

@@ -27,7 +27,10 @@ class CalendarController extends Controller
         $finish_calendar_months = finish_month_rows($max_cells, $all_month_rows);
         $fists_row = get_first_calendar_row($max_cells);
 
-        return view('calendar.year.index', ['year'=>$year, 'calendar_months' => $finish_calendar_months, 'first_row' => $fists_row]);       
+
+        $calendar_data = new_get_full_calendar($year, $holiday_list, $events);
+
+        return view('calendar.year.index', ['year'=>$year, 'calendar_months' => $finish_calendar_months, 'first_row' => $fists_row, 'calendar_data'=>$calendar_data]);       
     }
 
     
