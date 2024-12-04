@@ -10,9 +10,18 @@
     }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .submenu {
     grid-template-rows: 0fr;
-    transition: 300ms ease-in-out;
+    transition: 150ms ease-in-out;
 }
 
 .submenu.show {
@@ -33,11 +42,11 @@
 
 .submenu_options {
     grid-template-rows: 0fr;
-    transition: 300ms ease-in-out;
+    transition: 150ms ease-in-out;
 }
 
 .submenu_options.show {
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
     margin-bottom: 0.5rem;
     border: 1px solid;
     padding-top: 0.25rem;
@@ -51,4 +60,8 @@
 }
 .buttonActive {
     background-color: #fafafa;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: orange;
 }

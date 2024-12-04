@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\MonthCalendarController;
 use App\Http\Controllers\SchedulePlannerController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -62,6 +63,7 @@ Route::group(['middleware'=>'auth'], function(){
 });
 
 Route::group(['middleware'=>'auth'], function(){
+    Route::get('/calendar/settings', [CalendarController::class, 'settings'])->name('calendar.settings');
     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
     Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
 });
@@ -69,5 +71,6 @@ Route::group(['middleware'=>'auth'], function(){
 Route::group(['middleware'=>'auth'], function(){
     Route::Get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
 });
+
 
 

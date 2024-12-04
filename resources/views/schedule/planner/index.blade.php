@@ -38,7 +38,7 @@
                                         <button
                                             class=" bg-[#27272a] bg-opacity-30 border border-[#27272a] rounded-md text-xs py-[2px] px-3 hover:bg-[#27272a] flex justify-between items-center"
                                             type="button" onclick=toggleSubMenuDropDown(this)>
-                                            <span id="button{{ $week->last()['week'] }}">Select schedule</span>
+                                            <span id="button{{ $week->last()['id'] }}">Select schedule</span>
                                             <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -52,11 +52,11 @@
                                                 @foreach ($schedule_list as $schedule)
                                                     <div
                                                         class="flex items-center justify-start hover:bg-[#27272a] px-3 rounded-md">
-                                                        <input type="radio" name="{{ $week->last()['week'] }}"
-                                                            id="{{ $week->last()['week'] }}{{ $schedule->id }}"
+                                                        <input type="radio" name="{{ $week->last()['id'] }}"
+                                                            id="{{ $week->last()['id'] }}{{ $schedule->id }}"
                                                             value="{{ $schedule->id }}" class="peer hidden">
-                                                        <label for="{{ $week->last()['week'] }}{{ $schedule->id }}"
-                                                            id="{{ $week->last()['week'] }}"
+                                                        <label for="{{ $week->last()['id'] }}{{ $schedule->id }}"
+                                                            id="{{ $week->last()['id'] }}"
                                                             class="cursor-pointer py-1 select-none"
                                                             onclick=get_role_name(this)>{{ $schedule->name }}</label>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"

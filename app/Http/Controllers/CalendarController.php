@@ -5,35 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller 
 {
     public function index($year){
-        
         $events = Event::whereHas('users', function($query){
             return $query->where('user_id', Auth::id());
         })->get();
-
-        $vacation_list = generate_vacation_list($events);
-        
-
+    
         $holiday_list = [1=>[1],2=>[13],3=>[29],4=>[25],5=>[1,30],6=>[10, 13, 24, 29],7=>[],8=>[15],9=>[],10=>[5],11=>[1],12=>[1,8,25]];
     
-    
-        $all_month_rows = get_all_month_calendar_rows($year, $holiday_list, $vacation_list);
-        $max_cells = get_max_cells ($all_month_rows);
-        $finish_calendar_months = finish_month_rows($max_cells, $all_month_rows);
-        $fists_row = get_first_calendar_row($max_cells);
-
-
         $calendar_data = new_get_full_calendar($year, $holiday_list, $events);
 
-        return view('calendar.year.index', ['year'=>$year, 'calendar_months' => $finish_calendar_months, 'first_row' => $fists_row, 'calendar_data'=>$calendar_data]);       
+        return view('calendar.year.index', ['year'=>$year, 'calendar_data'=>$calendar_data]);       
     }
-
-    
 
     public function store(Request $request, $year){
 
@@ -93,4 +81,50 @@ class CalendarController extends Controller
         
         return redirect(route('calendar.year', $year));
     }
+
+    public function settings(){
+        $year =(int) Carbon::now()->format("Y");
+        $months = [1=>'January',2=>'February',3=>'March',4=>'April',5=>'May',6=>'June',7=>'July',8=>'August',9=>'September',10=>'October',11=>'November',12=>'December'];
+        
+        $holidays = [
+            1=>[
+                1=>"New Year's Day"
+            ],
+            2=>[
+                13=>'Carnival'
+            ],
+            3=>[
+                29=>'Good Friday',
+                31=>'Easter Sunday'
+            ],
+            4=>[
+                25=>'Liberty Day'
+            ],
+            5=>[
+                1=>'Labor Day',
+                30=>'Corpus Christi'
+            ],
+            6=>[
+                1=>'Portugal Day'
+            ],
+            7=>[],
+            8=>[
+                15=>'Assumption of Mary'
+            ],
+            9=>[],
+            10=>[
+                5=>'Republic Day',
+            ],
+            11=>[
+                1=>"All Saints' day",
+            ],
+            12=>[
+                1=>'Restoration of Independence',
+                8=>'Feast of the Immaculate Conception',
+                25=>'Christmas Day'
+            ]
+        ];
+        return view('calendar.settings', ['year'=>$year, 'months'=>$months, 'holidays'=>$holidays]);
+    }
 }
+

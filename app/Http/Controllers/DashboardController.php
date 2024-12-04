@@ -23,7 +23,12 @@ class DashboardController extends Controller
         foreach($events as $event){
             array_push($events_list, [$event->type, $event->start_date, $event->end_date]);
         }
+
+        $today = Carbon::now();
+        $year = $today->format('Y');
+        $month = 1;
+        $weeks = get_month_data($month, $year);
     
-        return view('dashboard.index', ['events_list'=>$events_list]);
+        return view('dashboard.index', ['events_list'=>$events_list, 'weeks'=>$weeks]);
     }
 }
