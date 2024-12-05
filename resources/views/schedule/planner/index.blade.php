@@ -57,13 +57,13 @@
                                                             value="{{ $schedule->id }}" class="peer hidden">
                                                         <label for="{{ $week->last()['id'] }}{{ $schedule->id }}"
                                                             id="{{ $week->last()['id'] }}"
-                                                            class="cursor-pointer py-1 select-none"
+                                                            class="cursor-pointer py-1 mr-auto select-none"
                                                             onclick=get_role_name(this)>{{ $schedule->name }}</label>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                             stroke-linejoin="round"
-                                                            class="lucide lucide-check mr-2 opacity-100 m-auto hidden peer-checked:block">
+                                                            class="lucide lucide-check mr-2 opacity-100  hidden peer-checked:block">
                                                             <path d="M20 6 9 17l-5-5"></path>
                                                         </svg>
                                                     </div>

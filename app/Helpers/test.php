@@ -11,11 +11,9 @@ function get_month_data($month, $year){
     $start_of_week = $start_of_month->startOfWeek(Carbon::SUNDAY);
     $end_of_week = $end_of_month->endOfWeek(Carbon::SATURDAY);
     $dates = collect($start_of_week->toPeriod($end_of_week)->toArray());
-    $weeks = $dates->map(fn($date)=>['day'=>$date->day, 'value'=>$date->format('d-m-Y'), 'id'=>"$month_name-$date->weekOfYear", 'month'=>$date->format('m')])->chunk(7);
+    $weeks = $dates->map(fn($date)=>['day'=>$date->day, 'value'=>$date->format('d-m-Y'), 'id'=>"$date->weekOfYear", 'month'=>$date->format('m')])->chunk(7);
     return $weeks;
 }
-// ['value'=>ltrim($day->format('d'),0), 'event'=>false, 'holiday'=>false, 'id'=>$day->format('d-m-Y'), 'today'=>$day->istoday(), 'weekday'=>$day->isweekday()]
-// ['day'=>$date->day, 'value'=>$date->format('d-m-Y'), 'week'=>"$month_name-$date->weekOfYear"])->chunk(7);
 
 function get_year_data ($year){
   $months = [];
@@ -24,6 +22,20 @@ function get_year_data ($year){
     $months[$month_name] = get_month_data($month, $year, $month_name);
   }
   return $months;
+}
+
+
+// settings
+
+function get_months_last_day($year){
+  $months = [];
+  for ($month =1; $month<=12; $month++ ){
+    $month_start = CarbonImmutable::createFromFormat('m-Y', "$month-$year");
+    $month_name = $month_start->format('F');
+    $days_in_month = $month_start->daysInMonth();
+    $months[] = ['name'=>$month_name, 'days'=>$days_in_month, 'number'=>$month];
+  }
+  return [$months];
 }
 
 
