@@ -21,9 +21,8 @@ class UserController extends Controller
     public function create(){
 
         $roles = Role::all();
-        $schedules = Schedule::all();
 
-        return view('user.create', ['roles'=>$roles, 'schedules'=>$schedules]);
+        return view('user.create', ['roles'=>$roles]);
     }
 
     public function store(Request $request){
@@ -35,12 +34,7 @@ class UserController extends Controller
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'password' => ['required'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
-            'schedule_id' => ['sometimes', 'nullable']
         ]);
-
-        if(!$validated_data['schedule_id']){
-            $validated_data['schedule_id'] = null;
-        }
 
         User::create($validated_data);
 
@@ -49,9 +43,8 @@ class UserController extends Controller
 
     public function update($id){
         $roles = Role::all();
-        $schedules = Schedule::all();
         $user = User::find($id);
-        return view('user.update', ['user'=>$user, 'roles'=>$roles, 'schedules'=>$schedules]);
+        return view('user.update', ['user'=>$user, 'roles'=>$roles]);
     }
 
     public function patch(Request $request, $id){
@@ -61,12 +54,7 @@ class UserController extends Controller
             'email' => ['required','email', 'unique:users,email,'.$id],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
-            'schedule_id' => ['sometimes', 'nullable']
         ]);
-
-        if(!$validated_data['schedule_id']){
-            $validated_data['schedule_id'] = null;
-        }
 
         $user = User::find($id);
         $user->update($validated_data);

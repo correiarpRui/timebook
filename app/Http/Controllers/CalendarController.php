@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller 
 {
@@ -17,8 +16,16 @@ class CalendarController extends Controller
         $events = Event::whereHas('users', function($query){
             return $query->where('user_id', Auth::id());
         })->get();
-    
-        $holiday_list = [1=>[1],2=>[13],3=>[29],4=>[25],5=>[1,30],6=>[10, 13, 24, 29],7=>[],8=>[15],9=>[],10=>[5],11=>[1],12=>[1,8,25]];
+
+        $holidays = Holiday::whereYear('date', $year)->get();
+        $holiday_list = [1=>[],2=>[],3=>[],4=>[],5=>[],6=>[],7=>[],8=>[],9=>[],10=>[],11=>[],12=>[]];
+
+        foreach($holidays as $holiday){
+            $date = CarbonImmutable::createFromDate($holiday->date);
+            $day = ltrim($date->format('d'),0);
+            $month = ltrim($date->format('m'),0);
+            $holiday_list[$month][] = $day;
+        }
     
         $calendar_data = new_get_full_calendar($year, $holiday_list, $events);
 
@@ -104,6 +111,7 @@ class CalendarController extends Controller
 
     public function store_settings(Request $request){
 
+        $year = CarbonImmutable::now()->format('Y');
         $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
         $request->merge([
             'date'=> $date
@@ -116,13 +124,14 @@ class CalendarController extends Controller
 
         Holiday::create($validated_data);
 
-        return redirect(route('calendar.settings'));
+        return redirect(route('calendar.settings', $year));
     }
 
     public function delete_settings($id){
+        $year = CarbonImmutable::now()->format('Y');
         $holiday = Holiday::find($id);
         $holiday->delete();
-        return redirect(route('calendar.settings'));
+        return redirect(route('calendar.settings', $year));
     }
 }
 

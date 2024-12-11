@@ -86,22 +86,6 @@
                                 </button>
                             </div>
                         </th>
-                        <th class="h-10 px-2 text-left align-middle font-medium">
-                            <div class="flex items-center">
-                                <button class="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-[#27272a]">
-                                    <span>
-                                        Schedule
-                                    </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-chevrons-up-down ">
-                                        <path d="m7 15 5 5 5-5"></path>
-                                        <path d="m7 9 5-5 5 5"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </th>
                         <th class="h-10 px-2 text-left align-middle font-medium w-16"></th>
                     </tr>
                 </thead>
@@ -113,8 +97,6 @@
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->email }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->birth_date }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium">{{ $user->role->role }}</td>
-                            <td class="h-10 px-5 text-left align-middle font-medium">
-                                {{ $user->schedule ? $user->schedule->name : 'No schedule' }}</td>
                             <td class="h-10 px-5 text-left align-middle font-medium relative">
                                 <button class="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-[#27272a] w-10"
                                     onclick=toggleSubMenuDropDown(this)>

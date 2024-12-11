@@ -82,7 +82,7 @@
                                     'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
                                     'bg-[#27272a]' => request()->routeIs('calendar.month*'),
                                 ])
-                                    href="{{ route('calendar.month', [date('Y'), date('m')]) }}">Month</a>
+                                    href="{{ route('calendar.month', [date('Y'), 11]) }}">Month</a>
                             </li>
                             <li>
                                 <a @class([
@@ -118,7 +118,8 @@
                                 <a @class([
                                     'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
                                     'bg-[#27272a]' => request()->routeIs('schedule.planner*'),
-                                ]) href="{{ route('schedule.planner') }}">Planner</a>
+                                ])
+                                    href="{{ route('schedule.planner', date('Y')) }}">Planner</a>
                             </li>
                             <li>
                                 <a @class([

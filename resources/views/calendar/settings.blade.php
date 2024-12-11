@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="text-[#fafafa] p-6">
-
         <div class="flex justify-between">
             <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Calendar settings {{ $year }}</div>
             <div class="flex gap-3">
