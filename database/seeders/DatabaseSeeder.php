@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Holiday;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            SuperadminSeeder::class
+            SuperadminSeeder::class,
+            HolidaySeeder::class,
         ]);
 
 

@@ -23,10 +23,6 @@ class Schedule extends Model
         'sunday',
     ];
 
-    public function users(): HasMany{
-        return $this->hasMany(User::class);
-    }
-
     public function weekschedule():BelongsTo{
         return $this->belongsTo(Weekschedule::class);
     }

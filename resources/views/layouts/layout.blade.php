@@ -88,7 +88,8 @@
                                 <a @class([
                                     'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
                                     'bg-[#27272a]' => request()->routeIs('calendar.settings*'),
-                                ]) href="{{ route('calendar.settings') }}">Settings</a>
+                                ])
+                                    href="{{ route('calendar.settings', date('Y')) }}">Settings</a>
                             </li>
                         </div>
                     </ul>

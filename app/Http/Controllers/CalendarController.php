@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Holiday;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller 
 {
@@ -82,50 +84,45 @@ class CalendarController extends Controller
         return redirect(route('calendar.year', $year));
     }
 
-    public function settings(){
+    public function index_settings($year){
         
-        $year =(int) Carbon::now()->format("Y");
         $months = get_months_last_day($year);    
-        dump($months);
-        $holidays = [
-            1=>[
-                1=>"New Year's Day"
-            ],
-            2=>[
-                13=>'Carnival'
-            ],
-            3=>[
-                29=>'Good Friday',
-                31=>'Easter Sunday'
-            ],
-            4=>[
-                25=>'Liberty Day'
-            ],
-            5=>[
-                1=>'Labor Day',
-                30=>'Corpus Christi'
-            ],
-            6=>[
-                1=>'Portugal Day'
-            ],
-            7=>[],
-            8=>[
-                15=>'Assumption of Mary'
-            ],
-            9=>[],
-            10=>[
-                5=>'Republic Day',
-            ],
-            11=>[
-                1=>"All Saints' day",
-            ],
-            12=>[
-                1=>'Restoration of Independence',
-                8=>'Feast of the Immaculate Conception',
-                25=>'Christmas Day'
-            ]
-        ];
+        
+        $holidays = Holiday::whereYear('date', $year)->orderBy('date', 'asc')->get();
+
+        $holidays = $holidays->map(
+            function ($holiday){
+                $date = CarbonImmutable::createFromDate($holiday->date);
+                $holiday->month = $date->format('F');
+                $holiday->day = ltrim($date->format('d'),0);
+                return $holiday;
+            }
+        );
+        
         return view('calendar.settings', ['year'=>$year, 'months'=>$months[0], 'holidays'=>$holidays]);
+    }
+
+    public function store_settings(Request $request){
+
+        $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
+        $request->merge([
+            'date'=> $date
+        ]);
+        
+        $validated_data = $request->validate([
+            'name'=>['required'],
+            'date'=>['required', 'unique:holidays,date']
+        ]);
+
+        Holiday::create($validated_data);
+
+        return redirect(route('calendar.settings'));
+    }
+
+    public function delete_settings($id){
+        $holiday = Holiday::find($id);
+        $holiday->delete();
+        return redirect(route('calendar.settings'));
     }
 }
 

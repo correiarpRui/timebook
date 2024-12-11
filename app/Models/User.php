@@ -58,10 +58,6 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function schedule():BelongsTo{
-        return $this->belongsTo(Schedule::class);
-    }
-
     public function record():HasMany{
         return $this->hasMany(Record::class);
     }
