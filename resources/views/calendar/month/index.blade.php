@@ -116,7 +116,7 @@
 
     .cell:hover::after {
         content: "";
-        background-color: rgba(39, 39, 42, 0.3);
+        background-color: #27272a4d;
         width: 100%;
         height: 10000px;
         position: absolute;

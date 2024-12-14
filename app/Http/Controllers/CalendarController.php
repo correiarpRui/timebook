@@ -7,6 +7,7 @@ use App\Models\Holiday;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -113,6 +114,8 @@ class CalendarController extends Controller
 
         $year = CarbonImmutable::now()->format('Y');
         $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
+
+        dd($date);
         $request->merge([
             'date'=> $date
         ]);

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSchedulePlannerRequest;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Models\User;
@@ -14,16 +13,26 @@ class SchedulePlannerController extends Controller
 
         $schedule_list = Schedule::all();
         $users = User::all();
-        $weeks = get_year_data($year);
+
+        $user_schedule = [];
+
+        $month_weeks = get_month_data($month, $year);
+        
+        foreach ($month_weeks as $week){
+            $user_schedule[] = $week->last()['id'];
+        }
 
         $month_name = CarbonImmutable::createFromFormat('Y-m', "$year-$month")->format('F');
-        $month = $weeks[$month_name];
-
-        return view('schedule.planner.index', ['month_name'=>$month_name ,'month'=>$month, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users]);
+        
+        $weeks_number =count($month_weeks);
+        $week_days = ['Su','Mo','Tu','We', 'Th', 'Fr', 'Sa'];
+    
+        return view('schedule.planner.index', ['month_name'=>$month_name ,'month'=>$month_weeks, 'week_days'=>$week_days, 'weeks_number'=>$weeks_number, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users, 'user_schedule'=>$user_schedule]);
     }
 
     public function store(Request $request){
 
         dump($request->all());
+
     }
 }

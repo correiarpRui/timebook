@@ -26,6 +26,7 @@ export default {
                 36: "120px repeat(35, minmax(30px,1fr))",
                 37: "120px repeat(36, minmax(30px,1fr))",
                 38: "120px repeat(37, minmax(30px,1fr))",
+                43: "120px repeat(42, minmax(30px,1fr))",
             },
         },
     },

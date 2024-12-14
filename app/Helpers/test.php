@@ -6,7 +6,6 @@ use Carbon\CarbonPeriod;
 
 function get_month_data($month, $year){
     $start_of_month = CarbonImmutable::createFromFormat('Y-m-d', "$year-$month-1");
-    $month_name = $start_of_month->format('F');
     $end_of_month = $start_of_month->endOfMonth();
     $start_of_week = $start_of_month->startOfWeek(Carbon::SUNDAY);
     $end_of_week = $end_of_month->endOfWeek(Carbon::SATURDAY);

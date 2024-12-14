@@ -1,11 +1,10 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="text-[#fafafa] p-2">
-
-        <div class="border border-[#fafafa] flex flex-col">
-            <div class="border border-[#fafafa] p-2 flex justify-between items-center">
-                <div class="text-xl font-semibold">Schedule planner {{ $year }}</div>
+    <div class="text-[#fafafa]">
+        <div class="p-6">
+            <div class="flex justify-between">
+                <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Schedule Planner {{ $year }}</div>
                 <div class="flex gap-2">
                     <a href="" class="bg-[#fafafa] p-2 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -23,6 +22,7 @@
                     </a>
                 </div>
             </div>
+            <hr class="my-[24px] border-[#27272a]">
             <div class="border border-[#fafafa] grid grid-cols-12 text-center">
                 <a href="{{ route('schedule.planner', [date('Y'), 1]) }}"
                     class="border border-[#fafafa] @if ($month_name == 'January') bg-[#27272a] @endif">January</a>
@@ -51,97 +51,117 @@
             </div>
         </div>
 
-        <div class="flex flex-col border border-[#fafafa]">
-            <form action="{{ route('schedule.planner.store') }}" method="POST">
-                @csrf
-                <div class="grid grid-cols-[150px_1fr]">
-                    <div class="grid grid-cols-7 text-center col-start-2">
-                        <div class="p-1 text-[#a1a1aa]">Su</div>
-                        <div class="p-1 text-[#a1a1aa]">Mo</div>
-                        <div class="p-1 text-[#a1a1aa]">Tu</div>
-                        <div class="p-1 text-[#a1a1aa]">We</div>
-                        <div class="p-1 text-[#a1a1aa]">Th</div>
-                        <div class="p-1 text-[#a1a1aa]">Fr</div>
-                        <div class="p-1 text-[#a1a1aa]">Sa</div>
-                    </div>
+        <div class="p-6">
+            <div @if ($weeks_number == 4) class="grid grid-cols-[150px_repeat(4,1fr)]" @endif
+                @if ($weeks_number == 5) class="grid grid-cols-[150px_repeat(5,1fr)]" @endif
+                @if ($weeks_number == 6) class="grid grid-cols-[150px_repeat(6,1fr)]" @endif>
+                <div class="border border-[#27272a]">
+                    Date
                 </div>
-                @foreach ($month as $week)
-                    <div class="grid grid-cols-[150px_1fr]">
-                        <div class="grid grid-cols-7 text-center col-start-2">
-                            @foreach ($week as $day)
-                                <div>
-                                    {{ $day['day'] }}
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="grid col-span-2 mb-3">
-                            <div class="grid grid-cols-[150px_1fr] gap-1">
-                                @foreach ($users as $user)
-                                    <div>
-                                        {{ $user->first_name }} {{ $user->last_name }}
-                                    </div>
-
-                                    <div class="flex flex-col relative">
-                                        <button
-                                            class=" bg-[#27272a] bg-opacity-30 border border-[#27272a] rounded-md text-xs py-[2px] px-3 hover:bg-[#27272a] flex justify-between items-center"
-                                            type="button" onclick=toggleSubMenuDropDown(this)>
-                                            <span id="button{{ $week->last()['id'] }}-{{ $user->id }}">Select
-                                                schedule</span>
-                                            <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-chevron-down text-muted-foreground">
-                                                <path d="m6 9 6 6 6-6"></path>
-                                            </svg>
-                                        </button>
-                                        <div
-                                            class="rounded-md px-1 grid submenu_options absolute top-5 bg-[#27272a] w-full z-10">
-                                            <div class="overflow-hidden">
-                                                @foreach ($schedule_list as $schedule)
-                                                    <div
-                                                        class="flex items-center justify-start hover:bg-[#27272a] px-3 rounded-md">
-                                                        <input type="radio"
-                                                            name="{{ $week->last()['id'] }}-{{ $user->id }}"
-                                                            id="{{ $week->last()['id'] }}{{ $schedule->id }}{{ $user->id }}"
-                                                            value="{{ $schedule->id }}" class="peer hidden">
-                                                        <label
-                                                            for="{{ $week->last()['id'] }}{{ $schedule->id }}{{ $user->id }}"
-                                                            id="{{ $week->last()['id'] }}-{{ $user->id }}"
-                                                            class="cursor-pointer py-1 mr-auto select-none"
-                                                            onclick=get_role_name(this)>{{ $schedule->name }}</label>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" viewBox="0 0 24 24" fill="none"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            class="lucide lucide-check mr-2 opacity-100  hidden peer-checked:block">
-                                                            <path d="M20 6 9 17l-5-5"></path>
-                                                        </svg>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                @foreach ($month as $weeks)
+                    <div class="grid grid-cols-7 hover:bg-[#27272a]">
+                        @foreach ($weeks as $day)
+                            <div class="border border-[#27272a] text-center">
+                                {{ $day['day'] }}
                             </div>
-
-                        </div>
-
+                        @endforeach
                     </div>
                 @endforeach
-                <button type="submit">Submit Schedule</button>
-            </form>
+                <div class="border border-[#27272a]">
+                    Day
+                </div>
+                @for ($i = 0; $i < $weeks_number; $i++)
+                    <div class="grid grid-cols-7">
+                        <div class="border border-[#27272a] text-center bg-[#18181B]/[0.6]">Su</div>
+                        <div class="border border-[#27272a] text-center">Mo</div>
+                        <div class="border border-[#27272a] text-center">Tu</div>
+                        <div class="border border-[#27272a] text-center">We</div>
+                        <div class="border border-[#27272a] text-center">Th</div>
+                        <div class="border border-[#27272a] text-center">Fr</div>
+                        <div class="border border-[#27272a] text-center bg-[#18181B]/[0.6]">Sa</div>
+                    </div>
+                @endfor
+                @foreach ($users as $user)
+                    <div class="border border-[#27272a]">
+                        {{ $user->first_name }} {{ $user->last_name }}
+                    </div>
+                    @foreach ($user_schedule as $user_week)
+                        <div class="grid grid-cols-7 hover:border hover:border-[#fafafa]" onclick="openModal(this)"
+                            id="{{ $user->id }}-{{ $user_week }}">
+                            @for ($x = 0; $x < 7; $x++)
+                                @if ($x == 0 || $x == 6)
+                                    <div class="border border-[#27272a] bg-[#18181B]/[0.6] text-center text-xs">
+                                        {{ $user_week }}
+                                    </div>
+                                @else
+                                    <div class="border border-[#27272a] text-center text-xs">
+                                        {{ $user_week }}
+                                    </div>
+                                @endif
+                            @endfor
+                        </div>
+                    @endforeach
+                @endforeach
+            </div>
         </div>
+        @foreach ($users as $user)
+            @foreach ($user_schedule as $user_week)
+                <div id="{{ $user->id }}-{{ $user_week }}-modal"
+                    class=" fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[#18181B]/[0.6] hidden">
+                    <div class="bg-[#09090b] mx-auto mt-[300px] p-5 border border-[#27272a] w-[35%]">
+                        <div class="p-1">
+                            <div class="flex justify-between">
+                                <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Select user schedule</div>
+                                <span class="close" onclick="closeModal(this)"
+                                    id="{{ $user->id }}-{{ $user_week }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="m15 9-6 6" />
+                                        <path d="m9 9 6 6" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <hr class="my-[10px] border-[#27272a]">
+                            <div>
+                                <form action="{{ route('schedule.planner.store') }}" class="flex flex-col" method="POST">
+                                    @csrf
+                                    @foreach ($schedule_list as $schedule)
+                                        <div class="flex gap-2">
+                                            <input type="radio"
+                                                id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}"
+                                                name="{{ $user_week }}[{{ $user->id }}]"
+                                                value='{{ $schedule->id }}'>
+                                            <label for="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}">
+                                                {{ $schedule->name }}</label>
+                                        </div>
+                                    @endforeach
+                                    <button
+                                        class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm">Select</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @endforeach
     </div>
     <script>
-        function get_role_name(value) {
-            id = value.id
+        function openModal(value) {
+            modal = document.getElementById(value.id + "-modal")
+            modal.style.display = "block"
+        }
 
-            console.log(id)
-            button_role_label = document.getElementById(`button${value.id}`)
-            console.log(button_role_label)
-            button_role_label.textContent = value.textContent
-            button_role_label.click()
+        function closeModal(value) {
+            modal = document.getElementById(value.id + "-modal")
+            modal.style.display = "none"
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none'
+            }
         }
     </script>
 @endsection
