@@ -128,13 +128,24 @@
                                 <form action="{{ route('schedule.planner.store') }}" class="flex flex-col" method="POST">
                                     @csrf
                                     @foreach ($schedule_list as $schedule)
-                                        <div class="flex gap-2">
-                                            <input type="radio"
-                                                id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}"
-                                                name="{{ $user_week }}[{{ $user->id }}]"
-                                                value='{{ $schedule->id }}'>
-                                            <label for="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}">
-                                                {{ $schedule->name }}</label>
+                                        <div class="flex gap-2 items-center">
+                                            <button class="w-[16px] h-[16px] border border-[#fafafa] rounded-full"
+                                                type="button" onclick="button_select_radio(this)"
+                                                id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}">
+                                                <span
+                                                    class="flex items-center justify-center"id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-span"></span>
+                                            </button>
+                                            <div class="flex gap-2">
+                                                <input type="radio"
+                                                    id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-radio"
+                                                    name="{{ $user_week }}[{{ $user->id }}]"
+                                                    value='{{ $schedule->id }}' class="hidden">
+                                                <label
+                                                    for="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-radio"
+                                                    id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-label"
+                                                    onclick="label_select_radio('{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}')">
+                                                    {{ $schedule->name }}</label>
+                                            </div>
                                         </div>
                                     @endforeach
                                     <button
@@ -162,6 +173,30 @@
             if (event.target == modal) {
                 modal.style.display = 'none'
             }
+        }
+
+        function button_select_radio(value) {
+            label = document.getElementById(value.id + "-label")
+            span = document.getElementById(value.id + "-span")
+            svgs = document.getElementById('svg')
+            const svg =
+                "<svg id='svg' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-circle h-3.5 w-3.5 fill-[#fafafa]'><circle cx='12' cy='12' r='10'></circle></svg>"
+            label.click()
+            if (svgs) {
+                svgs.remove()
+            }
+            span.innerHTML = svg
+        }
+
+        function label_select_radio(value) {
+            span = document.getElementById(value + "-span")
+            const svg =
+                "<svg id='svg' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-circle h-3.5 w-3.5 fill-[#fafafa]'><circle cx='12' cy='12' r='10'></circle></svg>"
+            svgs = document.getElementById('svg')
+            if (svgs) {
+                svgs.remove()
+            }
+            span.innerHTML = svg
         }
     </script>
 @endsection
