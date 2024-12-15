@@ -15,11 +15,11 @@ class Weekschedule extends Model
         'week_number',
     ];
 
-    public function schedules():HasMany{
-        return $this->hasMany(Schedule::class);
+    public function schedule():BelongsTo{
+        return $this->belongsTo(Schedule::class);
     }
 
-    public function users():HasMany{
-        return $this->hasMany(User::class);
+    public function user():BelongsTo{
+        return $this->belongsTo(User::class);
     }
 }

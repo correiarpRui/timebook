@@ -58,7 +58,7 @@
                 <div class="border border-[#27272a]">
                     Date
                 </div>
-                @foreach ($month as $weeks)
+                @foreach ($month_weeks as $weeks)
                     <div class="grid grid-cols-7 hover:bg-[#27272a]">
                         @foreach ($weeks as $day)
                             <div class="border border-[#27272a] text-center">
@@ -85,20 +85,21 @@
                     <div class="border border-[#27272a]">
                         {{ $user->first_name }} {{ $user->last_name }}
                     </div>
-                    @foreach ($user_schedule as $user_week)
+
+                    @foreach ($schedule_data[$user->id] as $user_week => $schedule_value)
                         <div class="grid grid-cols-7 hover:border hover:border-[#fafafa]" onclick="openModal(this)"
                             id="{{ $user->id }}-{{ $user_week }}">
-                            @for ($x = 0; $x < 7; $x++)
-                                @if ($x == 0 || $x == 6)
+                            @foreach ($schedule_value as $day => $data)
+                                @if ($day === array_key_first($schedule_value) || $day === array_key_last($schedule_value))
                                     <div class="border border-[#27272a] bg-[#18181B]/[0.6] text-center text-xs">
-                                        {{ $user_week }}
+                                        {{ $data }}
                                     </div>
                                 @else
                                     <div class="border border-[#27272a] text-center text-xs">
-                                        {{ $user_week }}
+                                        {{ $data }}
                                     </div>
                                 @endif
-                            @endfor
+                            @endforeach
                         </div>
                     @endforeach
                 @endforeach
@@ -136,10 +137,13 @@
                                                     class="flex items-center justify-center"id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-span"></span>
                                             </button>
                                             <div class="flex gap-2">
+                                                <input type="hidden" name="year" value="{{ $year }}">
+                                                <input type="hidden" name="month" value="{{ $month }}">
+                                                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                <input type="hidden" name="week_number" value="{{ $user_week }}">
                                                 <input type="radio"
                                                     id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-radio"
-                                                    name="{{ $user_week }}[{{ $user->id }}]"
-                                                    value='{{ $schedule->id }}' class="hidden">
+                                                    name="schedule_id" value={{ $schedule->id }} class="hidden">
                                                 <label
                                                     for="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-radio"
                                                     id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-label"

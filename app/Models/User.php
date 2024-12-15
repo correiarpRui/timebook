@@ -66,8 +66,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class);
     }
 
-    public function weekschedule():BelongsTo{
-        return $this->belongsTo(Weekschedule::class);
+    public function weekschedule():HasMany{
+        return $this->hasMany(Weekschedule::class);
     }
 
 }
