@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Record;
+use App\Models\Weekschedule;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,33 +20,43 @@ class RecordController extends Controller
     public function create(){
 
         $users = User::all();
-
+        
         return view('records.create', ['users' =>$users]);
     }
 
     public function store(Request $request){
 
-        $user = User::where('id', $request->user_id)->with('schedule')->get();
-
-        $days_week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        $validated_user = $request->validate([
+            'user_id' => ['required', 'exists:users,id']
+        ]);
+        
         $date = Carbon::now();
+        $year = (int) $date->format('Y');
+        $week  = $date->weekOfYear();
+        $day_of_week = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][$date->dayOfWeek()];
 
-        if($user[0]->schedule){
-            $data = [
-                'date' => $date->format('d-m-Y'),
-                'user_id'=>$user[0]->id,
-                'week_day'=>$days_week[$date->dayOfWeek()],
-                'morning_start' => $user[0]->schedule->morning_start,
-                'morning_end' => $user[0]->schedule->morning_end,
-                'afternoon_start' => $user[0]->schedule->afternoon_start,
-                'afternoon_end' => $user[0]->schedule->afternoon_end,
-                'is_present' => 1    
-            ];
-            Record::create($data);
-            return redirect(route('records'));
-        } else {
-            return redirect('/record/create');
+        if ($date->dayOfWeek() == 0){
+            $week = $week+1;
+            if($week == 53){
+                $week = 1;
+                $year = $year + 1 ;
+            }
         }
+
+        $week_schedule = Weekschedule::with('schedule')->where('week_number', $week)->where('user_id', $validated_user['user_id'])->where('year', $year)->get();
+        if ($week_schedule[0]->schedule->$day_of_week == 1){
+            Record::create([
+                'date' => $date->format('d-m-Y'),
+                'user_id'=>$validated_user['user_id'],
+                'week_day'=>$day_of_week,
+                'morning_start' => $week_schedule[0]->schedule->morning_start,
+                'morning_end' => $week_schedule[0]->schedule->morning_end,
+                'afternoon_start' => $week_schedule[0]->schedule->afternoon_start,
+                'afternoon_end' => $week_schedule[0]->schedule->afternoon_end,
+                'is_present' => 1   
+            ]);
+        } 
+        return redirect(route('records'));
     }   
 
     public function update($id){

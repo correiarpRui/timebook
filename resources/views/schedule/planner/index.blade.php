@@ -6,14 +6,14 @@
             <div class="flex justify-between">
                 <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Schedule Planner {{ $year }}</div>
                 <div class="flex gap-2">
-                    <a href="" class="bg-[#fafafa] p-2 rounded-md">
+                    <a href="{{ route('schedule.planner', [$year - 1, $month]) }}" class="bg-[#fafafa] p-2 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="#09090b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-chevron-left">
                             <path d="m15 18-6-6 6-6" />
                         </svg>
                     </a>
-                    <a href="" class="bg-[#fafafa] p-2 rounded-md">
+                    <a href="{{ route('schedule.planner', [$year + 1, $month]) }}" class="bg-[#fafafa] p-2 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="#09090b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-chevron-right">
@@ -23,31 +23,31 @@
                 </div>
             </div>
             <hr class="my-[24px] border-[#27272a]">
-            <div class="border border-[#fafafa] grid grid-cols-12 text-center">
-                <a href="{{ route('schedule.planner', [date('Y'), 1]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'January') bg-[#27272a] @endif">January</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 2]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'February') bg-[#27272a] @endif">February</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 3]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'March') bg-[#27272a] @endif">March</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 4]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'April') bg-[#27272a] @endif">April</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 5]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'May') bg-[#27272a] @endif">May</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 6]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'June') bg-[#27272a] @endif">June</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 7]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'July') bg-[#27272a] @endif">July</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 8]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'August') bg-[#27272a] @endif">August</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 9]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'September') bg-[#27272a] @endif">September</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 10]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'October') bg-[#27272a] @endif">October</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 11]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'November') bg-[#27272a] @endif">November</a>
-                <a href="{{ route('schedule.planner', [date('Y'), 12]) }}"
-                    class="border border-[#fafafa] @if ($month_name == 'December') bg-[#27272a] @endif">December</a>
+            <div class="grid grid-cols-12 text-center items-center">
+                <a href="{{ route('schedule.planner', [$year, 1]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'January' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">January</a>
+                <a href="{{ route('schedule.planner', [$year, 2]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'February' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">February</a>
+                <a href="{{ route('schedule.planner', [$year, 3]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'March' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">March</a>
+                <a href="{{ route('schedule.planner', [$year, 4]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'April' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">April</a>
+                <a href="{{ route('schedule.planner', [$year, 5]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'May' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">May</a>
+                <a href="{{ route('schedule.planner', [$year, 6]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'June' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">June</a>
+                <a href="{{ route('schedule.planner', [$year, 7]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'July' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">July</a>
+                <a href="{{ route('schedule.planner', [$year, 8]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'August' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">August</a>
+                <a href="{{ route('schedule.planner', [$year, 9]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'September' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">September</a>
+                <a href="{{ route('schedule.planner', [$year, 10]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'October' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">October</a>
+                <a href="{{ route('schedule.planner', [$year, 11]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'November' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">November</a>
+                <a href="{{ route('schedule.planner', [$year, 12]) }}"
+                    class="rounded-full font-medium text-sm h-7 px-4 flex items-center justify-center hover:text-[#fafafa] {{ $month_name == 'December' ? 'text-[#fafafa] bg-[#27272a]' : 'text-[#a1a1aa]' }}">December</a>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
                     Date
                 </div>
                 @foreach ($month_weeks as $weeks)
-                    <div class="grid grid-cols-7 hover:bg-[#27272a]">
+                    <div class="grid grid-cols-7 text-[#fafafa]">
                         @foreach ($weeks as $day)
                             <div class="border border-[#27272a] text-center">
                                 {{ $day['day'] }}
@@ -116,8 +116,9 @@
                                 <span class="close" onclick="closeModal(this)"
                                     id="{{ $user->id }}-{{ $user_week }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x">
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-circle-x cursor-pointer">
                                         <circle cx="12" cy="12" r="10" />
                                         <path d="m15 9-6 6" />
                                         <path d="m9 9 6 6" />
@@ -129,7 +130,9 @@
                                 <form action="{{ route('schedule.planner.store') }}" class="flex flex-col" method="POST">
                                     @csrf
                                     @foreach ($schedule_list as $schedule)
-                                        <div class="flex gap-2 items-center">
+                                        <div class="flex gap-2 items-center border border-[#27272a] mb-2 p-2 rounded-md hover:border-[#fafafa] cursor-pointer"
+                                            onclick="button_select_radio(this)"
+                                            id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}">
                                             <button class="w-[16px] h-[16px] border border-[#fafafa] rounded-full"
                                                 type="button" onclick="button_select_radio(this)"
                                                 id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}">
@@ -147,7 +150,8 @@
                                                 <label
                                                     for="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-radio"
                                                     id="{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}-label"
-                                                    onclick="label_select_radio('{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}')">
+                                                    onclick="label_select_radio('{{ $schedule->id }}-{{ $user->id }}-{{ $user_week }}')"
+                                                    class="cursor-pointer">
                                                     {{ $schedule->name }}</label>
                                             </div>
                                         </div>
