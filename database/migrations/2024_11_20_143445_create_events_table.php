@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('end_day');
             $table->string('month');
             $table->string('year');
+            $table->foreignId('status_id')->constrained();
             $table->timestamps();
         });
     }

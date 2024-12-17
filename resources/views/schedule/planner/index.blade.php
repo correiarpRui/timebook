@@ -55,47 +55,53 @@
             <div @if ($weeks_number == 4) class="grid grid-cols-[150px_repeat(4,1fr)]" @endif
                 @if ($weeks_number == 5) class="grid grid-cols-[150px_repeat(5,1fr)]" @endif
                 @if ($weeks_number == 6) class="grid grid-cols-[150px_repeat(6,1fr)]" @endif>
-                <div class="border border-[#27272a]">
+                <div class="border border-[#27272a] flex justify-center items-center">
                     Date
                 </div>
                 @foreach ($month_weeks as $weeks)
-                    <div class="grid grid-cols-7 text-[#fafafa]">
+                    <div class="grid grid-cols-7 text-[#fafafa] h-10">
                         @foreach ($weeks as $day)
-                            <div class="border border-[#27272a] text-center">
+                            <div class="border border-[#27272a] text-center flex justify-center items-center">
                                 {{ $day['day'] }}
                             </div>
                         @endforeach
                     </div>
                 @endforeach
-                <div class="border border-[#27272a]">
+                <div class="border border-[#27272a] flex justify-center items-center">
                     Day
                 </div>
                 @for ($i = 0; $i < $weeks_number; $i++)
-                    <div class="grid grid-cols-7">
-                        <div class="border border-[#27272a] text-center bg-[#18181B]/[0.6]">Su</div>
-                        <div class="border border-[#27272a] text-center">Mo</div>
-                        <div class="border border-[#27272a] text-center">Tu</div>
-                        <div class="border border-[#27272a] text-center">We</div>
-                        <div class="border border-[#27272a] text-center">Th</div>
-                        <div class="border border-[#27272a] text-center">Fr</div>
-                        <div class="border border-[#27272a] text-center bg-[#18181B]/[0.6]">Sa</div>
+                    <div class="grid grid-cols-7 h-10">
+                        <div
+                            class="border border-[#27272a] text-center bg-[#18181B]/[0.6] flex justify-center items-center">
+                            Su</div>
+                        <div class="border border-[#27272a] text-center flex justify-center items-center">Mo</div>
+                        <div class="border border-[#27272a] text-center flex justify-center items-center">Tu</div>
+                        <div class="border border-[#27272a] text-center flex justify-center items-center">We</div>
+                        <div class="border border-[#27272a] text-center flex justify-center items-center">Th</div>
+                        <div class="border border-[#27272a] text-center flex justify-center items-center">Fr</div>
+                        <div
+                            class="border border-[#27272a] text-center bg-[#18181B]/[0.6] flex justify-center items-center">
+                            Sa</div>
                     </div>
                 @endfor
                 @foreach ($users as $user)
-                    <div class="border border-[#27272a]">
+                    <div class="border border-[#27272a] flex justify-center items-center">
                         {{ $user->first_name }} {{ $user->last_name }}
                     </div>
 
                     @foreach ($schedule_data[$user->id] as $user_week => $schedule_value)
-                        <div class="grid grid-cols-7 hover:border hover:border-[#fafafa]" onclick="openModal(this)"
+                        <div class="grid grid-cols-7 hover:border hover:border-[#fafafa] h-10" onclick="openModal(this)"
                             id="{{ $user->id }}-{{ $user_week }}">
                             @foreach ($schedule_value as $day => $data)
                                 @if ($day === array_key_first($schedule_value) || $day === array_key_last($schedule_value))
-                                    <div class="border border-[#27272a] bg-[#18181B]/[0.6] text-center text-xs">
+                                    <div
+                                        class="border border-[#27272a] bg-[#18181B]/[0.6] text-center text-xs flex justify-center items-center">
                                         {{ $data }}
                                     </div>
                                 @else
-                                    <div class="border border-[#27272a] text-center text-xs">
+                                    <div
+                                        class="border border-[#27272a] text-center text-xs flex justify-center items-center">
                                         {{ $data }}
                                     </div>
                                 @endif
