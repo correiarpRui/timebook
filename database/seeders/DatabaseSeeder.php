@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             SuperadminSeeder::class,
             HolidaySeeder::class,
+            StatusSeeder::class
         ]);
 
 

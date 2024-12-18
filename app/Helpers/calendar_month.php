@@ -22,15 +22,13 @@ function month_data ($year, $month){
 function new_get_header_data($month_data, $holiday_list){
   $weekdays = ['S', 'M','T','W','T','F','S'];
   foreach($month_data['dates'] as $date){
-    $dates_row[] = ['value'=> ltrim($date->format('d'),0), 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
-    $week_row[] = ['value'=> $weekdays[$date->weekday()], 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false] ;
+    $dates_row[] = ['day'=> ltrim($date->format('d'),0),'week_day'=> $weekdays[$date->weekday()],'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
+    
   }
-
   foreach($holiday_list as $day){
     $dates_row[$day-1]['holiday'] = true; 
-    $week_row[$day-1]['holiday'] = true;
   }
-  return ['date'=>$dates_row, 'day'=>$week_row];
+  return ['date'=>$dates_row];
 }
 
 function event_by_user($events, $month, $year){
@@ -43,6 +41,8 @@ function event_by_user($events, $month, $year){
     $start_day =(int) $start_date->format('d');
     $end_day =(int) $end_date->format('d');
     $range = ($end_day-$start_day)+1;
+    $status = $event->status_id;
+    $event_id = $event->id;
     $event_data = [];
 
     if($start_date->format('m') != $month || $start_date->format('Y') != $year){
@@ -54,9 +54,10 @@ function event_by_user($events, $month, $year){
     }
 
     $event_data['start'] = $start_day;
-    $event_data['end'] = $end_day;
     $event_data['range'] = $range;
-    
+    $event_data['status_id'] = $status;
+    $event_data['event_id'] = $event_id;
+
     $events_data[$user_id][] = $event_data; //where is variable stored
   }
   return $events_data;
@@ -96,7 +97,7 @@ function get_users_data($user_id, $events,$year, $month, $month_data, $holiday_l
     if($sorted_events != null){
       foreach($sorted_events as $event){
         if ($event['start'] == $day){
-          $data[]= ['day'=>$day, 'event'=>'vacation', 'start'=>1,'range'=>$event['range'], 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
+          $data[]= ['day'=>$day, 'event'=>'vacation', 'start'=>1,'range'=>$event['range'], 'status_id'=>$event['status_id'], 'event_id'=>$event['event_id'], 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];
         }
         if (array_key_exists($day, $event) && $event['start'] != $day){
           $data[]= ['day'=>$day, 'event'=>'vacation', 'weekday'=> $date->isweekday(), 'today'=>$date->isToday(), 'holiday'=>false];

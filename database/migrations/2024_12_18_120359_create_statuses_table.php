@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_status', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->unique();
-            // $table->string('is_pending');
-            // $table->string('is_approved');
-            // $table->string('is_denied');
+            $table->string('status')->unique(); 
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_status');
+        Schema::dropIfExists('statuses');
     }
 };

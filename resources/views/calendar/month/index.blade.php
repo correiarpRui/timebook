@@ -34,23 +34,23 @@
                 </div>
                 @foreach ($table_data['month']['date'] as $table_cell)
                     <div
-                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center
-                        @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
-                        @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
-                        @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
-                        {{ $table_cell['value'] }}
+                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center cell-{{ $table_cell['day'] }}
+                        {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
+                        {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
+                        {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
+                        {{ $table_cell['day'] }}
                     </div>
                 @endforeach
                 <div class="font-medium text-sm border border-[#27272a] h-10 flex justify-center items-center">
                     Day
                 </div>
-                @foreach ($table_data['month']['day'] as $table_cell)
+                @foreach ($table_data['month']['date'] as $table_cell)
                     <div
-                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center
-                        @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
-                        @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
-                        @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
-                        {{ $table_cell['value'] }}
+                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center cell-{{ $table_cell['day'] }}
+                        {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
+                        {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
+                        {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
+                        {{ $table_cell['week_day'] }}
                     </div>
                 @endforeach
             </div>
@@ -64,15 +64,17 @@
                     </div>
                     @foreach ($user['data'] as $table_cell)
                         <div
-                            class=" text-center h-12 py-2 border border-[#27272a] cell
-                            @if (!$table_cell['weekday']) bg-[#18181B]/[0.6] @endif
-                            @if ($table_cell['today']) bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2] @endif
-                            @if ($table_cell['holiday']) bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2] @endif">
+                            class=" text-center h-12 py-2 border border-[#27272a] cell-{{ $table_cell['day'] }}
+                            {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
+                            {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
+                            {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
                             @if (array_key_exists('start', $table_cell))
-                                <div class="relative z-[10] bg-[#2662D9]/[0.6] border border-[#2662D9] overflow-clip rounded-md h-[26px] mt-[2px] flex justify-center gap-1 items-center"
-                                    style="width: calc({{ $table_cell['range'] }}*100% + ({{ $table_cell['range'] }}px - 1px) * 2)">
-                                    <button>
-                                        <div class="bg-red-600 rounded-full p-[2px]">
+                                <div class=" relative z-10 bg-[#2662D9]/[0.6] border border-[#2662D9] rounded-md h-[26px] mt-[2px] flex justify-center gap-1 items-center cursor-pointer"
+                                    style="width: calc({{ $table_cell['range'] }}*100% + ({{ $table_cell['range'] }}px - 1px) * 2)"
+                                    onclick="open_modal(this)" id="{{ $table_cell['event_id'] }}">
+                                    @if ($table_cell['status_id'] == 1)
+                                        <div class="bg-red-600
+                                    rounded-full p-[2px]">
                                             <svg width="12" height="12" viewBox="-2 0 10 10"
                                                 id="meteor-icon-kit__regular-questionmark-s" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -81,12 +83,8 @@
                                                     fill="#fafafa" />
                                             </svg>
                                         </div>
-                                    </button>
-                                    <button>
-
-
-                                    </button>
-                                    {{-- <button>
+                                    @endif
+                                    @if ($table_cell['status_id'] == 2)
                                         <div class="bg-green-600 rounded-full p-[2px]">
                                             <svg width="12" height="12" viewBox="0 -1 8 8"
                                                 id="meteor-icon-kit__regular-checkmark-xxs" fill="none"
@@ -96,9 +94,42 @@
                                                     fill="#fafafa" />
                                             </svg>
                                         </div>
-                                    </button> --}}
+                                    @endif
                                     <span class="text-sm font-semibold">Vacation</span>
                                 </div>
+                                <div class="absolute z-20 bg-black">
+                                    This is menu options
+                                </div>
+                                {{-- <div id="{{ $table_cell['event_id'] }}-modal"
+                                    class=" fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[#18181B]/[0.6] hidden">
+                                    <div
+                                        class="bg-[#09090b] w-[400px] h-[300px] rounded-lg p-5 border border-[#27272a] mx-auto mt-48">
+                                        <div class="flex flex-col gap-1 items-center justify-center">
+                                            <form action="" class="m-0">
+                                                <button
+                                                    class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 text-sm w-[100px]">
+                                                    Approve
+                                                </button>
+                                            </form>
+                                            <form action="" class="m-0">
+                                                <button
+                                                    class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 text-sm w-[100px]">
+                                                    Deny
+                                                </button>
+                                            </form>
+
+                                            <button
+                                                class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 text-sm w-[100px]">
+                                                Edit
+                                            </button>
+                                            <button
+                                                class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 text-sm w-[100px]"
+                                                onclick="close_modal(this)" id="{{ $table_cell['event_id'] }}">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> --}}
                             @endif
                         </div>
                     @endforeach
@@ -110,22 +141,39 @@
 
 
     </div>
+    <script>
+        function open_modal(value) {
+            modal = document.getElementById(value.id + "-modal")
+            modal.style.display = "block"
+        }
+
+        function close_modal(value) {
+            modal = document.getElementById(value.id + "-modal")
+            modal.style.display = "none"
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none'
+            }
+        }
+    </script>
 @endsection
 
 <style>
-    .weekend {
-        background-color: hsl(240 4 16 /0.20)
+    html:has([class^="cell"]:hover) [class^="cell"] {
+        background: #27272a;
     }
 
-    td:nth-child(1) {
-        min-width: 60px
+    [class^="cell-"]:hover {
+        background: #27272a;
     }
 
-    td {
-        position: relative;
+    [class*="cell"]:hover {
+        background: #27272a;
     }
 
-    td:hover::after {
+    /* td:hover::after {
         content: "";
         background: #27272a;
         width: 100%;
@@ -138,6 +186,7 @@
 
     .cell {
         position: relative;
+
     }
 
     .cell:hover::after {
@@ -149,5 +198,5 @@
         z-index: -1;
         top: -1000px;
         left: 0;
-    }
+    } */
 </style>

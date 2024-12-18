@@ -60,6 +60,7 @@ class CalendarController extends Controller
                     'end_day'=> $end_date ? $end_date->format('d') : $end_date,
                     'month'=> $start_date ? $start_date->format('m') : $start_date,
                     'year'=> $year,
+                    'status_id'=>1,
                     ]);
                 $event->save();
                 $user->events()->syncWithoutDetaching($event);
@@ -84,6 +85,7 @@ class CalendarController extends Controller
             'end_day'=>$last_checked_date->format('d'),
             'month'=> $start_date->format('m'),
             'year'=> $year,
+            'status_id'=>1,
         ]);
         $event->save();
         $user->events()->syncWithoutDetaching($event);

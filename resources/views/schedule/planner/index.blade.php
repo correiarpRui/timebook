@@ -115,22 +115,9 @@
             @foreach ($user_schedule as $user_week)
                 <div id="{{ $user->id }}-{{ $user_week }}-modal"
                     class=" fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[#18181B]/[0.6] hidden">
-                    <div class="bg-[#09090b] mx-auto mt-[300px] p-5 border border-[#27272a] w-[35%]">
+                    <div class="bg-[#09090b] mx-auto mt-[300px] p-5 border border-[#27272a] w-[35%] rounded-lg">
                         <div class="p-1">
-                            <div class="flex justify-between">
-                                <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Select user schedule</div>
-                                <span class="close" onclick="closeModal(this)"
-                                    id="{{ $user->id }}-{{ $user_week }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-circle-x cursor-pointer">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="m15 9-6 6" />
-                                        <path d="m9 9 6 6" />
-                                    </svg>
-                                </span>
-                            </div>
+                            <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Select user schedule</div>
                             <hr class="my-[10px] border-[#27272a]">
                             <div>
                                 <form action="{{ route('schedule.planner.store') }}" class="flex flex-col" method="POST">
@@ -162,8 +149,14 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <button
-                                        class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm">Select</button>
+                                    <div class="flex gap-2">
+                                        <button
+                                            class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mt-2 px-6 text-sm">Select</button>
+                                        <button
+                                            class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mt-2 px-6 text-sm"
+                                            type="button" onclick="closeModal(this)"
+                                            id="{{ $user->id }}-{{ $user_week }}">Cancel</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

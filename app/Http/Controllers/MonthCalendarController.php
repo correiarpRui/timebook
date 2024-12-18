@@ -14,7 +14,8 @@ class MonthCalendarController extends Controller
     public function index($year, $month){
 
         $users = User::all();
-        $events = Event::with('users')->get();
+        $events = Event::with('users', 'status')->get();
+        
 
         $holidays = Holiday::whereYear('date', $year)->get();
         $holiday_list = [1=>[],2=>[],3=>[],4=>[],5=>[],6=>[],7=>[],8=>[],9=>[],10=>[],11=>[],12=>[]];
@@ -27,6 +28,8 @@ class MonthCalendarController extends Controller
         }
 
         $table_data = get_table_data($year, $month, $users, $events, $holiday_list);
+
+        dump($table_data);
 
         $int_month = (int)$month;        
         $int_year = (int)$year;
