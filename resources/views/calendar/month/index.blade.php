@@ -24,32 +24,34 @@
             </div>
         </div>
         <hr class="my-[24px] border-[#27272a]">
-        <div class="overflow-hidden">
+        <div>
             <div @if ($days_in_month + 1 == 29) class="grid grid-cols-29" @endif
                 @if ($days_in_month + 1 == 30) class="grid grid-cols-30" @endif
                 @if ($days_in_month + 1 == 31) class="grid grid-cols-31" @endif
                 @if ($days_in_month + 1 == 32) class="grid grid-cols-32" @endif>
-                <div class="font-medium text-sm border border-[#27272a] h-10 flex justify-center items-center">
+                <div
+                    class="font-medium text-sm h-10 flex justify-center items-center border border-[#fafafa]/[0.2] border-t-[2px] border-l-[2px]">
                     Date
                 </div>
                 @foreach ($table_data['month']['date'] as $table_cell)
                     <div
-                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center cell-{{ $table_cell['day'] }}
-                        {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
-                        {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
-                        {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
+                        class="cell-{{ $table_cell['day'] }} text-center h-10 flex justify-center items-center  border border-[#fafafa]/[0.2] border-t-[2px]
+                        {{ !$table_cell['weekday'] ? 'bg-[#5fa8fc]/[0.1]' : '' }}
+                        {{ $table_cell['today'] ? 'bg-[#2eb88a]/[0.2]' : '' }}
+                        {{ $table_cell['holiday'] ? 'bg-[#106a2e]/[0.2] ' : '' }}">
                         {{ $table_cell['day'] }}
                     </div>
                 @endforeach
-                <div class="font-medium text-sm border border-[#27272a] h-10 flex justify-center items-center">
+                <div
+                    class="font-medium text-sm h-10 flex justify-center items-center border border-[#fafafa]/[0.2] border-l-[2px]">
                     Day
                 </div>
                 @foreach ($table_data['month']['date'] as $table_cell)
                     <div
-                        class="text-center cell border border-[#27272a] h-10 flex justify-center items-center cell-{{ $table_cell['day'] }}
-                        {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
-                        {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
-                        {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
+                        class="cell-{{ $table_cell['day'] }} text-center h-10 flex justify-center items-center border border-[#fafafa]/[0.2]
+                        {{ !$table_cell['weekday'] ? 'bg-[#5fa8fc]/[0.1]' : '' }}
+                        {{ $table_cell['today'] ? 'bg-[#2eb88a]/[0.2]' : '' }}
+                        {{ $table_cell['holiday'] ? 'bg-[#106a2e]/[0.2] ' : '' }}">
                         {{ $table_cell['week_day'] }}
                     </div>
                 @endforeach
@@ -59,47 +61,76 @@
                     @if ($days_in_month + 1 == 30) class="grid grid-cols-30" @endif
                     @if ($days_in_month + 1 == 31) class="grid grid-cols-31" @endif
                     @if ($days_in_month + 1 == 32) class="grid grid-cols-32" @endif>
-                    <div class="font-medium text-sm py-1 h-12 border border-[#27272a] flex justify-center items-center">
+                    <div
+                        class="font-medium text-sm py-1 h-12 flex justify-center items-center border border-[#fafafa]/[0.2] border-l-[2px]">
                         {{ $user['user_info']['name'] }}
                     </div>
                     @foreach ($user['data'] as $table_cell)
                         <div
-                            class=" text-center h-12 py-2 border border-[#27272a] cell-{{ $table_cell['day'] }}
-                            {{ !$table_cell['weekday'] ? 'bg-[#18181B]/[0.6]' : '' }}
-                            {{ $table_cell['today'] ? 'bg-[#F17E92]/[0.2] border-[#F17E92]/[0.2]' : '' }}
-                            {{ $table_cell['holiday'] ? 'bg-[#EB7E47]/[0.2] border-[#EB7E47]/[0.2]' : '' }}">
+                            class="cell-{{ $table_cell['day'] }} text-center h-12 py-2 border border-[#fafafa]/[0.2]
+                            {{ !$table_cell['weekday'] ? 'bg-[#5fa8fc]/[0.1]' : '' }}
+                            {{ $table_cell['today'] ? 'bg-[#2eb88a]/[0.2]' : '' }}
+                            {{ $table_cell['holiday'] ? 'bg-[#106a2e]/[0.2] ' : '' }}">
                             @if (array_key_exists('start', $table_cell))
-                                <div class=" relative z-10 bg-[#2662D9]/[0.6] border border-[#2662D9] rounded-md h-[26px] mt-[2px] flex justify-center gap-1 items-center cursor-pointer"
+                                <div class="relative z-10 bg-[#e88c30] text-[#27272a] rounded-full h-[26px] mt-[2px] flex justify-center gap-1 items-center cursor-pointer"
                                     style="width: calc({{ $table_cell['range'] }}*100% + ({{ $table_cell['range'] }}px - 1px) * 2)"
-                                    onclick="open_modal(this)" id="{{ $table_cell['event_id'] }}">
+                                    onclick=open_menu(this) id="{{ $table_cell['event_id'] }}">
                                     @if ($table_cell['status_id'] == 1)
-                                        <div class="bg-red-600
-                                    rounded-full p-[2px]">
-                                            <svg width="12" height="12" viewBox="-2 0 10 10"
-                                                id="meteor-icon-kit__regular-questionmark-s" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M2 3C2 3.5523 1.5523 4 1 4C0.44772 4 0 3.5523 0 3C0 1.44772 1.4477 0 3 0C4.5523 0 6 1.44772 6 3C6 4.285 5.5004 4.8678 4.4472 5.3944C4.0004 5.6178 4 5.6183 4 6C4 6.5523 3.5523 7 3 7C2.4477 7 2 6.5523 2 6C2 4.715 2.4996 4.1322 3.5528 3.6056C3.9996 3.3822 4 3.3817 4 3C4 2.55228 3.4477 2 3 2C2.5523 2 2 2.55228 2 3zM3 10C2.4477 10 2 9.5523 2 9C2 8.4477 2.4477 8 3 8C3.5523 8 4 8.4477 4 9C4 9.5523 3.5523 10 3 10z"
-                                                    fill="#fafafa" />
-                                            </svg>
-                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="#fa0000" stroke="#fafafa" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-circle-alert">
+                                            <circle cx="12" cy="12" r="10" stroke="#fa0000"
+                                                stroke-width="0" />
+                                            <line x1="12" x2="12" y1="8" y2="12" />
+                                            <line x1="12" x2="12.01" y1="16" y2="16" />
+                                        </svg>
                                     @endif
                                     @if ($table_cell['status_id'] == 2)
-                                        <div class="bg-green-600 rounded-full p-[2px]">
-                                            <svg width="12" height="12" viewBox="0 -1 8 8"
-                                                id="meteor-icon-kit__regular-checkmark-xxs" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M1.70711 2.2929C1.31658 1.9024 0.68342 1.9024 0.29289 2.2929C-0.09763 2.6834 -0.09763 3.3166 0.29289 3.7071L2.2929 5.7071C2.6834 6.0976 3.3166 6.0976 3.7071 5.7071L7.7071 1.7071C8.0976 1.3166 8.0976 0.68342 7.7071 0.29289C7.3166 -0.09763 6.6834 -0.09763 6.2929 0.29289L3 3.5858L1.70711 2.2929z"
-                                                    fill="#fafafa" />
-                                            </svg>
-                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="#27272a" stroke="#e88c30" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-circle-check">
+                                            <circle cx="12" cy="12" r="10" stroke-width="0" />
+                                            <path d="m9 12 2 2 4-4" />
+                                        </svg>
                                     @endif
-                                    <span class="text-sm font-semibold">Vacation</span>
+                                    <span class="text-md font-medium">Vacation</span>
+                                    <div class="bg-transparent rounded-md px-1 absolute w-[200px] z-40 top-[28px] left-[-5px] hidden"
+                                        id="{{ $table_cell['event_id'] }}-menu">
+                                        <div
+                                            class=" bg-[#09090b] text-[#fafafa] p-2 border border-[#fafafa] rounded-md text-left flex flex-col ">
+                                            <span>Vacation, {{ $table_cell['range'] }} days</span>
+                                            <hr class="my-2 border-[#27272a]">
+                                            <form action="{{ route('calendar.month.patch', $table_cell['event_id']) }}"
+                                                method="POST" class="py-1 m-0">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="text" value="2" name="status_id" hidden>
+                                                <button
+                                                    class="hover:bg-[#27272a] w-full px-3 py-2 rounded-md text-left">Approve</button>
+                                            </form>
+                                            <form action="{{ route('calendar.month.patch', $table_cell['event_id']) }}"
+                                                method="POST" class="py-1 m-0">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="text" value="3" name="status_id" hidden>
+                                                <button
+                                                    class="hover:bg-[#27272a] w-full px-3 py-2 rounded-md text-left">Deny</button>
+                                            </form>
+                                            <form action="{{ route('calendar.month.destroy', $table_cell['event_id']) }}"
+                                                method="POST" class="py-1 m-0">
+                                                @csrf
+                                                @method('Delete')
+                                                <button
+                                                    class="hover:bg-[#27272a] w-full px-3 py-2 rounded-md text-left">Delete</button>
+                                            </form>
+                                            <a href=""
+                                                class="hover:bg-[#27272a] w-full p-3 rounded-md text-left">Edit</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="absolute z-20 bg-black">
-                                    This is menu options
-                                </div>
+
                                 {{-- <div id="{{ $table_cell['event_id'] }}-modal"
                                     class=" fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[#18181B]/[0.6] hidden">
                                     <div
@@ -142,61 +173,138 @@
 
     </div>
     <script>
-        function open_modal(value) {
-            modal = document.getElementById(value.id + "-modal")
-            modal.style.display = "block"
-        }
-
-        function close_modal(value) {
-            modal = document.getElementById(value.id + "-modal")
-            modal.style.display = "none"
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none'
+        function open_menu(value) {
+            menu = document.getElementById(value.id + '-menu')
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none'
+            } else {
+                menu.style.display = 'block'
             }
         }
     </script>
+    <style>
+        html:has(.cell-1:hover) .cell-1 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-2:hover) .cell-2 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-3:hover) .cell-3 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-4:hover) .cell-4 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-5:hover) .cell-5 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-6:hover) .cell-6 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-7:hover) .cell-7 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-8:hover) .cell-8 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-9:hover) .cell-9 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-10:hover) .cell-10 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-11:hover) .cell-11 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-12:hover) .cell-12 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-13:hover) .cell-13 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-14:hover) .cell-14 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-15:hover) .cell-15 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-16:hover) .cell-16 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-17:hover) .cell-17 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-18:hover) .cell-18 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-19:hover) .cell-19 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-20:hover) .cell-20 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-21:hover) .cell-21 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-22:hover) .cell-22 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-23:hover) .cell-23 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-24:hover) .cell-24 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-25:hover) .cell-25 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-26:hover) .cell-26 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-27:hover) .cell-27 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-28:hover) .cell-28 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-29:hover) .cell-29 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-30:hover) .cell-30 {
+            border-color: #fafafa;
+        }
+
+        html:has(.cell-31:hover) .cell-31 {
+            border-color: #fafafa;
+        }
+    </style>
 @endsection
-
-<style>
-    html:has([class^="cell"]:hover) [class^="cell"] {
-        background: #27272a;
-    }
-
-    [class^="cell-"]:hover {
-        background: #27272a;
-    }
-
-    [class*="cell"]:hover {
-        background: #27272a;
-    }
-
-    /* td:hover::after {
-        content: "";
-        background: #27272a;
-        width: 100%;
-        height: 10000px;
-        position: absolute;
-        top: -1000px;
-        left: 0;
-        z-index: -1;
-    }
-
-    .cell {
-        position: relative;
-
-    }
-
-    .cell:hover::after {
-        content: "";
-        background-color: #27272a4d;
-        width: 100%;
-        height: 10000px;
-        position: absolute;
-        z-index: -1;
-        top: -1000px;
-        left: 0;
-    } */
-</style>

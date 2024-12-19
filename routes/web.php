@@ -72,6 +72,8 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::Get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
+    Route::Patch('/calendar/month/{event}', [MonthCalendarController::class, 'patch'])->name('calendar.month.patch');
+    Route::Delete('/calendar/month/{event}', [MonthCalendarController::class, 'destroy'])->name('calendar.month.destroy');
 });
 
 
