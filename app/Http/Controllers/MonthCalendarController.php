@@ -8,7 +8,7 @@ use App\Models\Holiday;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+
 
 class MonthCalendarController extends Controller
 {
@@ -38,24 +38,5 @@ class MonthCalendarController extends Controller
         $days_in_month = $date->month($int_month)->daysInMonth();
 
         return view('calendar.month.index', ['table_data'=>$table_data, 'month_name'=>$month_name, 'year'=>$year, 'month'=>$month, 'days_in_month'=>$days_in_month]);
-    }
-
-    public function patch(Request $request, $event_id){
-        $validated_data = $request->validate([
-            'status_id'=> ['required', Rule::in(['2','3'])]
-        ]);
-
-        $event = Event::find($event_id);
-        $event->update($validated_data);    
-        $event->save();
-
-        return redirect()->back();
-    }  
-
-    public function destroy($event_id){
-        $event = Event::find($event_id);
-        $event->delete();
-        return redirect()->back();
-
     }
 }

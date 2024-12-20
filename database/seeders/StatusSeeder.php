@@ -20,10 +20,6 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert(
             ['status' => 'approved'], 
         );
-
-        DB::table('statuses')->insert(
-            ['status' => 'denied'], 
-        );
     }
 }
 

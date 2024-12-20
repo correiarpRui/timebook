@@ -58,11 +58,11 @@
                         </div>
                         @foreach ($month as $day)
                             <div
-                                class=" text-center border border-[#27272a] text-sm w-full h-full relative   
-                            @if (!$day['weekday']) bg-[#18181B]/[0.8] @endif
-                            @if ($day['event']) bg-[#2662D9]/[0.3] border-[#2662D9]/[0.2] @endif
-                            @if ($day['holiday']) bg-[#EB7E47]/[0.3] border-[#EB7E47]/[0.2] @endif
-                            @if ($day['today']) bg-[#F17E92]/[0.3] border-[#F17E92]/[0.2] @endif">
+                                class=" text-center border border-[#27272a] text-sm w-full h-full relative 
+                                {{ !$day['weekday'] ? 'bg-[#18181B]/[0.8]' : '' }}
+                                {{ $day['event'] ? 'bg-[#2662D9]/[0.3] border-[#2662D9]/[0.2]' : '' }}
+                                {{ $day['holiday'] ? 'bg-[#EB7E47]/[0.3] border-[#EB7E47]/[0.2]' : '' }}
+                                {{ $day['today'] ? 'bg-[#F17E92]/[0.3] border-[#F17E92]/[0.2]' : '' }}">
                                 <input type="checkbox" class="hidden peer" id="{{ $day['id'] }}"
                                     value="{{ $day['id'] }}" name="{{ $day['id'] }}">
                                 <label for="{{ $day['id'] }}"

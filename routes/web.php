@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\MonthCalendarController;
 use App\Http\Controllers\SchedulePlannerController;
 use App\Http\Controllers\SettingsController;
@@ -67,13 +68,18 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/calendar/settings', [CalendarController::class, 'store_settings'])->name('store_settings');
     Route::delete('/calendar/settings/{id}', [CalendarController::class, 'delete_settings'])->name('delete_settings');
     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');    
 });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::Get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
-    Route::Patch('/calendar/month/{event}', [MonthCalendarController::class, 'patch'])->name('calendar.month.patch');
-    Route::Delete('/calendar/month/{event}', [MonthCalendarController::class, 'destroy'])->name('calendar.month.destroy');
+    Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
+});
+
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('/calendar/vacation/{year}', [EventController::class, 'index'])->name('calendar.vacation');
+    Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
+    Route::delete('/calendar/vacation/{event}', [EventController::class, 'destroy'])->name('calendar.vacation.destroy');
+    Route::get('/calendar/vacation/update/{event}', [EventController::class, 'update'])->name('calendar.vacation.update');
 });
 
 
