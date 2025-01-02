@@ -24,93 +24,100 @@
             </div>
         </div>
         <hr class="my-[24px] border-[#27272a]">
-        <form action="{{ route('store_settings') }}" method="POST" class="flex gap-4 mb-4">
-            @csrf
-            <div>
-                <button
-                    class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[100px]"
-                    type="button" onclick=toggleSubMenuDropDown(this)>
-                    <span id="button_year_label" class="text-[#9ca3af]">year</span>
-                    <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-chevron-down ">
-                        <path d="m6 9 6 6 6-6"></path>
-                    </svg>
-                </button>
-                <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
-                    <div class="overflow-hidden">
-                        @for ($i = date('Y'); $i < date('Y') + 5; $i++)
-                            <div class="flex items-center hover:bg-[#27272a] px-3 rounded-md w-[90px]">
-                                <input type="radio" name="year" id="year_{{ $i }}"
-                                    value="{{ $i }}" class="peer hidden">
-                                <label for="year_{{ $i }}" class="grow cursor-pointer py-1 select-none"
-                                    value="{{ $i }}" onclick=get_year(this)>{{ $i }}</label>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="lucide lucide-check opacity-100 m-auto  hidden peer-checked:block">
-                                    <path d="M20 6 9 17l-5-5"></path>
-                                </svg>
-                            </div>
-                        @endfor
+        <div class="flex justify-between">
+            <form action="{{ route('store_settings') }}" method="POST" class="flex gap-4 mb-4">
+                @csrf
+                <div>
+                    <button
+                        class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[100px]"
+                        type="button" onclick=toggleSubMenuDropDown(this)>
+                        <span id="button_year_label" class="text-[#9ca3af]">year</span>
+                        <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-chevron-down ">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
+                        <div class="overflow-hidden">
+                            @for ($i = date('Y'); $i < date('Y') + 5; $i++)
+                                <div class="flex items-center hover:bg-[#27272a] px-3 rounded-md w-[90px]">
+                                    <input type="radio" name="year" id="year_{{ $i }}"
+                                        value="{{ $i }}" class="peer hidden">
+                                    <label for="year_{{ $i }}" class="grow cursor-pointer py-1 select-none"
+                                        value="{{ $i }}" onclick=get_year(this)>{{ $i }}</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-check opacity-100 m-auto  hidden peer-checked:block">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </div>
+                            @endfor
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <button
-                    class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[140px]"
-                    type="button" onclick=toggleSubMenuDropDown(this)>
-                    <span id="button_month_label" class="text-[#9ca3af]">month</span>
-                    <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-chevron-down ">
-                        <path d="m6 9 6 6 6-6"></path>
-                    </svg>
-                </button>
-                <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
-                    <div class="overflow-hidden">
-                        @foreach ($months as $month)
-                            <div class="flex items-center hover:bg-[#27272a] px-3 rounded-md w-[130px]">
-                                <input type="radio" name="month" id="{{ $month['name'] }}"
-                                    value="{{ $month['number'] }}" class="peer hidden">
-                                <label for="{{ $month['name'] }}" class="grow cursor-pointer py-1 select-none"
-                                    value="{{ $month['days'] }}" onclick=get_month_name(this)>{{ $month['name'] }}</label>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="lucide lucide-check opacity-100 m-auto  hidden peer-checked:block">
-                                    <path d="M20 6 9 17l-5-5"></path>
-                                </svg>
-                            </div>
-                        @endforeach
+                <div>
+                    <button
+                        class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[140px]"
+                        type="button" onclick=toggleSubMenuDropDown(this)>
+                        <span id="button_month_label" class="text-[#9ca3af]">month</span>
+                        <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-chevron-down ">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
+                        <div class="overflow-hidden">
+                            @foreach ($months as $month)
+                                <div class="flex items-center hover:bg-[#27272a] px-3 rounded-md w-[130px]">
+                                    <input type="radio" name="month" id="{{ $month['name'] }}"
+                                        value="{{ $month['number'] }}" class="peer hidden">
+                                    <label for="{{ $month['name'] }}" class="grow cursor-pointer py-1 select-none"
+                                        value="{{ $month['days'] }}"
+                                        onclick=get_month_name(this)>{{ $month['name'] }}</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-check opacity-100 m-auto  hidden peer-checked:block">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <button
-                    class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[70px]"
-                    type="button" onclick=toggleSubMenuDropDown(this)>
-                    <span id="button_day_label" class="text-[#9ca3af]">day</span>
-                    <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="lucide lucide-chevron-down ">
-                        <path d="m6 9 6 6 6-6"></path>
-                    </svg>
-                </button>
-                <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
-                    <div class="overflow-hidden grid grid-cols-5" id="day_wrapper">
+                <div>
+                    <button
+                        class="bg-transparent border border-[#27272a] rounded-md h-9 px-3 flex justify-between items-center gap-2 w-[70px]"
+                        type="button" onclick=toggleSubMenuDropDown(this)>
+                        <span id="button_day_label" class="text-[#9ca3af]">day</span>
+                        <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-chevron-down ">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-[#09090b] rounded-md px-1 grid submenu_options absolute">
+                        <div class="overflow-hidden grid grid-cols-5" id="day_wrapper">
 
 
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <input
-                class="bg-transparent border border-[#27272a] rounded-md h-9 px-4 py-1 focus:outline-none focus:border-[#e5e7eb]"
-                type="text" name="name" placeholder="name">
-            <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 px-4 text-sm">Add
-                holiday</button>
-        </form>
+                <input
+                    class="bg-transparent border border-[#27272a] rounded-md h-9 px-4 py-1 focus:outline-none focus:border-[#e5e7eb]"
+                    type="text" name="name" placeholder="name">
+                <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 px-4 text-sm">Add
+                    holiday</button>
+
+            </form>
+            <a href="{{ route('calendar.generate', $year) }}"
+                class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 px-4 text-sm leading-9">Generate
+                holidays</a>
+        </div>
 
         <div class="border rounded-md border-[#27272a]">
             <table class="text-sm w-full border border-b border-[#27272a] text-[#fafafa]">

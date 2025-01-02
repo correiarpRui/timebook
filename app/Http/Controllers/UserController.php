@@ -32,12 +32,15 @@ class UserController extends Controller
             'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users'],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
+            'vacation_days'=>['required', 'integer'],
             'password' => ['required'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
         ]);
-
+        
+        $validated_data['vacation_days_left'] = $validated_data['vacation_days'];
+        
         User::create($validated_data);
-
+        
         return redirect('/users');
     }
 
@@ -48,14 +51,17 @@ class UserController extends Controller
     }
 
     public function patch(Request $request, $id){
+
+        
         $validated_data = $request->validate([
             'first_name'=> ['required'],
             'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
+            'vacation_days'=>['required', 'integer'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
         ]);
-
+        
         $user = User::find($id);
         $user->update($validated_data);
         $user->save();

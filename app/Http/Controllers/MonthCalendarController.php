@@ -21,6 +21,8 @@ class MonthCalendarController extends Controller
         $holidays = Holiday::whereYear('date', $year)->get();
         $holiday_list = [1=>[],2=>[],3=>[],4=>[],5=>[],6=>[],7=>[],8=>[],9=>[],10=>[],11=>[],12=>[]];
 
+        
+
         foreach($holidays as $holiday){
             $date_holiday = CarbonImmutable::createFromDate($holiday->date);
             $day_holiday = ltrim($date_holiday->format('d'),0);

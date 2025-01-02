@@ -82,7 +82,7 @@
                                     'rounded-md py-2 pr-2 pl-6  text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a] mt-1',
                                     'bg-[#27272a]' => request()->routeIs('calendar.month*'),
                                 ])
-                                    href="{{ route('calendar.month', [date('Y'), date('m')]) }}">Month</a>
+                                    href="{{ route('calendar.month', [date('Y'), (int) date('m')]) }}">Month</a>
                             </li>
                             <li>
                                 <a @class([

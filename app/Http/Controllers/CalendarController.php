@@ -10,6 +10,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Name\FullyQualified;
 
 class CalendarController extends Controller 
 {
@@ -51,18 +52,25 @@ class CalendarController extends Controller
 
             if ($date_day_before != $prev_date && $prev_date !=null && $start_date != null){
                 $end_date = $prev_date;
-                
+
+                $start_day = $start_date ? $start_date->format('d') : $start_date;
+                $end_day = $end_date ? $end_date->format('d') : $end_date;
+
+                $range = ($end_day-$start_day)+1;
+                $vacation_days_left = $user->vacation_days_left -$range;
+
                 $event = new Event([
                     'type'=>'vacation', 
                     'start_date'=> $start_date ? $start_date->format('d-m-Y') : $start_date, 
                     'end_date'=>$end_date ? $end_date->format('d-m-Y') : $end_date,
-                    'start_day'=> $start_date ? $start_date->format('d') : $start_date,
-                    'end_day'=> $end_date ? $end_date->format('d') : $end_date,
+                    'start_day'=> $start_day,
+                    'end_day'=> $end_day,
                     'month'=> $start_date ? $start_date->format('m') : $start_date,
                     'year'=> $year,
                     'status_id'=>1,
                     ]);
                 $event->save();
+                $user->update(['vacation_days_left'=>$vacation_days_left]);
                 $user->events()->syncWithoutDetaching($event);
                 $user->save();
                 $prev_date = $date;
@@ -77,6 +85,10 @@ class CalendarController extends Controller
                 $last_checked_date = $date;
             }            
         }
+
+        $range =( $last_checked_date->format('d')-$start_date->format('d') )+ 1;
+        $vacation_days_left = $user->vacation_days_left -$range;
+        
         $event = new Event([
             'type'=>'vacation', 
             'start_date'=> $start_date->format('d-m-Y'), 
@@ -88,6 +100,7 @@ class CalendarController extends Controller
             'status_id'=>1,
         ]);
         $event->save();
+        $user->update(['vacation_days_left'=>$vacation_days_left]);
         $user->events()->syncWithoutDetaching($event);
         $user->save();
         
@@ -117,7 +130,6 @@ class CalendarController extends Controller
         $year = CarbonImmutable::now()->format('Y');
         $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
 
-        dd($date);
         $request->merge([
             'date'=> $date
         ]);
@@ -136,6 +148,21 @@ class CalendarController extends Controller
         $year = CarbonImmutable::now()->format('Y');
         $holiday = Holiday::find($id);
         $holiday->delete();
+        return redirect(route('calendar.settings', $year));
+    }
+
+    public function generate_holiday($year){
+        $last_year = $year-1;
+        $last_year_holiday = Holiday::whereYear('date', $last_year)->orderBy('date', 'asc')->get();
+
+        $last_year_holiday->map(
+            function($holiday){
+                $old_date = Carbon::createFromDate($holiday->date);
+                $new_holiday = ['name'=>$holiday->name, 'date'=> $old_date->addYear()];
+                Holiday::create($new_holiday);
+            }
+        );
+
         return redirect(route('calendar.settings', $year));
     }
 }

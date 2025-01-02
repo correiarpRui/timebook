@@ -119,7 +119,11 @@ function get_users_data($user_id, $events,$year, $month, $month_data, $holiday_l
 }
 
 function get_table_data($year, $month, $users, $events, $holiday_list){
+  
+  
   $holiday_in_month = $holiday_list[$month];
+  
+  
   $month_data = month_data ($year, $month);
   
   $headers_data = new_get_header_data($month_data, $holiday_in_month);

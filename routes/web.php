@@ -68,7 +68,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/calendar/settings', [CalendarController::class, 'store_settings'])->name('store_settings');
     Route::delete('/calendar/settings/{id}', [CalendarController::class, 'delete_settings'])->name('delete_settings');
     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');    
+    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+    Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
 });
 
 Route::group(['middleware'=>'auth'], function(){

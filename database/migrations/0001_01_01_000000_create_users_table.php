@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->date('birth_date');
             $table->foreignId('role_id')->constrained();
+            $table->integer('vacation_days');
+            $table->integer('vacation_days_left')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

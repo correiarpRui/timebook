@@ -24,6 +24,12 @@
             </div>
         </div>
         <hr class="my-[24px] border-[#27272a]">
+        <div class="flex gap-2">
+            <div>Vacation days available:</div>
+            <div id="vacation_days">
+                {{ auth()->user()->vacation_days_left }}
+            </div>
+        </div>
         <div class="overflow-hidden">
             <div @if ($calendar_data['total_cells'] == 32) class="grid grid-cols-32" @endif
                 @if ($calendar_data['total_cells'] == 33) class="grid grid-cols-33" @endif
@@ -64,6 +70,8 @@
                                 {{ $day['holiday'] ? 'bg-[#EB7E47]/[0.3] border-[#EB7E47]/[0.2]' : '' }}
                                 {{ $day['today'] ? 'bg-[#F17E92]/[0.3] border-[#F17E92]/[0.2]' : '' }}">
                                 <input type="checkbox" class="hidden peer" id="{{ $day['id'] }}"
+                                    {{ $day['id'] == 0 ? 'disabled' : '' }}
+                                    onclick=" return limit_vacation_days({{ auth()->user()->vacation_days_left }})"
                                     value="{{ $day['id'] }}" name="{{ $day['id'] }}">
                                 <label for="{{ $day['id'] }}"
                                     class="h-full w-full py-1 flex justify-center align-middle absolute left-0 top-0 peer-checked:bg-[#bbbbbd] peer-checked:border-3px peer-checked:border-[#bbbbbd] peer-checked:text-[#09090b] ">{{ $day['value'] }}</label>
@@ -77,4 +85,24 @@
         <button class="bg-[#fafafa] text-[#09090b] font-medium rounded-md h-9 mr-auto mt-2 px-6 text-sm" type="submit"
             form="calendar_new_form">Submit</button>
     </div>
+
+    <script>
+        function limit_vacation_days(vacation_days) {
+            let days = document.querySelectorAll('input[type=checkbox]:not([disabled])')
+            let vacation_days_indicator = document.getElementById('vacation_days')
+            let vacation_days_left = parseInt(vacation_days_indicator.innerText)
+            let selected_days = 0;
+
+            for (let count = 0; count < days.length; count++) {
+                if (days[count].checked == true) {
+                    selected_days++;
+                }
+            }
+            vacation_days_left = vacation_days - selected_days;
+            if (selected_days > vacation_days) {
+                return false
+            }
+            vacation_days_indicator.innerText = vacation_days_left
+        }
+    </script>
 @endsection
