@@ -27,7 +27,7 @@
         <div class="flex gap-2">
             <div>Vacation days available:</div>
             <div id="vacation_days">
-                {{ auth()->user()->vacation_days_left }}
+                {{ $user_vacations->vacation_days_left }}
             </div>
         </div>
         <div class="overflow-hidden">
@@ -71,7 +71,7 @@
                                 {{ $day['today'] ? 'bg-[#F17E92]/[0.3] border-[#F17E92]/[0.2]' : '' }}">
                                 <input type="checkbox" class="hidden peer" id="{{ $day['id'] }}"
                                     {{ $day['id'] == 0 ? 'disabled' : '' }}
-                                    onclick=" return limit_vacation_days({{ auth()->user()->vacation_days_left }})"
+                                    onclick=" return limit_vacation_days({{ $user_vacations->vacation_days_left }})"
                                     value="{{ $day['id'] }}" name="{{ $day['id'] }}">
                                 <label for="{{ $day['id'] }}"
                                     class="h-full w-full py-1 flex justify-center align-middle absolute left-0 top-0 peer-checked:bg-[#bbbbbd] peer-checked:border-3px peer-checked:border-[#bbbbbd] peer-checked:text-[#09090b] ">{{ $day['value'] }}</label>

@@ -26,8 +26,6 @@ class User extends Authenticatable
         'last_name',
         'email',
         'birth_date',
-        'vacation_days',
-        'vacation_days_left',
         'password',
         'role_id',
         'schedule_id'
@@ -70,6 +68,10 @@ class User extends Authenticatable
 
     public function weekschedule():HasMany{
         return $this->hasMany(Weekschedule::class);
+    }
+
+    public function vacation() : HasMany {
+        return $this->hasMany(Vacation::class);
     }
 
 }

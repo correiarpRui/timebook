@@ -20,8 +20,6 @@ class SuperadminSeeder extends Seeder
             'email' => 'tom@world.com',
             'birth_date'=> '1995-1-1',
             'password' => Hash::make('password'),
-            'vacation_days'=>22,
-            'vacation_days_left' => 22,
             'role_id'=>3
         ], 
         );

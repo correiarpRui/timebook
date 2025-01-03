@@ -31,6 +31,7 @@ Route::group(['middleware'=>'auth'], function(){
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
@@ -78,9 +79,10 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/calendar/vacation/{year}', [EventController::class, 'index'])->name('calendar.vacation');
-    Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
+    Route::patch('/calendar/vacation/approve/{event}', [EventController::class, 'approve'])->name('calendar.vacation.approve');
     Route::delete('/calendar/vacation/{event}', [EventController::class, 'destroy'])->name('calendar.vacation.destroy');
     Route::get('/calendar/vacation/update/{event}', [EventController::class, 'update'])->name('calendar.vacation.update');
+    Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
 });
 
 

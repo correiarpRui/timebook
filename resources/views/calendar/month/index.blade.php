@@ -113,14 +113,17 @@
                                                     days</div>
                                             @endif
                                             <hr class="my-2 border-[#27272a] ">
-                                            <form action="{{ route('calendar.vacation.patch', $table_cell['event_id']) }}"
-                                                method="POST" class="mr-4 mb-0">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="text" value="2" name="status_id" hidden>
-                                                <button
-                                                    class="rounded-md my-1 mx-2 py-2 px-2 flex items-center gap-1 hover:bg-[#27272a] w-full">Approve</button>
-                                            </form>
+                                            @if ($table_cell['status_id'] == 1)
+                                                <form
+                                                    action="{{ route('calendar.vacation.approve', $table_cell['event_id']) }}"
+                                                    method="POST" class="mr-4 mb-0">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="text" value="2" name="status_id" hidden>
+                                                    <button
+                                                        class="rounded-md my-1 mx-2 py-2 px-2 flex items-center gap-1 hover:bg-[#27272a] w-full">Approve</button>
+                                                </form>
+                                            @endif
                                             <form
                                                 action="{{ route('calendar.vacation.destroy', $table_cell['event_id']) }}"
                                                 method="POST" class="mr-4 m-0">

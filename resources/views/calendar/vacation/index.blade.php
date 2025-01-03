@@ -140,14 +140,16 @@
                                 <ul
                                     class="grid submenu_options z-50 absolute left-[-90px] rounded-md w-[150px] bg-[#09090b]">
                                     <div class=" overflow-hidden">
-                                        <form action="{{ route('calendar.vacation.patch', $event->id) }}" method="POST"
-                                            class="mr-4">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="text" value="2" name="status_id" hidden>
-                                            <button
-                                                class="rounded-md my-1 mx-2 py-2 px-2 flex items-center gap-1 hover:bg-[#27272a] w-full">Approve</button>
-                                        </form>
+                                        @if ($event->status_id == 1)
+                                            <form action="{{ route('calendar.vacation.approve', $event->id) }}"
+                                                method="POST" class="mr-4">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="text" value="2" name="status_id" hidden>
+                                                <button
+                                                    class="rounded-md my-1 mx-2 py-2 px-2 flex items-center gap-1 hover:bg-[#27272a] w-full">Approve</button>
+                                            </form>
+                                        @endif
                                         <form action="{{ route('calendar.vacation.destroy', $event->id) }}" method="POST"
                                             class="mr-4">
                                             @csrf

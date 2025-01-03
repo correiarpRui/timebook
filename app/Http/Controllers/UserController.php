@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\Vacation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Psy\CodeCleaner\EmptyArrayDimFetchPass;
@@ -31,16 +32,21 @@ class UserController extends Controller
             'first_name'=> ['required'],
             'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users'],
-            'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
-            'vacation_days'=>['required', 'integer'],
+            'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],            
             'password' => ['required'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
+        ]);        
+
+        $vacation_days= $request->validate(['vacation_days' => ['required', 'integer']]);
+
+        $user = User::create($validated_data);
+        Vacation::create([
+            'user_id'=>$user->id,
+            'year'=>date('Y'),
+            'vacation_days'=>$vacation_days['vacation_days'],
+            'vacation_days_left'=>$vacation_days['vacation_days']
         ]);
-        
-        $validated_data['vacation_days_left'] = $validated_data['vacation_days'];
-        
-        User::create($validated_data);
-        
+         
         return redirect('/users');
     }
 
@@ -58,7 +64,6 @@ class UserController extends Controller
             'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today'],
-            'vacation_days'=>['required', 'integer'],
             'role_id' => ['required', Rule::in(["1","2","3"])],
         ]);
         
@@ -72,6 +77,11 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
         return redirect(route('users'));
+    }
+
+    public function show($id){
+        $user = User::find($id);
+        return view('user.show', ['user'=>$user]);
     }
 
     

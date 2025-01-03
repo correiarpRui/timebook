@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Holiday;
+use App\Models\Vacation;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
@@ -15,6 +16,9 @@ use PhpParser\Node\Name\FullyQualified;
 class CalendarController extends Controller 
 {
     public function index($year){
+
+        $user_vacations = Vacation::where('user_id', Auth::id())->where('year', $year)->first();
+
         $events = Event::whereHas('users', function($query){
             return $query->where('user_id', Auth::id());
         })->get();
@@ -31,12 +35,13 @@ class CalendarController extends Controller
     
         $calendar_data = new_get_full_calendar($year, $holiday_list, $events);
 
-        return view('calendar.year.index', ['year'=>$year, 'calendar_data'=>$calendar_data]);       
+        return view('calendar.year.index', ['year'=>$year, 'calendar_data'=>$calendar_data, 'user_vacations'=>$user_vacations]);       
     }
 
     public function store(Request $request, $year){
 
         $user = User::find(Auth::id());
+        $vacation = Vacation::where('user_id', Auth::id())->where('year', $year)->first();
         
         $values = $request->all();
         array_shift(($values));
@@ -57,7 +62,7 @@ class CalendarController extends Controller
                 $end_day = $end_date ? $end_date->format('d') : $end_date;
 
                 $range = ($end_day-$start_day)+1;
-                $vacation_days_left = $user->vacation_days_left -$range;
+                $vacation_days_left = $vacation->vacation_days_left -$range;
 
                 $event = new Event([
                     'type'=>'vacation', 
@@ -70,7 +75,8 @@ class CalendarController extends Controller
                     'status_id'=>1,
                     ]);
                 $event->save();
-                $user->update(['vacation_days_left'=>$vacation_days_left]);
+                $vacation->update(['vacation_days_left'=>$vacation_days_left]);
+                $vacation->save();
                 $user->events()->syncWithoutDetaching($event);
                 $user->save();
                 $prev_date = $date;
@@ -87,7 +93,7 @@ class CalendarController extends Controller
         }
 
         $range =( $last_checked_date->format('d')-$start_date->format('d') )+ 1;
-        $vacation_days_left = $user->vacation_days_left -$range;
+        $vacation_days_left = $vacation->vacation_days_left -$range;
         
         $event = new Event([
             'type'=>'vacation', 
@@ -100,7 +106,8 @@ class CalendarController extends Controller
             'status_id'=>1,
         ]);
         $event->save();
-        $user->update(['vacation_days_left'=>$vacation_days_left]);
+        $vacation->update(['vacation_days_left'=>$vacation_days_left]);
+        $vacation->save();
         $user->events()->syncWithoutDetaching($event);
         $user->save();
         
