@@ -65,3 +65,37 @@ input[type="number"] {
 input[type="date"]::-webkit-calendar-picker-indicator {
     background: orange;
 }
+
+/* New layout */
+
+/* Sidebar Slide */
+.slide {
+    grid-template-rows: 0fr;
+    transition: 150ms ease-in-out;
+}
+
+.slide.show {
+    grid-template-rows: 1fr;
+}
+
+/* Profile menu */
+.profile_menu {
+    display: none;
+}
+
+.profile_menu.show {
+    display: block;
+}
+
+.profile_menu::before {
+    content: " ";
+    width: 13px;
+    height: 13px;
+    background-color: white;
+    border-block-start: 1px solid #eff0f6;
+    border-inline-start: 1px solid #eff0f6;
+    inset-block-start: -7px;
+    transform: rotate(45deg);
+    position: absolute;
+    right: 13px;
+}

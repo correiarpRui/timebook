@@ -9,9 +9,6 @@
     <title>Document</title>
 </head>
 
-{{-- <a href="{{ route('calendar', date('Y')) }}">Calendar</a> --}}
-
-
 <body class="bg-[#09090b] font-roboto">
     <div
         class="grid grid-cols-[auto_1fr] border-[#27272a] m-6 border rounded-md box-border h-[calc(100vh-48px)] sticky  top-0 self-start overflow-auto">

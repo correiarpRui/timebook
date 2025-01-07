@@ -15,8 +15,7 @@ use PhpParser\Node\Name\FullyQualified;
 
 class CalendarController extends Controller 
 {
-    public function index($year){
-
+    public function index($year){        
         $user_vacations = Vacation::where('user_id', Auth::id())->where('year', $year)->first();
 
         $events = Event::whereHas('users', function($query){

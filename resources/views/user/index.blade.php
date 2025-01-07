@@ -111,8 +111,6 @@
                                 <ul
                                     class="grid submenu_options z-50 absolute left-[-90px] rounded-md w-[150px] bg-[#09090b]">
                                     <div class=" overflow-hidden">
-                                        <a href="{{ route('user.show', $user->id) }}"
-                                            class="rounded-md my-1 mx-2 py-2 px-2 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]">View</a>
                                         <a href="{{ route('user.update', $user->id) }}"
                                             class="rounded-md my-1 mx-2 py-2 px-2 text-[#fafafa] flex items-center gap-1 hover:bg-[#27272a]">Edit</a>
                                         <form action="{{ route('user.destroy', $user->id) }}" method="POST"
