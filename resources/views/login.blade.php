@@ -15,7 +15,7 @@
 
     <div class="bg-[#09090b] border border-[#27272a] p-10 rounded-md w-[350px]">
 
-        <form action="{{ route('auth.authenticate') }}" class="flex flex-col" method="POST">
+        <form action="{{ route('authenticate') }}" class="flex flex-col" method="POST">
             @csrf
             <input type="text" class="border border-[#27272a] rounded-md p-2 text-sm bg-[#09090b] focus:outline-none"
                 placeholder="name@exemple.com" name="email" id="email">

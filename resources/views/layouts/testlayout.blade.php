@@ -8,7 +8,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Document</title>
 </head>
-{{-- [#eff0f6] --}}
 
 <body class="bg-white text-[#454e60]">
     <div class="page ">
@@ -18,7 +17,7 @@
                 <span class="font-semibold text-3xl">Logo</span>
             </div>
             <div class="flex grow justify-end pr-[40px] bg-white h-[70px] items-center">
-                <div class="profile_menu_btn size-[40px] bg-green-700 rounded-full flex items-center justify-center cursor-pointer relative"
+                <div class="profile_menu_btn size-[40px] bg-[#ff7f31] rounded-full flex items-center justify-center cursor-pointer relative"
                     onclick="toggle_profile_menu('profile_menu')" id="profile_menu_btn">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -48,7 +47,8 @@
                             </svg>
                             <span>Profile</span>
                         </a>
-                        <a href="" class="flex justify-start gap-2 items-center pl-4 py-3 hover:bg-[#eff0f6]">
+                        <a href="{{ route('logout') }}"
+                            class="flex justify-start gap-2 items-center pl-4 py-3 hover:bg-[#eff0f6]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-log-out">
@@ -159,12 +159,12 @@
                         <circle cx="10" cy="8" r="5"></circle>
                         <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
                     </svg>
-                    <a href="">Users</a>
+                    <a href="{{ route('users') }}">Users</a>
                 </div>
             </div>
         </div>
         {{-- Main Content --}}
-        <div class="bg-[#f4f5f7] ml-[250px] pt-[70px] h-screen ">
+        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen ">
             @yield('content')
         </div>
     </div>

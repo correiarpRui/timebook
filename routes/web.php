@@ -12,10 +12,10 @@ use App\Http\Controllers\MonthCalendarController;
 use App\Http\Controllers\SchedulePlannerController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\IsSuperAdmin;
+use App\Http\Middleware\IsAdmin;
 
-Route::get('/', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+Route::get('/', [AuthController::class, 'show'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('authenticate');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['middleware'=>'auth'], function(){
@@ -29,7 +29,7 @@ Route::group(['middleware'=>'auth'], function(){
 });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::get('/users', [UserController::class, 'index'])->name('users');
+    // Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');    
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
@@ -84,13 +84,21 @@ Route::group(['middleware'=>'auth'], function(){
     Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
 });
 
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/users', [UserController::class, 'testindex'])->name('users');
+});
 
-Route::middleware(['auth', IsSuperAdmin::class])->group( function(){
+
+Route::middleware(['auth', IsAdmin::class])->group( function(){
     Route::get('/test', function(){
         return view('layouts.testlayout');
     });
     Route::get('/testprofile', function(){
         return view('profile.profile');
     })->name('testprofile');
+});
+
+Route::get('/testlogin' , function (){
+    return view('testlogin');
 });
 

@@ -90,6 +90,8 @@
         </div>
         <hr class="my-[12px] border-[#27272a]">
         <form action="{{ route('profile.patch.password', $user->id) }}" method="POST" class="flex flex-col gap-4">
+            @csrf
+            @method('PATCH')
             <div class="flex flex-col gap-1">
                 <label for="current_password" class="text-sm font-medium">Current password</label>
                 <input

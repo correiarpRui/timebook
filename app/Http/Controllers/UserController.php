@@ -19,6 +19,11 @@ class UserController extends Controller
         return view('user.index', ['users'=> $users]);
     }
 
+    public function testindex(){
+        $users = User::all();
+        return view('user.testindex', ['users'=>$users]);
+    }
+
     public function create(){
 
         $roles = Role::all();

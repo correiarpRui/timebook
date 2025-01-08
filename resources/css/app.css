@@ -99,3 +99,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 13px;
 }
+
+/* User edit menu */
+.options_menu {
+    display: none;
+}
+
+.options_menu.show {
+    display: block;
+}
