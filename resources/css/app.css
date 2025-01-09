@@ -108,3 +108,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .options_menu.show {
     display: block;
 }
+
+/* Create user */
+/* Select Role Menu */
+.select_role_menu {
+    grid-template-rows: 0fr;
+    transition: 150ms ease-in-out;
+}
+.select_role_menu.show {
+    grid-template-rows: 1fr;
+    border: 1px solid #9aa0ac;
+    border-radius: 6px;
+}
+
+/* Create schedule */
+/* Checkbox */
+.checkbox {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.checkboxActive {
+    transform: translateX(1rem);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.buttonActive {
+    background-color: #ff7f31;
+}

@@ -37,7 +37,7 @@
                                 {{ Auth::user()->load(['role'])->role->role }}
                             </div>
                         </div>
-                        <a href="{{ route('testprofile') }}"
+                        <a href="{{ route('profile.show', auth()->user()->id) }}"
                             class="flex justify-start gap-2 items-center pl-4 py-3 border-b border-[#eff0f6] hover:bg-[#eff0f6]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -67,7 +67,8 @@
 
             <div class="side_bar p-[20px] flex flex-col gap-1">
                 {{-- Dashboard --}}
-                <div class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
+                <a href=""
+                    class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-layout-dashboard">
@@ -76,10 +77,11 @@
                         <rect width="7" height="9" x="14" y="12" rx="1" />
                         <rect width="7" height="5" x="3" y="16" rx="1" />
                     </svg>
-                    <a href="" class=" text-lg font-medium">Dashboard</a>
-                </div>
+                    <span>Dashboard</span>
+                </a>
                 {{-- Records --}}
-                <div class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
+                <a href=""
+                    class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-inbox">
@@ -88,11 +90,11 @@
                             d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
                         </path>
                     </svg>
-                    <a href="">Records</a>
-                </div>
+                    <span>Records</span>
+                </a>
                 {{-- Calendar --}}
                 <div class="sub_menu">
-                    <div class="flex gap-2 items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md"
+                    <div class="flex gap-2 items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md cursor-pointer"
                         onclick="toggle_dropdown_menu(this)">
                         <div class="flex gap-2 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -124,7 +126,7 @@
                 </div>
                 {{-- Schedules --}}
                 <div class="sub_menu">
-                    <div class="flex items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md"
+                    <div class="flex items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md cursor-pointer"
                         onclick="toggle_dropdown_menu(this)">
                         <div class="flex gap-2 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -145,13 +147,15 @@
                         <div class="overflow-hidden">
                             <div class="px-2 py-1 flex flex-col">
                                 <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Planner</a>
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Schedule</a>
+                                <a href="{{ route('schedules') }}"
+                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Schedules</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 {{-- Users --}}
-                <div class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
+                <a href="{{ route('users') }}"
+                    class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-users-round">
@@ -159,8 +163,8 @@
                         <circle cx="10" cy="8" r="5"></circle>
                         <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
                     </svg>
-                    <a href="{{ route('users') }}">Users</a>
-                </div>
+                    <span>Users</span>
+                </a>
             </div>
         </div>
         {{-- Main Content --}}

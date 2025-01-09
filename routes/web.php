@@ -13,6 +13,7 @@ use App\Http\Controllers\SchedulePlannerController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsSuperAdmin;
 
 Route::get('/', [AuthController::class, 'show'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('authenticate');
@@ -22,25 +23,25 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/profile/{id}', [ProfileController::class, 'patch'])->name('profile.patch');
-    Route::patch('/profile/password/{id}', [ProfileController::class, 'patch_password'])->name('profile.patch.password');
-});
+// Route::group(['middleware'=>'auth'], function(){
+    
+//     Route::patch('/profile/{id}', [ProfileController::class, 'patch'])->name('profile.patch');
+//     Route::patch('/profile/password/{id}', [ProfileController::class, 'patch_password'])->name('profile.patch.password');
+// });
 
-Route::group(['middleware'=>'auth'], function(){
+// Route::group(['middleware'=>'auth'], function(){
     // Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');    
-    Route::post('/user', [UserController::class, 'store'])->name('user.store');
-    Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
-    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-});
+    // Route::get('/user/create', [UserController::class, 'create'])->name('user.create');    
+    // Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    // Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    // Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
+    // Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+// });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.list');
-    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
-    Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+    // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+    // Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
+    // Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
     Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
     Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
@@ -84,8 +85,32 @@ Route::group(['middleware'=>'auth'], function(){
     Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
 });
 
+
+
+// new layout routes
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+});
+
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/users', [UserController::class, 'testindex'])->name('users');
+    Route::get('/user/create', [UserController::class, 'testcreate'])->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');   
+});
+
+Route::middleware(['auth', IsSuperAdmin::class])->group(function(){
+    Route::get('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::patch('/user/{id}', [UserController::class, 'patch'])->name('user.patch');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/profile/{id}', [ProfileController::class, 'patch'])->name('profile.patch');
+    Route::patch('/profile/password/{id}', [ProfileController::class, 'patch_password'])->name('profile.patch.password');
 });
 
 
@@ -93,9 +118,6 @@ Route::middleware(['auth', IsAdmin::class])->group( function(){
     Route::get('/test', function(){
         return view('layouts.testlayout');
     });
-    Route::get('/testprofile', function(){
-        return view('profile.profile');
-    })->name('testprofile');
 });
 
 Route::get('/testlogin' , function (){

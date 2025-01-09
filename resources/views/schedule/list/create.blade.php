@@ -4,7 +4,7 @@
     <div class="text-[#fafafa] flex flex-col">
         <ol class="flex items-center p-2 gap-1">
             <li>
-                <a href="{{ route('schedule.list') }}" class="text-[#a1a1aa] hover:text-[#fafafa]">Schedules</a>
+                <a href="{{ route('schedules') }}" class="text-[#a1a1aa] hover:text-[#fafafa]">Schedules</a>
             </li>
             <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 21 21" fill="none"

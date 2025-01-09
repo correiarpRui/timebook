@@ -11,12 +11,13 @@ class ProfileController extends Controller
     public function show($id){
         $user = User::find($id);
 
-        return view('profile', ['user'=> $user]);
+        return view("profile.profile", ['user'=> $user]);
     }
 
     public function patch(Request $request, $id){
         $validated_data = $request->validate([
-            'name'=> ['required'],
+            'first_name'=> ['required'],
+            'last_name'=> ['required'],
             'email' => ['required','email', 'unique:users,email,'.$id],
             'birth_date'=>['required', 'date_format:Y-m-d', 'before:today']
         ]);

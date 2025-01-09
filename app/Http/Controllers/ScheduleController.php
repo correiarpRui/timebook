@@ -13,12 +13,12 @@ class ScheduleController extends Controller
 
         $schedules = Schedule::all();
 
-        return view('schedule.list.index', ['schedules'=>$schedules]);
+        return view('schedule.list.testindex', ['schedules'=>$schedules]);
     }
 
     public function create(){
 
-        return view('schedule.list.create');
+        return view('schedule.list.testcreate');
     }
 
     public function store(StoreScheduleRequest $request){
@@ -38,7 +38,7 @@ class ScheduleController extends Controller
         ];
         Schedule::create($validated_data);
 
-        return redirect(route('schedule.list'));
+        return redirect(route('schedules'));
     }
 
     public function update($id){
@@ -67,7 +67,7 @@ class ScheduleController extends Controller
         $schedule->update($validated_data);
         $schedule->save();
 
-        return redirect(route('schedule.list'));
+        return redirect(route('schedules'));
         
     }
 
