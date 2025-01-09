@@ -38,14 +38,14 @@ Route::group(['middleware'=>'auth'], function(){
     // Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 // });
 
-Route::group(['middleware'=>'auth'], function(){
-    // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
-    // Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
-    // Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
-    Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
-    Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
-    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+//     Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
+//     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+//     Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
+//     Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
+//     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+// });
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/schedule/planner/{year}/{month}', [SchedulePlannerController::class, 'index'])->name('schedule.planner');
@@ -93,6 +93,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+    Route::get('/schedule/update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
+    Route::patch('/schedule/{id}', [ScheduleController::class, 'patch'])->name('schedule.patch');
+    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){

@@ -44,7 +44,7 @@ class ScheduleController extends Controller
     public function update($id){
         $schedule = Schedule::find($id);
 
-        return view('schedule.list.update', ['schedule'=>$schedule]);
+        return view('schedule.list.testupdate', ['schedule'=>$schedule]);
     }
 
     public function patch(StoreScheduleRequest $request, $id){
@@ -74,6 +74,6 @@ class ScheduleController extends Controller
     public function destroy($id){
         $schedule = Schedule::find($id);
         $schedule->delete();
-        return redirect(route('schedule.list'));
+        return redirect(route('schedules'));
     }
 }
