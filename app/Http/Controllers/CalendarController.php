@@ -8,10 +8,8 @@ use App\Models\Vacation;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Name\FullyQualified;
 
 class CalendarController extends Controller 
 {
@@ -113,7 +111,7 @@ class CalendarController extends Controller
         return redirect(route('calendar.year', $year));
     }
 
-    public function index_settings($year){
+    public function index_holidays($year){
         
         $months = get_months_last_day($year);    
         
@@ -128,7 +126,7 @@ class CalendarController extends Controller
             }
         );
         
-        return view('calendar.settings', ['year'=>$year, 'months'=>$months[0], 'holidays'=>$holidays]);
+        return view('calendar.holidays', ['year'=>$year, 'months'=>$months[0], 'holidays'=>$holidays]);
     }
 
     public function store_settings(Request $request){
@@ -150,11 +148,11 @@ class CalendarController extends Controller
         return redirect(route('calendar.settings', $year));
     }
 
-    public function delete_settings($id){
+    public function delete_holidays($id){
         $year = CarbonImmutable::now()->format('Y');
         $holiday = Holiday::find($id);
         $holiday->delete();
-        return redirect(route('calendar.settings', $year));
+        return redirect(route('calendar.holidays', $year));
     }
 
     public function generate_holiday($year){

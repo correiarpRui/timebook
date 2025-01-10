@@ -6,7 +6,7 @@
             <div class="text-2xl font-bold tracking-tight text-[#fafafa]">Calendar settings {{ $year }}</div>
             <div class="flex gap-3">
                 <a class="bg-[#fafafa] text-[#09090b] flex items-center gap-2 rounded-md px-4 py-2 cursor-pointer text-sm font-medium"
-                    href="{{ route('calendar.settings', $year - 1) }}">
+                    href="{{ route('calendar.holidays', $year - 1) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="lucide lucide-chevron-left">
@@ -14,7 +14,7 @@
                     </svg>
                 </a>
                 <a class="bg-[#fafafa] text-[#09090b] flex items-center gap-2 rounded-md px-4 py-2 cursor-pointer text-sm font-medium"
-                    href="{{ route('calendar.settings', $year + 1) }}">
+                    href="{{ route('calendar.holidays', $year + 1) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="lucide lucide-chevron-right">

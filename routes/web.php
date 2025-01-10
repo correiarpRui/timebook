@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MonthCalendarController;
+use App\Http\Controllers\PlannerController;
 use App\Http\Controllers\SchedulePlannerController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -47,10 +48,10 @@ Route::group(['middleware'=>'auth'], function(){
 //     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 // });
 
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/schedule/planner/{year}/{month}', [SchedulePlannerController::class, 'index'])->name('schedule.planner');
-    Route::post('/schedule/planner', [SchedulePlannerController::class, 'store'])->name('schedule.planner.store');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/schedule/planner/{year}/{month}', [SchedulePlannerController::class, 'index'])->name('schedule.planner');
+//     Route::post('/schedule/planner', [PlannerController::class, 'store'])->name('schedule.planner.store');
+// });
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/record', [RecordController::class, 'index'])->name('records');
@@ -65,7 +66,7 @@ Route::group(['middleware'=>'auth'], function(){
 });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::get('/calendar/settings/{year}', [CalendarController::class, 'index_settings'])->name('calendar.settings');
+    Route::get('/calendar/settings/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');
     Route::post('/calendar/settings', [CalendarController::class, 'store_settings'])->name('store_settings');
     Route::delete('/calendar/settings/{id}', [CalendarController::class, 'delete_settings'])->name('delete_settings');
     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
@@ -88,6 +89,16 @@ Route::group(['middleware'=>'auth'], function(){
 
 
 // new layout routes
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/calendar/holidays/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');
+    Route::delete('/calendar/holidays/{id}', [CalendarController::class, 'delete_holidays'])->name('delete.holidays');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/schedule/planner/{year}/{month}', [PlannerController::class, 'index'])->name('schedule.planner');
+    Route::post('/schedule/planner', [PlannerController::class, 'store'])->name('schedule.planner.store');
+});
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
@@ -114,13 +125,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile/{id}', [ProfileController::class, 'patch'])->name('profile.patch');
     Route::patch('/profile/password/{id}', [ProfileController::class, 'patch_password'])->name('profile.patch.password');
-});
-
-
-Route::middleware(['auth', IsAdmin::class])->group( function(){
-    Route::get('/test', function(){
-        return view('layouts.testlayout');
-    });
 });
 
 Route::get('/testlogin' , function (){

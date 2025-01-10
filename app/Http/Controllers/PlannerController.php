@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Weekschedule;
 use Carbon\CarbonImmutable;
 
-class SchedulePlannerController extends Controller
+class PlannerController extends Controller
 {
     public function index($year, $month){
 
@@ -56,7 +56,7 @@ class SchedulePlannerController extends Controller
             }
         }
 
-        return view('schedule.planner.index', ['schedule_data'=>$month_schedule_data,'month_name'=>$month_name ,'month_weeks'=>$month_data, 'weeks_number'=>$number_of_weeks, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users, 'user_schedule'=>$weeks_number_in_month, 'month'=>$month]);
+        return view('schedule.planner.testindex', ['schedule_data'=>$month_schedule_data,'month_name'=>$month_name ,'month_weeks'=>$month_data, 'weeks_number'=>$number_of_weeks, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users, 'user_schedule'=>$weeks_number_in_month, 'month'=>$month]);
     }
 
     public function store(Request $request){

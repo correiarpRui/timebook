@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@supports (scrollbar-color: #27272a #080808) {
+@supports (scrollbar-color: white #eff0f6) {
     * {
-        scrollbar-color: #27272a #080808;
+        scrollbar-color: white #eff0f6;
         scrollbar-width: thin;
     }
 }

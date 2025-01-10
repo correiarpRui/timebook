@@ -12,7 +12,7 @@
 <body class="bg-white text-[#454e60]">
     <div class="page ">
         {{-- Header --}}
-        <div class="fixed w-full header bg-white border-b  z-10 border-[#eff0f6] flex">
+        <div class="fixed w-full header bg-white border-b z-10 border-[#eff0f6] flex">
             <div class="w-[250px] flex pl-[20px] border-[#eff0f6] border-r h-[70px] items-center justify-center">
                 <span class="font-semibold text-3xl">Logo</span>
             </div>
@@ -63,9 +63,9 @@
             </div>
         </div>
         {{-- Sidebar --}}
-        <div class="w-[250px] bg-white h-full pt-[70px] fixed border-r border-[#eff0f6]">
+        <div class="w-[250px] bg-white h-full pt-[70px] fixed border-r border-[#eff0f6] overflow-auto">
 
-            <div class="side_bar p-[20px] flex flex-col gap-1">
+            <div class="side_bar p-5 flex flex-col gap-1">
                 {{-- Dashboard --}}
                 <a href=""
                     class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
@@ -107,7 +107,7 @@
                             </svg>
                             <span>Calendar</span>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="lucide lucide-chevron-righx">
                             <path d="m9 18 6-6-6-6" />
@@ -115,11 +115,12 @@
                     </div>
                     <div class="slide grid">
                         <div class="overflow-hidden">
-                            <div class="px-2 py-1 flex flex-col">
+                            <div class="px-2 py-1 flex flex-col gap-1">
                                 <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Year</a>
                                 <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Month</a>
                                 <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Vacations</a>
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Settings</a>
+                                <a href="{{ route('calendar.holidays', date('Y')) }}"
+                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Holidays</a>
                             </div>
                         </div>
                     </div>
@@ -137,25 +138,122 @@
                             </svg>
                             <span>Schedules</span>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="lucide lucide-chevron-right">
                             <path d="m9 18 6-6-6-6" />
                         </svg>
                     </div>
-                    <div class="slide grid">
+                    <div @class(['slide grid', 'show' => request()->routeIs('schedule*')])>
                         <div class="overflow-hidden">
-                            <div class="px-2 py-1 flex flex-col">
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Planner</a>
-                                <a href="{{ route('schedules') }}"
-                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Schedules</a>
+                            <div class="pl-2 py-1 flex flex-col gap-1">
+                                <div class="flex items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md cursor-pointer"
+                                    onclick="toggle_dropdown_menu(this)">
+                                    <span>Planner</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-right">
+                                        <path d="m9 18 6-6-6-6" />
+                                    </svg>
+                                </div>
+                                <div @class([
+                                    'slide grid',
+                                    'show' => request()->routeIs('schedule.planner*'),
+                                ])>
+                                    <div class="overflow-hidden">
+                                        <div class="pl-3 flex items-center">
+                                            <ul class="flex flex-col gap-1 grow items-start">
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 1]) }}"
+                                                        @if (isset($month_name) && $month_name == 'January') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+            @else class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>January</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 2]) }}"
+                                                        @if (isset($month_name) && $month_name == 'February') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>February</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 3]) }}"
+                                                        @if (isset($month_name) && $month_name == 'March') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>March</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 4]) }}"
+                                                        @if (isset($month_name) && $month_name == 'April') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>April</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 5]) }}"
+                                                        @if (isset($month_name) && $month_name == 'May') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>May</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 6]) }}"
+                                                        @if (isset($month_name) && $month_name == 'June') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>June</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 7]) }}"
+                                                        @if (isset($month_name) && $month_name == 'July') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>July</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 8]) }}"
+                                                        @if (isset($month_name) && $month_name == 'August') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>August</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 9]) }}"
+                                                        @if (isset($month_name) && $month_name == 'September') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>September</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 10]) }}"
+                                                        @if (isset($month_name) && $month_name == 'October') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>October</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 11]) }}"
+                                                        @if (isset($month_name) && $month_name == 'November') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>November</a>
+                                                </li>
+                                                <li class="w-full"><a
+                                                        href="{{ route('schedule.planner', [date('Y'), 12]) }}"
+                                                        @if (isset($month_name) && $month_name == 'December') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                    @else 
+                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>December</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <a href="{{ route('schedules') }}" @class([
+                                    'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
+                                    'bg-[#eff0f6]' => request()->routeIs('schedules*'),
+                                ])>Schedules</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 {{-- Users --}}
-                <a href="{{ route('users') }}"
-                    class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
+                <a href="{{ route('users') }}" @class([
+                    'sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md',
+                    'bg-[#eff0f6]' => request()->routeIs('user*'),
+                ])>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-users-round">
@@ -168,7 +266,7 @@
             </div>
         </div>
         {{-- Main Content --}}
-        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen ">
+        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen overflow-auto">
             @yield('content')
         </div>
     </div>
