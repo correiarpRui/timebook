@@ -65,14 +65,11 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
 });
 
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/calendar/settings/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');
-    Route::post('/calendar/settings', [CalendarController::class, 'store_settings'])->name('store_settings');
-    Route::delete('/calendar/settings/{id}', [CalendarController::class, 'delete_settings'])->name('delete_settings');
-    Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
-    Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
+//     Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+//     Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
+// });
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
@@ -92,6 +89,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/calendar/holidays/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');
+    Route::post('/calendar/holidays', [CalendarController::class, 'store_holidays'])->name('store.holidays');
     Route::delete('/calendar/holidays/{id}', [CalendarController::class, 'delete_holidays'])->name('delete.holidays');
 });
 

@@ -129,7 +129,12 @@ class CalendarController extends Controller
         return view('calendar.holidays', ['year'=>$year, 'months'=>$months[0], 'holidays'=>$holidays]);
     }
 
-    public function store_settings(Request $request){
+    public function store_holidays(Request $request){
+
+        
+        if (!$request->input("year") || !$request->input("month") || !$request->input("day") || !$request->input("name")){
+            return back()->withErrors(['error'=>'All fields are requiered.'])->withInput();
+        }
 
         $year = CarbonImmutable::now()->format('Y');
         $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
@@ -145,7 +150,7 @@ class CalendarController extends Controller
 
         Holiday::create($validated_data);
 
-        return redirect(route('calendar.settings', $year));
+        return redirect(route('calendar.holidays', $year));
     }
 
     public function delete_holidays($id){
