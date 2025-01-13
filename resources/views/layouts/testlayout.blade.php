@@ -113,14 +113,26 @@
                             <path d="m9 18 6-6-6-6" />
                         </svg>
                     </div>
-                    <div class="slide grid">
+                    <div @class(['slide grid', 'show' => request()->routeIs('calendar*')])>
                         <div class="overflow-hidden">
                             <div class="px-2 py-1 flex flex-col gap-1">
                                 <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Year</a>
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Month</a>
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Vacations</a>
+                                <a href="{{ route('calendar.month', [date('Y'), (int) date('m')]) }}"
+                                    @class([
+                                        'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
+                                        'bg-[#eff0f6]' => request()->routeIs('calendar.month*'),
+                                    ])
+                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Month</a>
+                                <a href="{{ route('calendar.vacation', date('Y')) }}"
+                                    @class([
+                                        'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
+                                        'bg-[#eff0f6]' => request()->routeIs('calendar.vacation*'),
+                                    ])>Vacations</a>
                                 <a href="{{ route('calendar.holidays', date('Y')) }}"
-                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Holidays</a>
+                                    @class([
+                                        'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
+                                        'bg-[#eff0f6]' => request()->routeIs('calendar.holidays*'),
+                                    ])>Holidays</a>
                             </div>
                         </div>
                     </div>
@@ -146,8 +158,8 @@
                     </div>
                     <div @class(['slide grid', 'show' => request()->routeIs('schedule*')])>
                         <div class="overflow-hidden">
-                            <div class="pl-2 py-1 flex flex-col gap-1">
-                                <div class="flex items-center justify-between text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md cursor-pointer"
+                            <div class="px-2 py-1 flex flex-col gap-1">
+                                <div class="flex items-center justify-between text-center hover:bg-[#eff0f6] pl-2 py-1 rounded-md cursor-pointer"
                                     onclick="toggle_dropdown_menu(this)">
                                     <span>Planner</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -166,74 +178,74 @@
                                             <ul class="flex flex-col gap-1 grow items-start">
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 1]) }}"
-                                                        @if (isset($month_name) && $month_name == 'January') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
-            @else class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>January</a>
+                                                        @if (isset($month_name) && $month_name == 'January') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
+            @else class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>January</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 2]) }}"
-                                                        @if (isset($month_name) && $month_name == 'February') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'February') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>February</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>February</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 3]) }}"
-                                                        @if (isset($month_name) && $month_name == 'March') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'March') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>March</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>March</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 4]) }}"
-                                                        @if (isset($month_name) && $month_name == 'April') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'April') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>April</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>April</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 5]) }}"
-                                                        @if (isset($month_name) && $month_name == 'May') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'May') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>May</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>May</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 6]) }}"
-                                                        @if (isset($month_name) && $month_name == 'June') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'June') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>June</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>June</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 7]) }}"
-                                                        @if (isset($month_name) && $month_name == 'July') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'July') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>July</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>July</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 8]) }}"
-                                                        @if (isset($month_name) && $month_name == 'August') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'August') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>August</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>August</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 9]) }}"
-                                                        @if (isset($month_name) && $month_name == 'September') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'September') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>September</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>September</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 10]) }}"
-                                                        @if (isset($month_name) && $month_name == 'October') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'October') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>October</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>October</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 11]) }}"
-                                                        @if (isset($month_name) && $month_name == 'November') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'November') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>November</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>November</a>
                                                 </li>
                                                 <li class="w-full"><a
                                                         href="{{ route('schedule.planner', [date('Y'), 12]) }}"
-                                                        @if (isset($month_name) && $month_name == 'December') class='flex shrink-0 rounded-md py-1 px-2 bg-[#eff0f6]'
+                                                        @if (isset($month_name) && $month_name == 'December') class='flex shrink-0 rounded-md py-1 pl-2 bg-[#eff0f6]'
                     @else 
-                        class='flex shrink-0 rounded-md py-1 px-2 hover:bg-[#eff0f6]' @endif>December</a>
+                        class='flex shrink-0 rounded-md py-1 pl-2 hover:bg-[#eff0f6]' @endif>December</a>
                                                 </li>
                                             </ul>
                                         </div>

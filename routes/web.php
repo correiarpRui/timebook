@@ -65,27 +65,39 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
 });
 
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
+    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+    Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
+});
+
 // Route::group(['middleware'=>'auth'], function(){
-//     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-//     Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
-//     Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
+//     Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
 // });
 
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
-});
-
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/calendar/vacation/{year}', [EventController::class, 'index'])->name('calendar.vacation');
-    Route::patch('/calendar/vacation/approve/{event}', [EventController::class, 'approve'])->name('calendar.vacation.approve');
-    Route::delete('/calendar/vacation/{event}', [EventController::class, 'destroy'])->name('calendar.vacation.destroy');
-    Route::get('/calendar/vacation/update/{event}', [EventController::class, 'update'])->name('calendar.vacation.update');
-    Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/calendar/vacation/{year}', [EventController::class, 'index'])->name('calendar.vacation');
+//     Route::patch('/calendar/vacation/approve/{event}', [EventController::class, 'approve'])->name('calendar.vacation.approve');
+//     Route::delete('/calendar/vacation/{event}', [EventController::class, 'destroy'])->name('calendar.vacation.destroy');
+//     Route::get('/calendar/vacation/update/{event}', [EventController::class, 'update'])->name('calendar.vacation.update');
+//     Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
+// });
 
 
 
 // new layout routes
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/calendar/vacation/{year}', [EventController::class, 'index'])->name('calendar.vacation');
+    Route::patch('/calendar/vacation/approve/{event}', [EventController::class, 'approve'])->name('calendar.vacation.approve');
+    Route::get('/calendar/vacation/update/{event}', [EventController::class, 'update'])->name('calendar.vacation.update');
+    Route::patch('/calendar/vacation/{event}', [EventController::class, 'patch'])->name('calendar.vacation.patch');
+    Route::delete('/calendar/vacation/{event}', [EventController::class, 'destroy'])->name('calendar.vacation.destroy');
+});
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/calendar/holidays/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');

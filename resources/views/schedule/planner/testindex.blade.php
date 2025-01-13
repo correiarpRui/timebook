@@ -1,7 +1,6 @@
 @extends('layouts.testlayout')
 
 @section('content')
-    {{-- border-[#eff0f6] --}}
     <div class="px-6">
         <div class=" border rounded-md bg-white mb-6 mt-6">
             <div class="border-b flex justify-between p-4 items-center">

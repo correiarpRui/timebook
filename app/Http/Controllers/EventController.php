@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Vacation;
-use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +12,7 @@ class EventController extends Controller
 {
     public function index($year){
         $events = Event::with('users')->where('year', $year)->get();
-        return view('calendar.vacation.index', ['events'=>$events]);
+        return view('calendar.vacation.testindex', ['events'=>$events]);
     }
 
     public function approve(Request $request, $event_id){
@@ -29,6 +28,7 @@ class EventController extends Controller
     } 
 
     public function patch(Request $request, $event_id){
+
 
         $event = Event::find($event_id);
         $user = Event::find($event_id)->users()->first();
@@ -80,7 +80,7 @@ class EventController extends Controller
         $event = Event::with('users')->where('id', $event_id)->first();
         $months = get_months_last_day($event->year);
         $month = $months[0][(int) $event->month -1];
-        return view('calendar.vacation.update', ['event'=>$event, 'month'=>$month]);
+        return view('calendar.vacation.testupdate', ['event'=>$event, 'month'=>$month]);
     }
 
 }

@@ -166,3 +166,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 1px solid #9aa0ac;
     border-radius: 6px;
 }
+
+/* Vacations */
+.select_start_day_menu {
+    grid-template-rows: 0fr;
+    transition: 150ms ease-in-out;
+    z-index: 100;
+}
+.select_start_day_menu.show {
+    grid-template-rows: 1fr;
+    border: 1px solid #9aa0ac;
+    border-radius: 6px;
+}
+
+.select_end_day_menu {
+    grid-template-rows: 0fr;
+    transition: 150ms ease-in-out;
+    z-index: 100;
+}
+.select_end_day_menu.show {
+    grid-template-rows: 1fr;
+    border: 1px solid #9aa0ac;
+    border-radius: 6px;
+}
