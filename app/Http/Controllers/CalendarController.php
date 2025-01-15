@@ -32,7 +32,7 @@ class CalendarController extends Controller
     
         $calendar_data = new_get_full_calendar($year, $holiday_list, $events);
 
-        return view('calendar.year.index', ['year'=>$year, 'calendar_data'=>$calendar_data, 'user_vacations'=>$user_vacations]);       
+        return view('calendar.year.testindex', ['year'=>$year, 'calendar_data'=>$calendar_data, 'user_vacations'=>$user_vacations]);       
     }
 
     public function store(Request $request, $year){

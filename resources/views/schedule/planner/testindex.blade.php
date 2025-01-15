@@ -7,19 +7,11 @@
                 <p class="font-semibold text-xl">{{ $month_name }} {{ $year }}</p>
                 <div class="flex gap-3">
                     <a href="{{ route('schedule.planner', [$year - 1, $month]) }}"
-                        class="flex items-center border p-2 rounded-md gap-2 hover:bg-[#eff0f6]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-arrow-big-left">
-                            <path d="M18 15h-6v4l-7-7 7-7v4h6v6z" />
-                        </svg></a>
+                        class="flex items-center justify-center border p-2 rounded-md gap-2 hover:bg-[#eff0f6] w-[75px]">
+                        <span>previous</span></a>
                     <a href="{{ route('schedule.planner', [$year + 1, $month]) }}"
-                        class="flex items-center border p-2 rounded-md gap-2 hover:bg-[#eff0f6]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-arrow-big-right">
-                            <path d="M6 9h6V5l7 7-7 7v-4H6V9z" />
-                        </svg></a>
+                        class="flex items-center justify-center border p-2 rounded-md gap-2 hover:bg-[#eff0f6] w-[75px]">
+                        <span>next</span></a>
                 </div>
             </div>
 

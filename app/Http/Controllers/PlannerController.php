@@ -20,7 +20,9 @@ class PlannerController extends Controller
         $number_of_weeks = count($month_data);
         
         $weeks_number_in_month = [];
+        
         foreach ($month_data as $week){
+            
             $weeks_number_in_month[] = $week->last()['id'];
         }
 

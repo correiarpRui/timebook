@@ -63,7 +63,7 @@
             </div>
         </div>
         {{-- Sidebar --}}
-        <div class="w-[250px] bg-white h-full pt-[70px] fixed border-r border-[#eff0f6] overflow-auto">
+        <div class="w-[250px] bg-white h-full pt-[70px] fixed border-r border-[#eff0f6] overflow-auto sidebar">
 
             <div class="side_bar p-5 flex flex-col gap-1">
                 {{-- Dashboard --}}
@@ -80,8 +80,10 @@
                     <span>Dashboard</span>
                 </a>
                 {{-- Records --}}
-                <a href=""
-                    class="sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md">
+                <a href="{{ route('records') }}" @class([
+                    'sub_menu flex gap-2 items-center text-center hover:bg-[#eff0f6] px-2 py-1 rounded-md',
+                    'bg-[#eff0f6]' => request()->routeIs('records*'),
+                ])>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-inbox">
@@ -116,7 +118,11 @@
                     <div @class(['slide grid', 'show' => request()->routeIs('calendar*')])>
                         <div class="overflow-hidden">
                             <div class="px-2 py-1 flex flex-col gap-1">
-                                <a href="" class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Year</a>
+                                <a href="{{ route('calendar.year', date('Y')) }}" @class([
+                                    'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
+                                    'bg-[#eff0f6]' => request()->routeIs('calendar.year*'),
+                                ])
+                                    class="px-2 py-1 rounded-md hover:bg-[#eff0f6]">Year</a>
                                 <a href="{{ route('calendar.month', [date('Y'), (int) date('m')]) }}"
                                     @class([
                                         'px-2 py-1 rounded-md hover:bg-[#eff0f6]',
@@ -278,7 +284,7 @@
             </div>
         </div>
         {{-- Main Content --}}
-        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen overflow-auto">
+        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen">
             @yield('content')
         </div>
     </div>

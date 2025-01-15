@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@supports (scrollbar-color: white #eff0f6) {
+@supports (scrollbar-color: #eff0f6 white) {
     * {
-        scrollbar-color: white #eff0f6;
+        scrollbar-color: #eff0f6 white;
         scrollbar-width: thin;
     }
 }
@@ -15,6 +15,7 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -67,6 +68,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* New layout */
+
+/* Sidebar Scroll */
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
 /* Sidebar Slide */
 .slide {
@@ -188,4 +199,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     grid-template-rows: 1fr;
     border: 1px solid #9aa0ac;
     border-radius: 6px;
+}
+
+/* Month */
+
+.vacation_menu {
+    grid-template-rows: 0fr;
+    transition: 150ms ease-in-out;
+}
+
+.vacation_menu.show {
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid;
+    padding-top: 0.25rem;
+    border-color: #eff0f6;
+    grid-template-rows: 1fr;
 }

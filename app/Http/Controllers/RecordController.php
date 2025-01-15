@@ -6,15 +6,17 @@ use App\Models\User;
 use App\Models\Record;
 use App\Models\Weekschedule;
 use Carbon\Carbon;
+// use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 
 class RecordController extends Controller
 {
     public function index(){
         $records = Record::with('user')->get();
-        return view('records.index', ['records'=>$records]);
+        return view('records.testindex', ['records'=>$records]);
     }
 
     public function create(){
@@ -28,12 +30,22 @@ class RecordController extends Controller
 
         $validated_user = $request->validate([
             'user_id' => ['required', 'exists:users,id']
-        ]);
+        ]);        
         
-        $date = Carbon::now();
-        $year = (int) $date->format('Y');
-        $week  = $date->weekOfYear();
-        $day_of_week = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][$date->dayOfWeek()];
+        $week = CarbonImmutable::now()->startofWeek(Carbon::SUNDAY)->weekOfYear();
+        
+        if ($week == 52){
+            $week = 1;
+        } else{
+            $week++;
+        }
+        
+        $year = (int) Carbon::now()->format('Y');
+        
+        $day_of_week = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][Carbon::now()->dayOfWeek()];
+
+        dd($year, $week, $day_of_week);
+        
 
         if ($date->dayOfWeek() == 0){
             $week = $week+1;

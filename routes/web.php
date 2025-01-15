@@ -54,7 +54,7 @@ Route::group(['middleware'=>'auth'], function(){
 // });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::get('/record', [RecordController::class, 'index'])->name('records');
+    // Route::get('/record', [RecordController::class, 'index'])->name('records');
     Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
     Route::post('/record', [RecordController::class, 'store']);
     Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
@@ -66,8 +66,8 @@ Route::group(['middleware'=>'auth'], function(){
 });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+    // Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
+    // Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
     Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
 });
 
@@ -86,6 +86,14 @@ Route::group(['middleware'=>'auth'], function(){
 
 
 // new layout routes
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/record', [RecordController::class, 'index'])->name('records');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function(){
+    Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
+    Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+});
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
