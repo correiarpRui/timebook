@@ -55,7 +55,7 @@ Route::group(['middleware'=>'auth'], function(){
 
 Route::group(['middleware'=>'auth'], function(){
     // Route::get('/record', [RecordController::class, 'index'])->name('records');
-    Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
+    // Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
     Route::post('/record', [RecordController::class, 'store']);
     Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
     Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
@@ -88,6 +88,8 @@ Route::group(['middleware'=>'auth'], function(){
 // new layout routes
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/record', [RecordController::class, 'index'])->name('records');
+    Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
+    Route::post('/record', [RecordController::class, 'store'])->name('record.store');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){

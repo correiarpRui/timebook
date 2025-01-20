@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Schedule;
 use App\Models\Record;
 use App\Models\Weekschedule;
 use Carbon\Carbon;
@@ -22,58 +23,39 @@ class RecordController extends Controller
     public function create(){
 
         $users = User::all();
+        $schedules = Schedule::all();
+        // $testusers = User::whereHas('weekschedule')->get();
+        // dd($testusers);
         
-        return view('records.create', ['users' =>$users]);
+        return view('records.testcreate', ['users' =>$users, 'schedules'=>$schedules]);
     }
 
     public function store(Request $request){
-
         $validated_user = $request->validate([
-            'user_id' => ['required', 'exists:users,id']
-        ]);        
-        
-        $week = CarbonImmutable::now()->startofWeek(Carbon::SUNDAY)->weekOfYear();
-        
-        if ($week == 52){
-            $week = 1;
-        } else{
-            $week++;
-        }
-        
-        $year = (int) Carbon::now()->format('Y');
-        
-        $day_of_week = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][Carbon::now()->dayOfWeek()];
+            'user_id' => ['required', 'exists:users,id'],
+            'date'=>['required', 'before:tomorrow'],
+            'schedule_id' => ['required']
+        ]);
 
-        dd($year, $week, $day_of_week);
-        
+        $schedule = Schedule::find($validated_user['schedule_id']);
+    
+        Record::create([
+            'date' => CarbonImmutable::createFromDate($validated_user['date'])->format('d-m-Y'),
+            'user_id'=>$validated_user['user_id'],
+            'week_day'=>['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][CarbonImmutable::createFromDate($validated_user['date'])->dayOfWeek()],
+            'morning_start' => $schedule->morning_start,
+            'morning_end' => $schedule->morning_end,
+            'afternoon_start' => $schedule->afternoon_start,
+            'afternoon_end' => $schedule->afternoon_end,
+            'is_present' => 1  
+        ]);
 
-        if ($date->dayOfWeek() == 0){
-            $week = $week+1;
-            if($week == 53){
-                $week = 1;
-                $year = $year + 1 ;
-            }
-        }
-
-        $week_schedule = Weekschedule::with('schedule')->where('week_number', $week)->where('user_id', $validated_user['user_id'])->where('year', $year)->get();
-        if ($week_schedule[0]->schedule->$day_of_week == 1){
-            Record::create([
-                'date' => $date->format('d-m-Y'),
-                'user_id'=>$validated_user['user_id'],
-                'week_day'=>$day_of_week,
-                'morning_start' => $week_schedule[0]->schedule->morning_start,
-                'morning_end' => $week_schedule[0]->schedule->morning_end,
-                'afternoon_start' => $week_schedule[0]->schedule->afternoon_start,
-                'afternoon_end' => $week_schedule[0]->schedule->afternoon_end,
-                'is_present' => 1   
-            ]);
-        } 
         return redirect(route('records'));
     }   
 
     public function update($id){
-        $record = Record::where('id', $id)->with('user')->get();
-        return view('records.update', ['record'=>$record]);
+        $record = Record::where('id', $id)->with('user')->first();
+        return view('records.testupdate', ['record'=>$record]);
     }
 
     public function patch(Request $request, $id){
@@ -84,6 +66,9 @@ class RecordController extends Controller
             'afternoon_end'=>['required', 'date_format:H:i', 'after:afternoon_start'],
             'is_present'=>['sometimes', 'nullable'],
         ]);
+
+        dd($validated_data);
+
         $record = Record::find($id);
         $record->update($validated_data);
         if (!$request->has('is_present')){
@@ -125,5 +110,33 @@ class RecordController extends Controller
         $record->notes = $validated_data["notes"];
         $record->save();
         return redirect(route('record.show', $id));
+    }
+
+    public function auto_generate_record(){
+        
+        // $week = CarbonImmutable::now()->startofWeek(Carbon::SUNDAY)->weekOfYear();
+        // if ($week == 52){
+        //     $week = 1;
+        // } else{
+        //     $week++;
+        // }
+        // $year = (int) Carbon::now()->format('Y');
+        // $day_of_week = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][Carbon::now()->dayOfWeek()];
+
+        // $week_schedule = Weekschedule::with('schedule')->where('user_id', $validated_user['user_id'])->where('year', $year)->where('week_number', $week)->first();
+                
+        // if ($week_schedule->schedule->$day_of_week == 1){       
+        //      Record::create([
+        //         'date' => CarbonImmutable::now()->format('d-m-Y'),
+        //         'user_id'=>$validated_user['user_id'],
+        //         'week_day'=>$day_of_week,
+        //         'morning_start' => $week_schedule->schedule->morning_start,
+        //         'morning_end' => $week_schedule->schedule->morning_end,
+        //         'afternoon_start' => $week_schedule->schedule->afternoon_start,
+        //         'afternoon_end' => $week_schedule->schedule->afternoon_end,
+        //         'is_present' => 1   
+        //     ]);
+        // }
+
     }
 }
