@@ -85,8 +85,8 @@ class RecordController extends Controller
     }
 
     public function show($id){
-        $record = Record::where('id', $id)->with('user')->get();
-        return view('records.show', ['record'=>$record]);
+        $record = Record::where('id', $id)->with('user')->first();
+        return view('records.testshow', ['record'=>$record]);
     }
 
     public function store_file(Request $request, $id){

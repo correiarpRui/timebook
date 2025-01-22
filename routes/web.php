@@ -56,13 +56,13 @@ Route::group(['middleware'=>'auth'], function(){
 Route::group(['middleware'=>'auth'], function(){
     // Route::get('/record', [RecordController::class, 'index'])->name('records');
     // Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
-    Route::post('/record', [RecordController::class, 'store']);
-    Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
-    Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
-    Route::delete('/record/{id}', [RecordController::class, 'destroy'])->name('record.destroy');
-    Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
-    Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
-    Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
+    // Route::post('/record', [RecordController::class, 'store']);
+    // Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
+    // Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
+    // Route::delete('/record/{id}', [RecordController::class, 'destroy'])->name('record.destroy');
+    // Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
+    // Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
+    // Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
 });
 
 Route::group(['middleware'=>'auth'], function(){
@@ -90,6 +90,12 @@ Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/record', [RecordController::class, 'index'])->name('records');
     Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
     Route::post('/record', [RecordController::class, 'store'])->name('record.store');
+    Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
+    Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
+    Route::delete('/record/{id}', [RecordController::class, 'destroy'])->name('record.destroy');
+    Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
+    Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
+    Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){

@@ -284,7 +284,7 @@
             </div>
         </div>
         {{-- Main Content --}}
-        <div class="bg-[#edeef5] ml-[250px] pt-[70px] h-screen">
+        <div class="bg-[#edeef5] ml-[250px] pt-[70px] flex flex-col min-h-screen">
             @yield('content')
         </div>
     </div>
