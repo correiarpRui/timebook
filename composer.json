@@ -29,7 +29,7 @@
         },
         "files": [
             "app/Helpers/calendar.php",
-            "app/Helpers/test.php",
+            "app/Helpers/year_month_data.php",
             "app/Helpers/calendar_month.php"
         ]
     },

@@ -28,7 +28,7 @@
                         <div
                             class="cell-{{ $table_cell['day'] }} h-10 border border-l-[0px] text-center flex justify-center items-center
                             
-                        @if ($table_cell['today']) bg-[#ff7f31]/[0.8] text-white
+                        @if ($table_cell['today']) bg-[#fee08b]/[0.8]
                         @elseif ($table_cell['holiday'])  bg-[#92CD28]/[0.6]
                         @elseif (!$table_cell['weekday'])  bg-[#DFE2E4]
                         @else bg-transparent @endif">
@@ -40,7 +40,7 @@
                     @foreach ($table_data['month']['date'] as $table_cell)
                         <div
                             class="cell-{{ $table_cell['day'] }} border border-l-[0px] border-t-[0px] text-center flex justify-center items-center h-10
-                        @if ($table_cell['today']) bg-[#ff7f31]/[0.8] text-white
+                        @if ($table_cell['today']) bg-[#fee08b]/[0.8]
                         @elseif ($table_cell['holiday'])  bg-[#92CD28]/[0.6]
                         @elseif (!$table_cell['weekday'])  bg-[#DFE2E4]
                         @else bg-transparent @endif">
@@ -59,7 +59,7 @@
                         @foreach ($user['data'] as $table_cell)
                             <div
                                 class="cell-{{ $table_cell['day'] }} text-center h-12 py-2 border border-l-[0px] border-t-[0px]
-                            @if ($table_cell['today']) bg-[#ff7f31]/[0.8] text-white
+                            @if ($table_cell['today']) bg-[#fee08b]/[0.8]
                             @elseif ($table_cell['holiday'])  bg-[#92CD28]/[0.6]
                             @elseif (!$table_cell['weekday'])  bg-[#DFE2E4]
                             @else bg-transparent @endif">

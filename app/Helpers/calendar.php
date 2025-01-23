@@ -41,7 +41,6 @@ function new_get_year_month_size($year_data){
   return $year_month_size;
 }
 
-// not all years have a month starting on sunday
 function new_get_first_row($year_month_size){
   $weekdays = ['S','M','T','W','T','F','S'];
   $first_row = [];

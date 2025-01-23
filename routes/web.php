@@ -53,23 +53,23 @@ Route::group(['middleware'=>'auth'], function(){
 //     Route::post('/schedule/planner', [PlannerController::class, 'store'])->name('schedule.planner.store');
 // });
 
-Route::group(['middleware'=>'auth'], function(){
-    // Route::get('/record', [RecordController::class, 'index'])->name('records');
-    // Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
-    // Route::post('/record', [RecordController::class, 'store']);
-    // Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
-    // Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
-    // Route::delete('/record/{id}', [RecordController::class, 'destroy'])->name('record.destroy');
-    // Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
-    // Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
-    // Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/record', [RecordController::class, 'index'])->name('records');
+//     Route::get('/record/create', [RecordController::class, 'create'])->name('record.create');
+//     Route::post('/record', [RecordController::class, 'store']);
+//     Route::get('/record/update/{id}', [RecordController::class, 'update'])->name('record.update');
+//     Route::patch('/record/{id}', [RecordController::class, 'patch'])->name('record.patch');
+//     Route::delete('/record/{id}', [RecordController::class, 'destroy'])->name('record.destroy');
+//     Route::get('/record/show/{id}', [RecordController::class, 'show'])->name('record.show');
+//     Route::post('/record/upload/{id}', [RecordController::class, 'store_file'])->name('record.store.file');
+//     Route::post('record/notes/{id}', [RecordController::class, 'store_notes'])->name('record.store.notes');
+// });
 
-Route::group(['middleware'=>'auth'], function(){
-    // Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
-    // Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
-    Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
-});
+// Route::group(['middleware'=>'auth'], function(){
+//     Route::get('/calendar/{year}', [CalendarController::class, 'index'])->name('calendar.year');
+//     Route::post('/calendar/{year}', [CalendarController::class, 'store'])->name('calendar.store');
+//     Route::get('/calendar/{year}/generate_holiday', [CalendarController::class, 'generate_holiday'])->name('calendar.generate');
+// });
 
 // Route::group(['middleware'=>'auth'], function(){
 //     Route::get('/calendar/{year}/month/{month}', [MonthCalendarController::class, 'index'])->name('calendar.month');
@@ -117,7 +117,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function(){
 
 Route::middleware(['auth', IsAdmin::class])->group(function(){
     Route::get('/calendar/holidays/{year}', [CalendarController::class, 'index_holidays'])->name('calendar.holidays');
-    Route::post('/calendar/holidays', [CalendarController::class, 'store_holidays'])->name('store.holidays');
+    Route::post('/holidays', [CalendarController::class, 'holidays_store'])->name('store.holidays');
     Route::delete('/calendar/holidays/{id}', [CalendarController::class, 'delete_holidays'])->name('delete.holidays');
 });
 

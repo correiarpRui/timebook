@@ -14,6 +14,7 @@ class PlannerController extends Controller
 
         $schedule_list = Schedule::get(['id', 'name']);
         $users = User::get(['id','first_name', 'last_name']);
+        
 
         $month_name = CarbonImmutable::createFromFormat('Y-m', "$year-$month")->format('F');
         $month_data = get_month_data($month, $year);
@@ -24,7 +25,7 @@ class PlannerController extends Controller
         foreach ($month_data as $week){
             
             $weeks_number_in_month[] = $week->last()['id'];
-        }
+        }        
 
         $month_schedule_data = [];
         foreach($weeks_number_in_month as $week_number){
@@ -57,6 +58,7 @@ class PlannerController extends Controller
                 }
             }
         }
+        dump($month_schedule_data);
 
         return view('schedule.planner.testindex', ['schedule_data'=>$month_schedule_data,'month_name'=>$month_name ,'month_weeks'=>$month_data, 'weeks_number'=>$number_of_weeks, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users, 'user_schedule'=>$weeks_number_in_month, 'month'=>$month]);
     }

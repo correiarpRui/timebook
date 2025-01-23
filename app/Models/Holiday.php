@@ -8,6 +8,8 @@ class Holiday extends Model
 {
       protected $fillable = [
         'name',
-        'date'
+        'day',
+        'month',
+        'year'
     ];
 }

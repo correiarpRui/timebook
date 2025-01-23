@@ -35,8 +35,7 @@ class CalendarController extends Controller
         return view('calendar.year.testindex', ['year'=>$year, 'calendar_data'=>$calendar_data, 'user_vacations'=>$user_vacations]);       
     }
 
-    public function store(Request $request, $year){
-
+    public function store(Request $request, $year){        
         $user = User::find(Auth::id());
         $vacation = Vacation::where('user_id', Auth::id())->where('year', $year)->first();
         
@@ -111,44 +110,43 @@ class CalendarController extends Controller
         return redirect(route('calendar.year', $year));
     }
 
-    public function index_holidays($year){
+    public function index_holidays($year){        
         
         $months = get_months_last_day($year);    
-        
-        $holidays = Holiday::whereYear('date', $year)->orderBy('date', 'asc')->get();
+        // $holidays = Holiday::whereYear('year', $year)->orderBy('date', 'asc')->get();
+        $holidays = Holiday::whereIn('year', [$year])->orWhereNull('year')->get();
 
         $holidays = $holidays->map(
-            function ($holiday){
-                $date = CarbonImmutable::createFromDate($holiday->date);
-                $holiday->month = $date->format('F');
-                $holiday->day = ltrim($date->format('d'),0);
+            function ($holiday) use ($year){
+                $holiday->date = Carbon::createFromFormat("Y-m-d","$year-$holiday->month-$holiday->day"); 
+                $holiday->month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][$holiday->month-1];
                 return $holiday;
             }
         );
+
+        $holidays = $holidays->sortBy('date')->values();
         
         return view('calendar.holidays', ['year'=>$year, 'months'=>$months[0], 'holidays'=>$holidays]);
     }
 
-    public function store_holidays(Request $request){
+    public function holidays_store(Request $request){
 
         
-        if (!$request->input("year") || !$request->input("month") || !$request->input("day") || !$request->input("name")){
-            return back()->withErrors(['error'=>'All fields are requiered.'])->withInput();
-        }
 
-        $year = CarbonImmutable::now()->format('Y');
-        $date = Carbon::createFromFormat("d-m-Y H", "{$request->day}-{$request->month}-{$request->year} 0");
-
-        $request->merge([
-            'date'=> $date
-        ]);
+        if (!$request->input("month") || !$request->input("day") || !$request->input("name")){
+            return back()->withErrors(['error'=>'All fields except year are required.'])->withInput();
+        }        
         
         $validated_data = $request->validate([
             'name'=>['required'],
-            'date'=>['required', 'unique:holidays,date']
+            'year'=>['nullable', 'integer'],
+            'month'=>['required', 'integer'],
+            'day'=>['required', 'integer']
         ]);
 
         Holiday::create($validated_data);
+
+        $year = Carbon::now()->format('Y');        
 
         return redirect(route('calendar.holidays', $year));
     }

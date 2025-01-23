@@ -15,85 +15,71 @@ class HolidaySeeder extends Seeder
      public function run(): void
     {
         DB::table('holidays')->insert([
-            'date'=> Carbon::createFromFormat('d-m-Y H','1-1-2024 0'),
-            'name'=> "New Year's Day"
+            'name'=> "New Year's Day",
+            'day'=> "1",
+            'month'=> "1"
         ]);
         DB::table('holidays')->insert(
-            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','13-2-2024 0'),
-            'name'=> "Carnival"
-          ]
-        );
-        DB::table('holidays')->insert(
-            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','29-3-2024 0'),
-            'name'=> "Good Friday"
+           [
+            'name'=> "Liberty Day",
+            'day'=> "25",
+            'month'=> "4"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','31-3-2024 0'),
-            'name'=> "Easter Sunday"
+            'name'=> "Labor Day",
+            'day'=> "1",
+            'month'=> "5"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','25-4-2024 0'),
-            'name'=> "Liberty Day"
+            'name'=> "Portugal Day",
+            'day'=> "10",
+            'month'=> "6"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','1-5-2024 0'),
-            'name'=> "Labor Day"
-          ]
-        );
-        DB::table('holidays')->insert(
-           [
-            'date'=> Carbon::createFromFormat('d-m-Y H','30-5-2024 0'),
-            'name'=> "Corpus Christi"
-          ]
-        );
-        DB::table('holidays')->insert(
-           [
-            'date'=> Carbon::createFromFormat('d-m-Y H','1-6-2024 0'),
-            'name'=> "Portugal Day"
-          ]
-        );
-        DB::table('holidays')->insert(
-           [
-            'date'=> Carbon::createFromFormat('d-m-Y H','15-8-2024 0'),
-            'name'=> "Assumption of Mary"
+            'name'=> "Assumption of Mary",
+            'day'=> "15",
+            'month'=> "8"
           ]
         );
          DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','5-10-2024 0'),
-            'name'=> "Republic Day"
+            'name'=> "Republic Day",
+            'day'=> "5",
+            'month'=> "10"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','1-11-2024 0'),
-            'name'=> "All Saints' day"
+            'name'=> "All Saints' day",
+            'day'=> "1",
+            'month'=> "11"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','1-12-2024 0'),
-            'name'=> "Restoration of Independence"
+            'name'=> "Restoration of Independence",
+            'day'=> "1",
+            'month'=> "12"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','8-12-2024 0'),
-            'name'=> "Feast of the Immaculate Conception"
+            'name'=> "Immaculate Conception",
+            'day'=> "8",
+            'month'=> "12"
           ]
         );
         DB::table('holidays')->insert(
            [
-            'date'=> Carbon::createFromFormat('d-m-Y H','25-12-2024 0'),
-            'name'=> "Christmas Day"
+            'name'=> "Christmas Day",
+            'day'=> "25",
+            'month'=> "12"
           ]
         );
     }

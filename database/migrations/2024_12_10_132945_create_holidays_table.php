@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->date('date')->unique();
+            $table->integer('day');
+            $table->integer('month');
+            $table->integer('year')->nullable();
         });
     }
 
