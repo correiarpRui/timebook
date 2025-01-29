@@ -27,7 +27,11 @@
                         <div class="grid grid-cols-7 h-10">
                             @foreach ($weeks as $key => $day)
                                 <div
-                                    class="border border-l-[0px]  @if ($key === array_key_first($weeks->toArray()) || $key === array_key_last($weeks->toArray())) bg-[#DFE2E4] @endif text-center flex justify-center items-center">
+                                    class="border border-l-[0px]  
+                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
+                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
+                                    bg-[#DFE2E4] @endif
+                                    text-center flex justify-center items-center">
                                     {{ $day['day'] }}
                                 </div>
                             @endforeach
@@ -36,46 +40,37 @@
                     <div class="border border-l-[0px] border-t-[0px] flex justify-center items-center font-semibold">
 
                     </div>
-                    @for ($i = 0; $i < $weeks_number; $i++)
+                    @foreach ($month_weeks as $weeks)
                         <div class="grid grid-cols-7 h-10">
-                            <div
-                                class="border border-l-[0px] border-t-[0px] bg-[#DFE2E4] text-center flex justify-center items-center">
-                                S</div>
-                            <div class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center">
-                                M</div>
-                            <div class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center">
-                                T</div>
-                            <div class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center">
-                                W</div>
-                            <div class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center">
-                                T</div>
-                            <div class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center">
-                                F</div>
-                            <div
-                                class="border border-l-[0px] border-t-[0px] bg-[#DFE2E4] text-center flex justify-center items-center">
-                                S</div>
+                            @foreach ($weeks as $key => $day)
+                                <div
+                                    class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center 
+                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
+                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
+                                    bg-[#DFE2E4] @endif">
+                                    {{ $day['weekday'][0] }}
+                                </div>
+                            @endforeach
                         </div>
-                    @endfor
+                    @endforeach
+
                     @foreach ($users as $user)
                         <div class="border border-t-[0px] flex justify-center items-center font-semibold">
                             {{ $user->first_name }} {{ $user->last_name }}
                         </div>
-
-                        @foreach ($schedule_data[$user->id] as $user_week => $schedule_value)
-                            <div class="grid grid-cols-7 hover:border hover:border-[#ff7f31] h-10" onclick="openModal(this)"
-                                id="{{ $user->id }}-{{ $user_week }}">
-                                @foreach ($schedule_value as $day => $data)
-                                    @if ($day === array_key_first($schedule_value) || $day === array_key_last($schedule_value))
-                                        <div
-                                            class="border border-l-[0px] border-t-[0px] bg-[#DFE2E4] text-center text-sm flex justify-center items-center font-bold">
-                                            {{ $data }}
-                                        </div>
-                                    @else
-                                        <div
-                                            class="border border-l-[0px] border-t-[0px] text-center text-sm flex justify-center items-center font-bold">
-                                            {{ $data }}
-                                        </div>
-                                    @endif
+                        @foreach ($month_weeks as $week_index => $weeks)
+                            <div class="grid grid-cols-7 h-10 hover:backdrop-brightness-[90%]" onclick="openModal(this)"
+                                id="{{ $user->id }}-{{ $week_index }}">
+                                @foreach ($weeks as $key => $day)
+                                    <div
+                                        class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center 
+                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
+                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
+                                    bg-[#DFE2E4] @endif">
+                                        @if ($day['users_schedule'][$user->id]['is_working'])
+                                            {{ $day['users_schedule'][$user->id]['name'] }}
+                                        @endif
+                                    </div>
                                 @endforeach
                             </div>
                         @endforeach

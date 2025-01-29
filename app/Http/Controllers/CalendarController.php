@@ -112,7 +112,7 @@ class CalendarController extends Controller
 
     public function index_holidays($year){        
         
-        $months = get_months_last_day($year);    
+        $months = get_months_last_day($year);   
         // $holidays = Holiday::whereYear('year', $year)->orderBy('date', 'asc')->get();
         $holidays = Holiday::whereIn('year', [$year])->orWhereNull('year')->get();
 
@@ -130,8 +130,6 @@ class CalendarController extends Controller
     }
 
     public function holidays_store(Request $request){
-
-        
 
         if (!$request->input("month") || !$request->input("day") || !$request->input("name")){
             return back()->withErrors(['error'=>'All fields except year are required.'])->withInput();
