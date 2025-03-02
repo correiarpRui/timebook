@@ -14,16 +14,27 @@ class PlannerController extends Controller
 
         $schedule_list = Schedule::get(['id', 'name']);
         $users = User::get(['id','first_name', 'last_name']);
-        
 
         $month_name = CarbonImmutable::createFromFormat('Y-m', "$year-$month")->format('F');
+        // every day of month with 
+            // day_number
+            // week_number
+            // month_number
+            // value day-month-year
+            // weekday_name
         $month_data = get_month_data($month, $year);
-        $number_of_weeks = sizeof($month_data)/7;
 
-        $month_data_w_holidays = add_month_holiday($month_data, $month, $year);
+        dump($month_data);
+ 
+        $number_of_weeks = sizeof($month_data)/7; //used to define grid col number
+
+        $month_data_w_holidays = add_month_holiday($month_data, $month, $year); // adds holidays to the month data
+
         $month_data_w_holidays_schedules = add_user_schedule($month_data_w_holidays, $year);
 
+
         $weeks_number_in_month = [];
+
         for ($i= 6; $i<= sizeof($month_data); $i+=7){
             $weeks_number_in_month[] = $month_data[$i]['week_number'];
         }               

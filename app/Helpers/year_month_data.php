@@ -2,12 +2,11 @@
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Carbon\CarbonPeriod;
 use App\Models\Holiday;
 use App\Models\Weekschedule;
 use App\Models\User;
-use GuzzleHttp\Promise\Each;
-use PHPUnit\Framework\MockObject\Generator\DuplicateMethodException;
+
+
 
 function get_month_data($month, $year){
     $start_of_month = CarbonImmutable::createFromFormat('Y-m-d', "$year-$month-1");
@@ -37,8 +36,8 @@ function add_month_holiday($month_data, $month, $year){
         $next_month = $month_data->last()['month'];
     }
 
-    $holidays = Holiday::whereIn('year', [$year])->orWhereNull('year')->get();
-    $month_holidays = $holidays->whereIn('month', [$last_month, $month, $next_month]);
+    $holidays = Holiday::whereIn('year', [$year])->orWhereNull('year')->get(); //fixed holidays have a year field of null, others have year field specific for that year
+    $month_holidays = $holidays->whereIn('month', [$last_month, $month, $next_month]); //even if jan stats on saturday, the last holiday would be more than a week before.
 
     $data = [];
     foreach($month_data as $day){
@@ -51,7 +50,6 @@ function add_month_holiday($month_data, $month, $year){
     }
 
     $month_data_w_holiday = array_chunk($data, 7);
-    // $month_data_w_holiday = $data;
     
     return $month_data_w_holiday;
 }

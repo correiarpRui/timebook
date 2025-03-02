@@ -63,9 +63,9 @@ input[type="number"] {
     background-color: #fafafa;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+/* input[type="date"]::-webkit-calendar-picker-indicator {
     background: orange;
-}
+} */
 
 /* New layout */
 

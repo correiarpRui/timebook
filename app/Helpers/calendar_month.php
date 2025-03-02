@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\Console\DumpCommand;
 
 function month_data ($year, $month){
   $int_year = (int) $year;
@@ -58,7 +57,7 @@ function event_by_user($events, $month, $year){
     $event_data['status_id'] = $status;
     $event_data['event_id'] = $event_id;
 
-    $events_data[$user_id][] = $event_data; //where is variable stored
+    $events_data[$user_id][] = $event_data;
   }
   return $events_data;
 }
