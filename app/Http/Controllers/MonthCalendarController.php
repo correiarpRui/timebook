@@ -7,8 +7,6 @@ use App\Models\Event;
 use App\Models\Holiday;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Illuminate\Http\Request;
-
 
 class MonthCalendarController extends Controller
 {
@@ -16,12 +14,9 @@ class MonthCalendarController extends Controller
 
         $users = User::all();
         $events = Event::with('users', 'status')->get();
-        
 
         $holidays = Holiday::whereYear('date', $year)->get();
         $holiday_list = [1=>[],2=>[],3=>[],4=>[],5=>[],6=>[],7=>[],8=>[],9=>[],10=>[],11=>[],12=>[]];
-
-        
 
         foreach($holidays as $holiday){
             $date_holiday = CarbonImmutable::createFromDate($holiday->date);

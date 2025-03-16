@@ -28,9 +28,7 @@
                             @foreach ($weeks as $key => $day)
                                 <div
                                     class="border border-l-[0px]  
-                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
-                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
-                                    bg-[#DFE2E4] @endif
+                                    bg-[{{ $day['color'] }}]
                                     text-center flex justify-center items-center">
                                     {{ $day['day'] }}
                                 </div>
@@ -44,10 +42,7 @@
                         <div class="grid grid-cols-7 h-10">
                             @foreach ($weeks as $key => $day)
                                 <div
-                                    class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center 
-                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
-                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
-                                    bg-[#DFE2E4] @endif">
+                                    class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center bg-[{{ $day['color'] }}]">
                                     {{ $day['weekday'][0] }}
                                 </div>
                             @endforeach
@@ -64,12 +59,8 @@
                                 @foreach ($weeks as $key => $day)
                                     <div
                                         class="border border-l-[0px] border-t-[0px] text-center flex justify-center items-center 
-                                    @if (isset($day['holiday'])) bg-[#92CD28]/[0.6] 
-                                    @elseif($key === array_key_first($weeks) || $key === array_key_last($weeks))
-                                    bg-[#DFE2E4] @endif">
-                                        @if ($day['users_schedule'][$user->id]['is_working'])
-                                            {{ $day['users_schedule'][$user->id]['name'] }}
-                                        @endif
+                                    bg-[{{ $day['color'] }}]">
+                                        {{ $day['users_schedule'][$user->id] }}
                                     </div>
                                 @endforeach
                             </div>

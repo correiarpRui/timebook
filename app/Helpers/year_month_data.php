@@ -7,20 +7,33 @@ use App\Models\Weekschedule;
 use App\Models\User;
 
 
-
 function get_month_data($month, $year){
     $start_of_month = CarbonImmutable::createFromFormat('Y-m-d', "$year-$month-1");
     $end_of_month = $start_of_month->endOfMonth();
     $start_of_week = $start_of_month->startOfWeek(Carbon::SUNDAY);
     $end_of_week = $end_of_month->endOfWeek(Carbon::SATURDAY);
     $dates = collect($start_of_week->toPeriod($end_of_week)->toArray());
-    $weeks = $dates->map(fn($date)=>[
+    $weeks = $dates->map(function($date){
+      if ($date->dayOfWeek() == 0 || $date->dayOfWeek() == 6 ){
+        return [
       'day'=>$date->day, 
       'week_number'=>"$date->weekOfYear", 
       'month'=>$date->format('m'), 
       'value'=>$date->format('d-m-Y'),
       'weekday' => ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][$date->dayOfWeek()],
-      ]);      
+      'color' => "#DFE2E4"
+        ];
+      }
+      return [
+      'day'=>$date->day, 
+      'week_number'=>"$date->weekOfYear", 
+      'month'=>$date->format('m'), 
+      'value'=>$date->format('d-m-Y'),
+      'weekday' => ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][$date->dayOfWeek()],
+      'color' => "#ffffff"
+        ];
+       
+    });      
     return $weeks;
 }
 
@@ -43,37 +56,40 @@ function add_month_holiday($month_data, $month, $year){
     foreach($month_data as $day){
       foreach ($month_holidays as $holiday) {
         if ($day['day'] == $holiday['day'] && $day['month'] == $holiday['month']){
-              $day['holiday'] = 1;
-          }
+              $day['holiday'] = true;
+              $day['color'] = "#bfe17f";
+              break;
+        } 
       }
       $data[] = $day;
     }
 
-    $month_data_w_holiday = array_chunk($data, 7);
-    
-    return $month_data_w_holiday;
+    //try chunk data at the end
+    // $month_data_w_holiday = array_chunk($data, 7); 
+    // return $month_data_w_holiday;
+    return $data;
 }
 
 function add_user_schedule ($month_data, $year){
   $users = User::get(['id','first_name', 'last_name']);
 
-  $week_number_in_month = [];
-  foreach($month_data as $week){
-    $week_number_in_month[] =end($week)['week_number'];
+  $week_numbers = [];
+  for ($i=6; $i<count($month_data) ; $i+=7) { 
+    $week_numbers[] = $month_data[$i]['week_number'];
   }
-
-  $month_data_week_index = [];
-  foreach ($month_data as $i =>$week){
-    $month_data_week_index[$week_number_in_month[$i]] = $week;
+  
+  // set first days of week with week_number of first week
+  for ($i=0; $i<7; $i++){
+    $month_data[$i]['week_number'] = $week_numbers[0];
   }
 
   $users_schedules = [];
   foreach ($users as $user){
-    $users_schedules[$user->id] = Weekschedule::with('schedule')->where('user_id', $user->id)->where('year', $year)->whereIn('week_number', $week_number_in_month)->get();
+    $users_schedules[$user->id] = Weekschedule::with('schedule')->where('user_id', $user->id)->where('year', $year)->whereIn('week_number', $week_numbers)->get();
   }
-  
+
   $users_month_schedules = [];
-  foreach ($week_number_in_month as $week_number){
+  foreach ($week_numbers as $week_number){
     foreach ($users_schedules as $user_id => $user_schedule){
         $data = $user_schedule->where('week_number', $week_number)->first();
         if ($data){
@@ -87,43 +103,45 @@ function add_user_schedule ($month_data, $year){
             'Saturday'=>$data->schedule->saturday,
             'Sunday'=>$data->schedule->sunday,
           ];  
-        } else {
-          $users_month_schedules[$week_number][$user_id] = [
-            'name'=>"",
-            'Monday'=>0,
-            'Tuesday'=>0,
-            'Wednesday'=>0,
-            'Thursday'=>0,
-            'Friday'=>0,
-            'Saturday'=>0,
-            'Sunday'=>0,
-          ];
+          continue;
         }
+        $users_month_schedules[$week_number][$user_id] = [
+          'name'=>"",
+          'Monday'=>0,
+          'Tuesday'=>0,
+          'Wednesday'=>0,
+          'Thursday'=>0,
+          'Friday'=>0,
+          'Saturday'=>0,
+          'Sunday'=>0,
+        ];
     }
-  }
-  
-  $month_data_w_holidays_schedules = [];
-  foreach ($month_data_week_index as $week_number=>$week){
-    foreach($week as $day){
-      foreach ($users_month_schedules as $index => $week_users_schedules){
-        if($week_number == $index){
-          foreach($week_users_schedules as $user_id => $user_schedule){
-            $day['users_schedule'][$user_id]=['name'=>$user_schedule['name'], 'is_working'=>$user_schedule[$day['weekday']]];     
-          }
-          $month_data_w_holidays_schedules[] = $day;    
-        }
-      }
-    }
-  }
-  $month_data_w_holidays_schedules = array_chunk($month_data_w_holidays_schedules, 7);
-  
-  //indexing with number of week in the month
-  $month_data_w_holidays_schedules_indexed = [];
-  foreach ($month_data_w_holidays_schedules as $i =>$week){
-    $month_data_w_holidays_schedules_indexed[$week_number_in_month[$i]] = $week;
   }
 
-  return $month_data_w_holidays_schedules_indexed;
+  $month_data_with_user_schedules = [];
+  foreach($month_data as $day){
+    foreach($users_month_schedules[$day['week_number']] as $user_id=>$user_schedule){
+      if ($user_schedule[$day['weekday']]){
+        $day['users_schedule'][$user_id] = $user_schedule['name'];      
+      } else {
+        $day['users_schedule'][$user_id] = "";
+      }     
+      
+  }
+  $month_data_with_user_schedules[] = $day;
+  }
+  
+  $month_data_with_user_schedules = array_chunk($month_data_with_user_schedules, 7);
+
+  $index_month_data_with_user_schedules = [];
+  for ($i = 0; $i < count($month_data_with_user_schedules); $i++){
+    $index_month_data_with_user_schedules[$week_numbers[$i]] = $month_data_with_user_schedules[$i]; 
+  }
+
+  return $index_month_data_with_user_schedules;
+}
+
+function add_user_events($month_data, $events){
 }
 
 function get_year_data ($year){

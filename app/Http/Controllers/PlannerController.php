@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Weekschedule;
 use Carbon\CarbonImmutable;
 
@@ -14,7 +15,8 @@ class PlannerController extends Controller
 
         $schedule_list = Schedule::get(['id', 'name']);
         $users = User::get(['id','first_name', 'last_name']);
-
+        $events = Event::with('users', 'status')->get();
+    
         $month_name = CarbonImmutable::createFromFormat('Y-m', "$year-$month")->format('F');
         // every day of month with 
             // day_number
@@ -24,21 +26,27 @@ class PlannerController extends Controller
             // weekday_name
         $month_data = get_month_data($month, $year);
 
-        dump($month_data);
- 
-        $number_of_weeks = sizeof($month_data)/7; //used to define grid col number
+        
+        // at the end from month_data array len
+        //used to define grid col number
+        $number_of_weeks = sizeof($month_data)/7; 
 
         $month_data_w_holidays = add_month_holiday($month_data, $month, $year); // adds holidays to the month data
 
+        
         $month_data_w_holidays_schedules = add_user_schedule($month_data_w_holidays, $year);
 
+        dd($month_data_w_holidays_schedules);
+        
+
+        $month_data_w_hol_sch_events = add_user_events($month_data_w_holidays_schedules, $events);
 
         $weeks_number_in_month = [];
-
+        
         for ($i= 6; $i<= sizeof($month_data); $i+=7){
             $weeks_number_in_month[] = $month_data[$i]['week_number'];
         }               
-        
+
         return view('schedule.planner.testindex', ['month_name'=>$month_name ,'month_weeks'=>$month_data_w_holidays_schedules, 'weeks_number'=>$number_of_weeks, 'schedule_list'=>$schedule_list, 'year'=>$year, 'users'=>$users, 'user_schedule'=>$weeks_number_in_month, 'month'=>$month]);
     }
 
